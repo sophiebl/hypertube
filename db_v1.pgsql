@@ -26,10 +26,10 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.comments (
     id integer NOT NULL,
-    movie integer NOT NULL,
     author integer NOT NULL,
     content text NOT NULL,
-    created_at timestamp with time zone NOT NULL
+    created_at timestamp with time zone NOT NULL,
+    movie text NOT NULL
 );
 
 
@@ -64,17 +64,18 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 CREATE TABLE public.downloaded_movies (
     id integer NOT NULL,
     last_watched timestamp with time zone NOT NULL,
-    path text
+    path text NOT NULL,
+    movie text NOT NULL
 );
 
 
 ALTER TABLE public.downloaded_movies OWNER TO sophie;
 
 --
--- Name: downloaded_movies_id_seq; Type: SEQUENCE; Schema: public; Owner: sophie
+-- Name: downloaded_movie_id_seq; Type: SEQUENCE; Schema: public; Owner: sophie
 --
 
-CREATE SEQUENCE public.downloaded_movies_id_seq
+CREATE SEQUENCE public.downloaded_movie_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -83,13 +84,13 @@ CREATE SEQUENCE public.downloaded_movies_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.downloaded_movies_id_seq OWNER TO sophie;
+ALTER TABLE public.downloaded_movie_id_seq OWNER TO sophie;
 
 --
--- Name: downloaded_movies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sophie
+-- Name: downloaded_movie_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: sophie
 --
 
-ALTER SEQUENCE public.downloaded_movies_id_seq OWNED BY public.downloaded_movies.id;
+ALTER SEQUENCE public.downloaded_movie_id_seq OWNED BY public.downloaded_movies.id;
 
 
 --
@@ -140,8 +141,8 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 CREATE TABLE public.watched_movies (
     id integer NOT NULL,
     "user" integer NOT NULL,
-    movie integer NOT NULL,
-    already_watched smallint DEFAULT 0 NOT NULL
+    already_watched smallint DEFAULT 0 NOT NULL,
+    movie text NOT NULL
 );
 
 
@@ -180,7 +181,7 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 -- Name: downloaded_movies id; Type: DEFAULT; Schema: public; Owner: sophie
 --
 
-ALTER TABLE ONLY public.downloaded_movies ALTER COLUMN id SET DEFAULT nextval('public.downloaded_movies_id_seq'::regclass);
+ALTER TABLE ONLY public.downloaded_movies ALTER COLUMN id SET DEFAULT nextval('public.downloaded_movie_id_seq'::regclass);
 
 
 --
@@ -201,7 +202,7 @@ ALTER TABLE ONLY public.watched_movies ALTER COLUMN id SET DEFAULT nextval('publ
 -- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: sophie
 --
 
-COPY public.comments (id, movie, author, content, created_at) FROM stdin;
+COPY public.comments (id, author, content, created_at, movie) FROM stdin;
 \.
 
 
@@ -209,7 +210,8 @@ COPY public.comments (id, movie, author, content, created_at) FROM stdin;
 -- Data for Name: downloaded_movies; Type: TABLE DATA; Schema: public; Owner: sophie
 --
 
-COPY public.downloaded_movies (id, last_watched, path) FROM stdin;
+COPY public.downloaded_movies (id, last_watched, path, movie) FROM stdin;
+3	2020-03-06 17:30:35.033153+01	path	tt4652838
 \.
 
 
@@ -218,7 +220,6 @@ COPY public.downloaded_movies (id, last_watched, path) FROM stdin;
 --
 
 COPY public.users (id, username, firstname, lastname, email, picture, password, language, validated) FROM stdin;
-1	sboulaao	sophie	boulaaouli\n	sophieboulaaouli@gmail.com	\N	test123	EN	f
 \.
 
 
@@ -226,7 +227,7 @@ COPY public.users (id, username, firstname, lastname, email, picture, password, 
 -- Data for Name: watched_movies; Type: TABLE DATA; Schema: public; Owner: sophie
 --
 
-COPY public.watched_movies (id, "user", movie, already_watched) FROM stdin;
+COPY public.watched_movies (id, "user", already_watched, movie) FROM stdin;
 \.
 
 
@@ -238,10 +239,10 @@ SELECT pg_catalog.setval('public.comments_id_seq', 1, false);
 
 
 --
--- Name: downloaded_movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sophie
+-- Name: downloaded_movie_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sophie
 --
 
-SELECT pg_catalog.setval('public.downloaded_movies_id_seq', 1, false);
+SELECT pg_catalog.setval('public.downloaded_movie_id_seq', 3, true);
 
 
 --
@@ -255,7 +256,23 @@ SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 -- Name: watched_movies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sophie
 --
 
-SELECT pg_catalog.setval('public.watched_movies_id_seq', 1, false);
+SELECT pg_catalog.setval('public.watched_movies_id_seq', 1, true);
+
+
+--
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: sophie
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: downloaded_movies downloaded_movie_pkey; Type: CONSTRAINT; Schema: public; Owner: sophie
+--
+
+ALTER TABLE ONLY public.downloaded_movies
+    ADD CONSTRAINT downloaded_movie_pkey PRIMARY KEY (id);
 
 
 --
@@ -275,11 +292,11 @@ ALTER TABLE ONLY public.watched_movies
 
 
 --
--- Name: comments comments_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: sophie
+-- Name: comments comments_users_fkey; Type: FK CONSTRAINT; Schema: public; Owner: sophie
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comments_user_fkey FOREIGN KEY (author) REFERENCES public.users(id) ON DELETE CASCADE NOT VALID;
+    ADD CONSTRAINT comments_users_fkey FOREIGN KEY (author) REFERENCES public.users(id) ON DELETE CASCADE NOT VALID;
 
 
 --
