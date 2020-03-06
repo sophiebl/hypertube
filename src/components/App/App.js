@@ -4,7 +4,7 @@ import './App.css';
 import axios from 'axios';
 
 function App() {
-  axios.get('/ping')
+  axios.get('/api')
   .then(function (response) {
     // handle success
     console.log(response);
