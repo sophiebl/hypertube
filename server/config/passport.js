@@ -26,12 +26,14 @@ passport.use(
             userName: username,
           },
         }).then(user => {
+              console.log('username   ::::::');
+              console.log(username);
           if (user != null) {
             console.log('username already taken');
             return done(null, false, { message: 'username already taken' });
           } else {
             bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
-              User.create({ username, password: hashedPassword }).then(user => {
+              User.create({ userName: username, password: hashedPassword }).then(user => {
                 console.log('user created');
                 // note the return needed with passport local - remove this return for passport JWT to work
                 return done(null, user);

@@ -9,6 +9,8 @@ const UserModel = sequelize.import("./server/models/user");
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json());
 require('./server/config/passport');
 app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, "build")));

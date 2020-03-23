@@ -5,8 +5,6 @@ const passport = require("passport");
 module.exports = app => {
   app.post('/registerUser', (req, res, next) => {
     passport.authenticate('register', (err, user, info) => {
-        console.log("req.body   :::::::");
-        console.log(req);
       if (err) {
         console.log(err);
       }
@@ -16,22 +14,20 @@ module.exports = app => {
       } else {
         req.logIn(user, err => {
           const data = {
-            firstName: req.body.firstname,
-            lastName: req.body.lastname,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
             email: req.body.email,
-            userName: user.username,
+            username: user.userName,
           };
-          console.log('data   ::::::::');
-          console.log(data);
           User.findOne({
             where: {
-              userName: data.userName,
+              userName: data.username,
             },
           }).then(user => {
             user
               .update({
-                firstName: data.firstName,
-                lastName: data.lastName,
+                firstName: data.first_name,
+                lastName: data.last_name,
                 email: data.email,
               })
               .then(() => {
