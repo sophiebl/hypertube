@@ -3,7 +3,7 @@ const User = sequelize.import("../models/user");
 const passport = require("passport");
 
 module.exports = app => {
-  app.post('/registerUser', (req, res, next) => {
+  app.post('/register', (req, res, next) => {
     passport.authenticate('register', (err, user, info) => {
       if (err) {
         console.log(err);

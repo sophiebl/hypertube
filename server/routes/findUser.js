@@ -1,7 +1,7 @@
 const passport = require("passport");
 
 module.exports = app => {
-  app.get('/findUser', (req, res, next) => {
+  app.get('/find', (req, res, next) => {
     passport.authenticate('jwt', { session: false }, (err, user, info) => {
       if (err) {
         console.log(err);
@@ -11,8 +11,6 @@ module.exports = app => {
         res.send(info.message);
       } else {
         console.log('user found in db from route');
-        console.log('user   ::::::');
-        console.log(user);
         res.status(200).send({
           auth: true,
           first_name: user.firstName,

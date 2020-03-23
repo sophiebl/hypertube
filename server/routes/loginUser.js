@@ -6,14 +6,17 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
 module.exports = app => {
-  app.get('/loginUser', (req, res, next) => {
+  app.get('/login', (req, res, next) => {
     passport.authenticate('login', (err, user, info) => {
       if (err) {
         console.log(err);
       }
       if (info != undefined) {
         console.log(info.message);
-        res.send(info.message);
+        res.send({
+            auth: false,
+            message: info.message,
+        });
       } else {
         req.logIn(user, err => {
           User.findOne({
