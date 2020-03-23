@@ -12,6 +12,7 @@ const app = express();
 require('./server/config/passport');
 app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, "build")));
+app.use(passport.initialize());
 
 app.use("/api/users", require("./server/routes/user_router"));
 
