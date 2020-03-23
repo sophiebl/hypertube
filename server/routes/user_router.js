@@ -5,6 +5,7 @@ const passport = require("passport");
 const userRouter = express.Router();
 require("./loginUser")(userRouter);
 require("./registerUser")(userRouter);
+require("./findUser")(userRouter);
 
 // userRouter.get("/auth/facebook", passport.authenticate("facebook"));
 
