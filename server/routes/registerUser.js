@@ -32,7 +32,7 @@ module.exports = app => {
               })
               .then(() => {
                 console.log('user created in db');
-                res.status(200).send({ message: 'user created' });
+                res.status(200).send({ created: true, message: 'user created' });
               });
           });
         });

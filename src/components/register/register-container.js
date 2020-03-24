@@ -32,6 +32,8 @@ const useSignUpForm = callback => {
           },
         )
         .then(({ data }) => {
+            console.log('data');
+            console.log(data);
           if (data.created === true) {
             callback(true);
           } else {
