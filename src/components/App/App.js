@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 // import Signup from '../signup';
 import Login from '../login';
+import Register from '../register';
 // import Profile from '../profile';
 // import ProfileShow from '../profileshow';
 // import Search from '../search';
@@ -48,6 +49,7 @@ function App() {
             {/* <NotLoggedRoute path="/signup" component={Signup} /> */}
             {/* <NotLoggedRoute path="/login" component={Login} /> */}
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
             {/* <NotLoggedRoute
               path="/validation/newaccount/:token"
               component={UserValidation}
