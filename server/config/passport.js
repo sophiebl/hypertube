@@ -12,6 +12,17 @@ const passport = require("passport"),
 const { sequelize } = require("../models/index");
 const User = sequelize.import("../models/user");
 
+passport.serializeUser(function(user, done) {
+  // console.log('Datavalues ID', user.dataValues.id);
+  done(null, user.dataValues.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  userModel.findByPk(id, function(err, user) {
+    done(err, user);
+  });
+});
+
 passport.use(
   "register",
   new localStrategy(
@@ -127,20 +138,18 @@ passport.use(
       profileFields: ["id", "first_name", "last_name", "picture", "email"]
     },
     function(accessToken, refreshToken, profile, done) {
-      console.log("DATA FACEBOOK AUTH *******");
-      console.log("accessToken", accessToken);
-      console.log("profile", profile);
-      console.log("done", done);
-      console.log("refreshToken", refreshToken);
+      // console.log("DATA FACEBOOK AUTH *******");
+      // console.log({ accessToken, profile, done, refreshToken });
       User.findOrCreate({
         where: { facebook_id: profile.id },
         defaults: {
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
-          picture: profile.photos[0].value
+          picture: profile.photos[0].value,
+          userName: profile.name.givenName + profile.name.familyName
         }
       }).then(([user, created]) => {
-        console.log(user);
+        // console.log(user);
         // if (err) {
         //   return done(err);
         // }

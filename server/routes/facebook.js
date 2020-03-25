@@ -10,8 +10,8 @@ module.exports = app => {
   app.get(
     "/auth/facebook/callback",
     passport.authenticate("facebook", {
-      successRedirect: "/",
-      failureRedirect: "/login"
+      successRedirect: "http://localhost:3000/?connected=ok",
+      failureRedirect: "http://localhost:3000/?connected=fail"
     })
   );
 };

@@ -32,7 +32,9 @@ const Home = ({ location }) => {
   return (
     <>
       <h1>HOME</h1>
-      <a href="/api/users/auth/facebook">Login with Facebook</a>
+      <a href="http://localhost:8080/api/users/auth/facebook">
+        Login with Facebook
+      </a>
     </>
   );
 };
