@@ -146,14 +146,17 @@ passport.use(
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           picture: profile.photos[0].value,
-          userName: profile.name.givenName + profile.name.familyName
+          userName:
+            profile.name.givenName +
+            profile.name.familyName +
+            Math.floor(Math.random() * 100)
         }
       }).then(([user, created]) => {
-        // console.log(user);
+        console.log("userid", user.dataValues.id);
         // if (err) {
         //   return done(err);
         // }
-        done(null, user);
+        done(null, user, { message: user.dataValues.id });
       });
     }
   )
