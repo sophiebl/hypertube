@@ -11,7 +11,7 @@ module.exports = app => {
       if (err) {
         console.log(err);
       }
-      if (info != undefined) {
+      if (info !== undefined) {
         console.log(info.message);
         res.send({
           auth: false,
