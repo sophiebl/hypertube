@@ -13,11 +13,11 @@ import Register from '../register';
 // import Visit from '../visit';
 // import Like from '../like';
 import Home from '../home';
-// import { AuthProvider } from './AuthContext';
+import { AuthProvider } from './AuthContext';
 // import SecureRoute from './SecureRoute';
 // import NotLoggedRoute from './NotLoggedRoute';
 import 'react-toastify/dist/ReactToastify.css';
-// import Nav from '../nav';
+import Nav from '../nav';
 // import Toaster from '../toaster';
 // import UserValidation from '../uservalidation';
 // import ResetForgotPassword from '../ResetforgotPassword';
@@ -26,25 +26,11 @@ import 'react-toastify/dist/ReactToastify.css';
 // import ChatRoom from '../chatroom';
 
 function App() {
-  axios.get('/api')
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
-
-
   return (
     <div className="App">
-      {/* <AuthProvider> */}
+      <AuthProvider>
         <Router>
-          {/* <Nav /> */}
+          <Nav />
           <Switch>
             {/* <NotLoggedRoute path="/signup" component={Signup} /> */}
             {/* <NotLoggedRoute path="/login" component={Login} /> */}
@@ -72,7 +58,7 @@ function App() {
         </Router>
         {/* <Toaster /> */}
         <ToastContainer />
-      {/* </AuthProvider> */}
+      </AuthProvider>
     </div>
   );
 }

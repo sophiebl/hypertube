@@ -7,6 +7,7 @@ require("./loginUser")(userRouter);
 require("./registerUser")(userRouter);
 require("./findUser")(userRouter);
 require("./facebook")(userRouter);
+require("./checkToken")(userRouter);
 // userRouter.get("/auth/facebook", passport.authenticate("facebook"));
 
 // userRouter.get(
