@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SecureRoute = ({ component: Component, ...rest }) => {
+const LoggedRoute = ({ component: Component, ...rest }) => {
   const classes = useStyles();
   const { authContext } = useContext(AuthContext);
   const [secureAuth, setSecureAuth] = useState(false);
@@ -52,4 +52,4 @@ const SecureRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-export default SecureRoute;
+export default LoggedRoute;
