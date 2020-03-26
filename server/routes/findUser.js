@@ -1,26 +1,16 @@
 const passport = require("passport");
 
-module.exports = app => {
-  app.get('/find', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-      if (err) {
-        console.log(err);
-      }
-      if (info != undefined) {
-        console.log(info.message);
-        res.send(info.message);
-      } else {
-        console.log('user found in db from route');
-        res.status(200).send({
-          auth: true,
-          first_name: user.firstName,
-          last_name: user.lastName,
-          email: user.email,
-          username: user.userName,
-          password: user.password,
-          message: 'user found in db',
-        });
-      }
-    })(req, res, next);
+const findUser = (req, res) => {
+  res.status(200).send({
+    auth: true,
+    first_name: req.user.firstName,
+    last_name: req.user.lastName,
+    email: req.user.email,
+    username: req.user.userName,
+    message: "user found in db"
   });
+};
+
+module.exports = app => {
+  app.get("/find", passport.authenticate("jwt", { session: false }), findUser);
 };

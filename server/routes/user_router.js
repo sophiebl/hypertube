@@ -8,21 +8,5 @@ require("./registerUser")(userRouter);
 require("./findUser")(userRouter);
 require("./facebook")(userRouter);
 require("./checkToken")(userRouter);
-// userRouter.get("/auth/facebook", passport.authenticate("facebook"));
 
-// userRouter.get(
-//   "/auth/facebook/callback",
-//   passport.authenticate("facebook", {
-//     successRedirect: "/",
-//     failureRedirect: "/fail"
-//   })
-// );
-
-// userRouter.get("/fail", (req, res) => {
-//   res.send("Failed attempt");
-// });
-
-// userRouter.get("/", (req, res) => {
-//   res.send("Success");
-// });
 module.exports = userRouter;

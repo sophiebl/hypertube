@@ -1,16 +1,16 @@
 const passport = require("passport");
 
 module.exports = app => {
-  app.get('/checkToken', (req, res, next) => {
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+  app.get("/checkToken", (req, res, next) => {
+    passport.authenticate("jwt", { session: false }, (err, user, info) => {
       if (err) {
         console.log(err);
       }
-      if (info != undefined) {
+      if (info !== undefined) {
         console.log(info.message);
         res.send({
-            success: false,
-            message: info.message,
+          success: false,
+          message: info.message
         });
       } else {
         res.status(200).send({
@@ -19,9 +19,9 @@ module.exports = app => {
           last_name: user.lastName,
           email: user.email,
           username: user.userName,
-          message: 'user found in db',
+          message: "user found in db"
         });
       }
     })(req, res, next);
   });
-}
+};
