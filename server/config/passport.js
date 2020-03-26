@@ -138,8 +138,6 @@ passport.use(
       profileFields: ["id", "first_name", "last_name", "picture", "email"]
     },
     function(accessToken, refreshToken, profile, done) {
-      // console.log("DATA FACEBOOK AUTH *******");
-      // console.log({ accessToken, profile, done, refreshToken });
       User.findOrCreate({
         where: { facebook_id: profile.id },
         defaults: {
@@ -152,7 +150,6 @@ passport.use(
             Math.floor(Math.random() * 100)
         }
       }).then(([user, created]) => {
-        console.log("userid", user.dataValues.id);
         // if (err) {
         //   return done(err);
         // }

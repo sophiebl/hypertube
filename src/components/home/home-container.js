@@ -24,11 +24,16 @@ const HomeContainer = (userData, token) => {
       });
   };
 
+  const saveToken = (token) => {
+    localStorage.setItem('token', token);
+    window.location = '/?message=login_success';
+  }
+
   if (_.isEmpty(userInfo) && loaded === false) {
     fetchProfile();
   }
 
-  return { userInfo, loaded };
+  return { userInfo, loaded, saveToken };
 };
 
 export default HomeContainer;
