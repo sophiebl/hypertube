@@ -27,7 +27,6 @@ function App() {
           <Switch>
             <NotLoggedRoute path="/login" component={Login} />
             <NotLoggedRoute path="/register" component={Register} />
-
             {/* <NotLoggedRoute
               path="/validation/newaccount/:token"
               component={UserValidation}

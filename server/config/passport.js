@@ -107,7 +107,6 @@ const opts = {
 passport.use(
   "jwt",
   new JWTstrategy(opts, (jwt_payload, done) => {
-    console.log("yo");
     try {
       User.findOne({
         where: {
