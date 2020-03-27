@@ -1,10 +1,11 @@
 const { sequelize } = require("../models/index");
 const User = sequelize.import("../models/user");
 const passport = require("passport");
+const { sendRegisterEmail } = require("../controllers/user_controller");
 
 module.exports = app => {
-  app.post('/register', (req, res, next) => {
-    passport.authenticate('register', (err, user, info) => {
+  app.post("/register", (req, res, next) => {
+    passport.authenticate("register", (err, user, info) => {
       if (err) {
         console.log(err);
       }
@@ -17,22 +18,26 @@ module.exports = app => {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
             email: req.body.email,
-            username: user.userName,
+            username: user.userName
           };
           User.findOne({
             where: {
-              userName: data.username,
-            },
+              userName: data.username
+            }
           }).then(user => {
             user
               .update({
                 firstName: data.first_name,
                 lastName: data.last_name,
-                email: data.email,
+                email: data.email
               })
               .then(() => {
-                console.log('user created in db');
-                res.status(200).send({ created: true, message: 'user created' });
+                console.log("user created in db");
+                res
+                  .status(200)
+                  .send({ created: true, message: "user created" });
+                // send email
+                sendRegisterEmail();
               });
           });
         });
