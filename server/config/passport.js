@@ -7,6 +7,7 @@ const passport = require("passport"),
   localStrategy = require("passport-local").Strategy,
   JWTstrategy = require("passport-jwt").Strategy,
   ExtractJWT = require("passport-jwt").ExtractJwt,
+  FortyTwoStrategy = require('passport-42').Strategy;
   FacebookStrategy = require("passport-facebook").Strategy;
 
 const { sequelize } = require("../models/index");
@@ -144,6 +145,7 @@ passport.use(
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           picture: profile.photos[0].value,
+          facebook_id: profile.id,
           userName:
             profile.name.givenName +
             profile.name.familyName +
@@ -158,3 +160,63 @@ passport.use(
     }
   )
 );
+
+passport.use(
+  "fortyTwo",
+  new FortyTwoStrategy(
+    {
+      clientID: process.env.FORTYTWO_APP_ID,
+      clientSecret: process.env.FORTYTWO_APP_SECRET,
+      callbackURL: process.env.FORTYTWO_CALLBACK_URL
+      // ,
+      // profileFields: {
+      //   'id': function (obj) { return String(obj.id); },
+      //   'username': 'login',
+      //   'displayName': 'displayname',
+      //   'name.familyName': 'last_name',
+      //   'name.givenName': 'first_name',
+      //   'profileUrl': 'url',
+      //   'emails.0.value': 'email',
+      //   'phoneNumbers.0.value': 'phone',
+      //   'photos.0.value': 'image_url'
+      // }
+      // profileFields: ["id", "first_name", "last_name", "picture", "email"]
+    },
+    function(accessToken, refreshToken, profile, done) {
+      // User.findOrCreate({ fortytwo_id: profile.id }, function (err, user) {
+      //   return done(err, user);
+      // });
+      console.log({profile});
+      console.log(profile.id);
+      User.findOrCreate({
+        where: { fortytwo_id: profile.id },
+        defaults: {
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
+          picture: profile.photos[0].value,
+          userName:
+            profile.name.givenName +
+            profile.name.familyName +
+            Math.floor(Math.random() * 100)
+        }
+      }).then(([user, created]) => {
+        // if (err) {
+        //   return done(err);
+        // }
+        done(null, user, { message: user.dataValues.id });
+      });
+    }
+  )
+);
+
+// passport.use(new FortyTwoStrategy({
+//   clientID: FORTYTWO_APP_ID,
+//   clientSecret: FORTYTWO_APP_SECRET,
+//   callbackURL: "http://127.0.0.1:3000/auth/42/callback"
+// },
+// function(accessToken, refreshToken, profile, cb) {
+//   User.findOrCreate({ fortytwoId: profile.id }, function (err, user) {
+//     return cb(err, user);
+//   });
+// }
+// ));
