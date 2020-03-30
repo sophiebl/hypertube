@@ -71,7 +71,7 @@ const Nav = () => {
             style={{ textDecoration: "none" }}
             className={classes.navIcon}
           >
-            Matcha
+            Hypertube
           </Link>
         </Typography>
         {isLoggedIn ? (
