@@ -216,18 +216,6 @@ const ProfileShow = ({ computedMatch }) => {
                 type="preference"
               />
             )}
-            <Typography variant="subtitle1" className={classes.item}>
-              <Box fontWeight="fontWeightBold">
-                {visitedProfile.firstname} in a few words
-              </Box>
-            </Typography>
-            <Paper elevation={3} className={classes.summary}>
-              {_.isEmpty(visitedProfile.description) ? (
-                <p>No description defined so far</p>
-              ) : (
-                <p>{visitedProfile.description}</p>
-              )}
-            </Paper>
           </Grid>
           <Grid item sm={6} className={classes.columnPublicProfile}>
             <Typography variant="subtitle1" className={classes.item}>

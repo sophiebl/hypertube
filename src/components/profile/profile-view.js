@@ -108,7 +108,7 @@ const useStyles = makeStyles(theme => ({
     right: "10px",
     padding: "0px"
   },
-  profilePicture: {
+  picture: {
     border: "3px solid",
     borderColor: theme.palette.secondary.main,
     boxSizing: "border-box",
@@ -206,12 +206,12 @@ const Profile = params => {
   const getParams = queryString.parse(locationParams.search);
 
   const {
-    handleProfileChange,
     handleDeleteImage,
     profile,
     loaded,
     handleFileUpload,
     handleChangeProfileImage,
+    handleTextParametersChange,
     handleChangeLocation,
     handleChangeCity,
     handleSubmitParameters,
@@ -227,12 +227,6 @@ const Profile = params => {
     finalImage,
     sendCroppedImageServer
   } = UseProfileForm(authContext.userData, authContext.token);
-  const {
-    interests,
-    notificationMail,
-    notificationPush,
-    interestNames
-  } = profile;
 
   // change tabs
   const [valueTab, setValueTab] = React.useState(0);
@@ -288,7 +282,7 @@ const Profile = params => {
                 )
               }
               className={valueTab === 0 ? classes.activeTab : classes.tab}
-              label="About me"
+              label="Movie History"
               {...a11yProps(0)}
             />
             <Tab
@@ -310,7 +304,7 @@ const Profile = params => {
             classes={classes}
             profile={profile}
             isChecked={isChecked}
-            handleProfileChange={handleProfileChange}
+            handleProfileChange={handleTextParametersChange}
             handleSubmitParameters={handleSubmitParameters}
             handleFileUpload={handleFileUpload}
             handleChangeProfileImage={handleChangeProfileImage}
@@ -322,13 +316,9 @@ const Profile = params => {
             classes={classes}
             profile={profile}
             isChecked={isChecked}
-            handleProfileChange={handleProfileChange}
+            handleProfileChange={handleTextParametersChange}
             handleSubmitParameters={handleSubmitParameters}
-            interests={interests}
-            interestNames={interestNames}
             handleChangeLocation={handleChangeLocation}
-            notificationMail={notificationMail}
-            notificationPush={notificationPush}
             deleteUser={deleteUser}
           />
         </form>

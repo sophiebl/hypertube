@@ -56,7 +56,6 @@ const Nav = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   authContext.userData.then(data => {
-    console.log({ data });
     if (data) {
       setIsLoggedIn(data.success);
     }

@@ -11,8 +11,6 @@ import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 import { toast } from "react-toastify";
 import InputTextShort from "./inputTextShort";
-import AddressAutocomplete from "./location/address-autocomplete";
-import Map from "./location/map";
 // import useForgotPasswordForm from '../../forgotpassword/forgotpassword-container';
 
 function TabPanel(props) {
@@ -36,12 +34,8 @@ const TabPanelProfileParameters = ({
   index,
   classes,
   profile,
-  isChecked,
   handleProfileChange,
   handleSubmitParameters,
-  interests,
-  interestNames,
-  handleChangeLocation,
   notificationMail,
   notificationPush,
   deleteUser
@@ -62,8 +56,8 @@ const TabPanelProfileParameters = ({
               TextField={TextField}
               profile={profile}
               handleProfileChange={handleProfileChange}
-              name="firstname"
-              value={profile.firstname}
+              name="first_name"
+              value={profile.first_name}
               title="Firstname"
               type="text"
             />
@@ -74,9 +68,9 @@ const TabPanelProfileParameters = ({
               TextField={TextField}
               profile={profile}
               handleProfileChange={handleProfileChange}
-              name="surname"
-              value={profile.surname}
-              title="Surname"
+              name="last_name"
+              value={profile.last_name}
+              title="Lastname"
               type="text"
             />
             <InputTextShort
@@ -91,6 +85,20 @@ const TabPanelProfileParameters = ({
               title="Username"
               type="text"
             />
+            {profile.email ? (
+              <InputTextShort
+                classes={classes}
+                Typography={Typography}
+                Box={Box}
+                TextField={TextField}
+                profile={profile}
+                handleProfileChange={handleProfileChange}
+                name="email"
+                value={profile.email}
+                title="Email"
+                type="email"
+              />
+            ) : null}
             <InputTextShort
               classes={classes}
               Typography={Typography}
@@ -98,65 +106,23 @@ const TabPanelProfileParameters = ({
               TextField={TextField}
               profile={profile}
               handleProfileChange={handleProfileChange}
-              name="email"
-              value={profile.email}
-              title="Email"
-              type="email"
+              name="language"
+              value={profile.language}
+              title="Language"
+              type="text"
             />
-            <InputTextShort
-              classes={classes}
-              Typography={Typography}
-              Box={Box}
-              TextField={TextField}
-              profile={profile}
-              handleProfileChange={handleProfileChange}
-              name="birthDate"
-              value={profile.birthDate}
-              // value={new Date(profile.birthDate).toISOString().split('T')[0]}
-              title="Birthdate"
-              type="date"
-            />
-          </Grid>
-          <Grid item sm={6} className={classes.gridColumnProfile}>
-            <Typography variant="subtitle1">
-              <Box fontWeight="fontWeightBold">Notifications</Box>
-            </Typography>
-            <FormControl component="fieldset" className={classes.formControl}>
-              <FormGroup row>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={notificationMail === true}
-                      onChange={handleProfileChange}
-                      name="notificationMail"
-                      value="notificationMail"
-                    />
-                  }
-                  label="Mail" 
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={notificationPush === true}
-                      onChange={handleProfileChange}
-                      name="notificationPush"
-                      value="notificationPush"
-                    />
-                  }
-                  label="Push"
-                />
-              </FormGroup>
-            </FormControl>
             <Box>
               <Button
                 variant="contained"
                 color="secondary"
-                size="large"
+                size="medium"
                 onClick={handleSubmitParameters}
               >
                 Save changes
               </Button>
             </Box>
+          </Grid>
+          <Grid item sm={6} className={classes.gridColumnProfile}>
             <Paper className={classes.paperAccount}>
               <Typography variant="h5" component="h5">
                 <Box fontWeight="fontWeightBold">Account security</Box>

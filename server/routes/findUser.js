@@ -7,6 +7,8 @@ const findUser = (req, res) => {
     last_name: req.user.lastName,
     email: req.user.email,
     username: req.user.userName,
+    picture: req.user.picture,
+    language: req.user.language,
     message: "user found in db"
   });
 };

@@ -19,6 +19,8 @@ module.exports = app => {
           last_name: user.lastName,
           email: user.email,
           username: user.userName,
+          picture: user.picture,
+          language: user.language,
           message: "user found in db"
         });
       }

@@ -9,7 +9,7 @@ const CurrentPictures = ({
   Box,
   handleDeleteImage,
   handleChangeProfileImage,
-  profilePicture,
+  picture,
 }) => {
   if (pictures) {
     return pictures.map(pictureUrl => (
@@ -26,8 +26,8 @@ const CurrentPictures = ({
           alt="My profile"
           width="100%"
           className={
-            profilePicture === pictureUrl
-              ? classes.profilePicture
+            picture === pictureUrl
+              ? classes.picture
               : classes.picture
           }
           onClick={() => handleChangeProfileImage(pictureUrl)}

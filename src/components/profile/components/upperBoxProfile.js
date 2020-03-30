@@ -10,8 +10,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
 import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 import BlockIcon from '@material-ui/icons/Block';
-import { getDistance } from 'geolib';
-import CityGuess from './location/cityGuess';
 import LoggedDot from '../../profileshow/components/loggedDot';
 
 const useStyles = makeStyles(theme => ({
@@ -37,9 +35,6 @@ const UpperBoxProfile = ({
   type,
 }) => {
   const upBoxClasses = useStyles();
-  const [blocked, setBlocked] = useState(profile.alreadyBlocked);
-  const [reported, setReported] = useState(profile.alreadyReported);
-  const [liked, setLiked] = useState(profile.visitorlikevisited);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -48,25 +43,9 @@ const UpperBoxProfile = ({
     setAnchorEl(null);
   };
 
-  const distance = () => {
-    const { location: visitorLocation } = profile;
-    let dist = getDistance(
-      { latitude: profile.location[0], longitude: profile.location[1] },
-      { latitude: visitorLocation[0], longitude: visitorLocation[1] },
-    );
-    dist = Math.round(dist / 1000);
-    return ` | ${dist} km`;
-  };
-
-  const chatroomLink = `/chatroom/${profile.matchId}`;
-
   return (
     <Box
-      className={
-        profile.match === true
-          ? classes.boxUpProfileMatch
-          : classes.boxUpProfile
-      }
+      className={classes.boxUpProfile}
     >
       <Grid container className={classes.containerUpProfile} direction="row">
         <Grid item xs={12} sm={6} className={classes.containerUpProfileLeft}>
@@ -74,19 +53,12 @@ const UpperBoxProfile = ({
             <img
               className={upBoxClasses.profileImg}
               src={
-                profile.profilePicture ||
+                profile.picture ||
                 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
               }
               alt="My profile"
               width="90%"
             />
-            {blocked ? (
-              <BlockIcon
-                className={upBoxClasses.blockedIcon}
-                color="secondary"
-                fontSize="large"
-              />
-            ) : null}
           </Grid>
           <Grid
             item
@@ -98,29 +70,6 @@ const UpperBoxProfile = ({
               <span>{profile.firstname}</span>
             </div>
             <div>
-              <span>
-                {profile.birthDate &&
-                profile.birthDate !== '1970-01-01' &&
-                profile.birthDate !== '1970-01-01T00:00:00.000Z'
-                  ? getAge(
-                      new Date(profile.birthDate).toISOString().split('T')[0],
-                    )
-                  : 'Age undefined '}
-              </span>
-              <span>
-                {profile.location ? (
-                  type === 'public' ? (
-                    distance()
-                  ) : (
-                    <CityGuess
-                      handleChangeCity={handleChangeCity}
-                      lat={profile.location[0]}
-                      lon={profile.location[1]}
-                      profile={profile}
-                    />
-                  )
-                ) : null}
-              </span>
               {type === 'public' ? (
                 <LoggedDot
                   loggedState={profile.connected}
@@ -130,97 +79,6 @@ const UpperBoxProfile = ({
               ) : null}
             </div>
           </Grid>
-        </Grid>
-        <Grid item sm={6} xs={12} className={classes.containerUpProfileRight}>
-          <Grid
-            item
-            bgcolor="secondary.main"
-            xs={12}
-            sm={4}
-            className={classes.containerUpProfileRightFabs}
-          >
-            <Fab
-              color="secondary"
-              size="small"
-              className={upBoxClasses.fabUpBox}
-            >
-              {profile.popularityRate}%
-            </Fab>
-          </Grid>
-          {type === 'public' ? (
-            <Grid
-              item
-              xs={12}
-              sm={8}
-              className={classes.containerUpProfileRightFabs}
-            >
-              {profile.match ? (
-                <Fab
-                  color="primary"
-                  size="small"
-                  className={upBoxClasses.fabUpBox}
-                  href={chatroomLink}
-                >
-                  <MailOutlineIcon />
-                </Fab>
-              ) : null}
-              {liked ? (
-                <Fab
-                  onClick={() => handleLike(profile.id, setLiked)}
-                  color="primary"
-                  size="small"
-                  className={upBoxClasses.fabUpBox}
-                >
-                  <FavoriteIcon />
-                </Fab>
-              ) : (
-                <Fab
-                  onClick={() => handleLike(profile.id, setLiked)}
-                  color="primary"
-                  size="small"
-                  className={upBoxClasses.fabUpBox}
-                >
-                  <FavoriteBorderIcon />
-                </Fab>
-              )}
-              <div>
-                <Fab
-                  onClick={handleClick}
-                  color="secondary"
-                  size="small"
-                  className={upBoxClasses.fabUpBox}
-                >
-                  <ReportProblemIcon />
-                </Fab>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem
-                    onClick={() => handleBlock(profile.id, blocked, setBlocked)}
-                  >
-                    {blocked ? 'Unblock' : 'Block'}
-                  </MenuItem>
-                  {reported ? (
-                    <MenuItem disabled onClick={handleClose}>
-                      You reported this user
-                    </MenuItem>
-                  ) : (
-                    <MenuItem
-                      onClick={() =>
-                        handleReport(profile.id, reported, setReported)
-                      }
-                    >
-                      Report
-                    </MenuItem>
-                  )}
-                </Menu>
-              </div>
-            </Grid>
-          ) : null}
         </Grid>
       </Grid>
     </Box>
