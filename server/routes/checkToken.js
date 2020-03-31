@@ -15,10 +15,10 @@ module.exports = app => {
       } else {
         res.status(200).send({
           success: true,
-          first_name: user.firstName,
-          last_name: user.lastName,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
-          username: user.userName,
+          userName: user.userName,
           picture: user.picture,
           language: user.language,
           message: "user found in db"

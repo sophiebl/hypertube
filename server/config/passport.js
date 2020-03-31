@@ -13,12 +13,11 @@ const { sequelize } = require("../models/index");
 const User = sequelize.import("../models/user");
 
 passport.serializeUser(function(user, done) {
-  // console.log('Datavalues ID', user.dataValues.id);
   done(null, user.dataValues.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  userModel.findByPk(id, function(err, user) {
+  User.findByPk(id, function(err, user) {
     done(err, user);
   });
 });
@@ -108,9 +107,10 @@ passport.use(
   "jwt",
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
+      console.log(jwt_payload)
       User.findOne({
         where: {
-          userName: jwt_payload.id
+          id: jwt_payload.id
         }
       }).then(user => {
         if (user) {
