@@ -9,8 +9,10 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
-import { toast } from "react-toastify";
 import InputTextShort from "./inputTextShort";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 // import useForgotPasswordForm from '../../forgotpassword/forgotpassword-container';
 
 function TabPanel(props) {
@@ -56,8 +58,8 @@ const TabPanelProfileParameters = ({
               TextField={TextField}
               profile={profile}
               handleProfileChange={handleProfileChange}
-              name="first_name"
-              value={profile.first_name}
+              name="firstName"
+              value={profile.firstName}
               title="Firstname"
               type="text"
             />
@@ -68,8 +70,8 @@ const TabPanelProfileParameters = ({
               TextField={TextField}
               profile={profile}
               handleProfileChange={handleProfileChange}
-              name="last_name"
-              value={profile.last_name}
+              name="lastName"
+              value={profile.lastName}
               title="Lastname"
               type="text"
             />
@@ -80,8 +82,8 @@ const TabPanelProfileParameters = ({
               TextField={TextField}
               profile={profile}
               handleProfileChange={handleProfileChange}
-              name="username"
-              value={profile.username}
+              name="userName"
+              value={profile.userName}
               title="Username"
               type="text"
             />
@@ -99,18 +101,21 @@ const TabPanelProfileParameters = ({
                 type="email"
               />
             ) : null}
-            <InputTextShort
-              classes={classes}
-              Typography={Typography}
-              Box={Box}
-              TextField={TextField}
-              profile={profile}
-              handleProfileChange={handleProfileChange}
-              name="language"
-              value={profile.language}
-              title="Language"
-              type="text"
-            />
+            <FormControl variant="filled" className={classes.formControl}>
+              <InputLabel id="demo-simple-select-filled-label">
+                Language
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-filled-label"
+                id="demo-simple-select-filled"
+                value={profile.language}
+                onChange={handleProfileChange}
+                name="language"
+              >
+                <MenuItem value="FR">French</MenuItem>
+                <MenuItem value="EN">English</MenuItem>
+              </Select>
+            </FormControl>
             <Box>
               <Button
                 variant="contained"

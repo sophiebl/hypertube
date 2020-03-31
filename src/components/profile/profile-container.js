@@ -43,16 +43,12 @@ const UseProfileForm = (userData, token) => {
     } else if (event) {
       event.preventDefault();
       axios
-        .put(
-          `/api/users`,
-          changedFields,
-          {
-            headers: {
-              'Content-type': 'application/json; charset=UTF-8',
-              'x-access-token': token,
-            },
-          },
-        )
+        .put(`/api/users`, changedFields, {
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: "JWT " + token,
+          }
+        })
         .then(response => {
           if (response.data.success === true) {
             toast.success(response.data.message);
@@ -187,16 +183,16 @@ const UseProfileForm = (userData, token) => {
       axios
         .delete(`/api/users/`, {
           headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-access-token': token,
-          },
+            "Content-Type": "application/json; charset=UTF-8",
+            "Authorization": "JWT " + token,
+          }
         })
         .then(response => {
           if (response.data.deleted === true) {
-            localStorage.removeItem('token');
-            window.location = '/?message=delete_success';
+            localStorage.removeItem("token");
+            window.location = "/?message=delete_success";
           } else {
-            if (process.env.REACT_APP_VERBOSE === 'true')
+            if (process.env.REACT_APP_VERBOSE === "true")
               console.log(response.data);
           }
         });

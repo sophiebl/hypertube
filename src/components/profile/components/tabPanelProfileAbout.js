@@ -3,10 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import CurrentPictures from './current-pictures';
-import InputTextShort from './inputTextShort';
 
 function TabPanel(props) {
   const { children, value, index } = props;
