@@ -147,7 +147,8 @@ const useStyles = makeStyles(theme => ({
     // fontSize: '1em',
   },
   uploadInput: {
-    fontSize: "100px",
+    height: "100%",
+    width: "100%",
     position: "absolute",
     left: "0",
     top: "0",
@@ -260,6 +261,7 @@ const Profile = params => {
         classes={classes}
         profile={profile}
         getAge={getAge}
+        handleFileUpload={handleFileUpload}
         handleChangeCity={handleChangeCity}
         type="private"
       />

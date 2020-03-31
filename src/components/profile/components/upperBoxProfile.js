@@ -59,21 +59,10 @@ const useStyles = makeStyles(theme => ({
 const UpperBoxProfile = ({
   classes,
   profile,
-  getAge,
-  handleBlock,
-  handleReport,
-  handleChangeCity,
-  handleLike,
+  handleFileUpload,
   type,
 }) => {
   const upBoxClasses = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <Box className={classes.boxUpProfile}>
@@ -92,9 +81,17 @@ const UpperBoxProfile = ({
               />
               <div className={upBoxClasses.middle}>
                 <div class={upBoxClasses.textImage}>
-                  <CloudUpload/><br/>
+                  <CloudUpload />
+                  <br />
                   Upload Picture
                 </div>
+                <input
+                  label="upload file"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={handleFileUpload}
+                  className={classes.uploadInput}
+                />
               </div>
             </div>
           </Grid>
