@@ -1,26 +1,19 @@
-import axios from 'axios';
 import _ from 'lodash';
-import { useState } from 'react';
+import { useState, useContext } from "react";
+import { AuthContext } from "../App/AuthContext";
 
-const HomeContainer = (userData, token) => {
+const HomeContainer = () => {
   const [loaded, setLoaded] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const { authContext:{userData} } = useContext(AuthContext);
 
   const fetchProfile = () => {
-    axios
-      .get(`/api/users/profile`, {
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-          'x-access-token': token,
-        },
-      })
-      .then(response => {
-        setUserInfo(response.data);
+    userData.then(response => {
+        setUserInfo(response);
         setLoaded(true);
-        return response.data;
       })
       .catch(error => {
-      if (process.env.REACT_APP_VERBOSE === 'true') console.log(error);
+        if (process.env.REACT_APP_VERBOSE === "true") console.log(error);
       });
   };
 
