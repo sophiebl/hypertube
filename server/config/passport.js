@@ -168,36 +168,17 @@ passport.use(
       clientID: process.env.FORTYTWO_APP_ID,
       clientSecret: process.env.FORTYTWO_APP_SECRET,
       callbackURL: process.env.FORTYTWO_CALLBACK_URL
-      // ,
-      // profileFields: {
-      //   'id': function (obj) { return String(obj.id); },
-      //   'username': 'login',
-      //   'displayName': 'displayname',
-      //   'name.familyName': 'last_name',
-      //   'name.givenName': 'first_name',
-      //   'profileUrl': 'url',
-      //   'emails.0.value': 'email',
-      //   'phoneNumbers.0.value': 'phone',
-      //   'photos.0.value': 'image_url'
-      // }
-      // profileFields: ["id", "first_name", "last_name", "picture", "email"]
     },
+    
     function(accessToken, refreshToken, profile, done) {
-      // User.findOrCreate({ fortytwo_id: profile.id }, function (err, user) {
-      //   return done(err, user);
-      // });
-      console.log({profile});
-      console.log(profile.id);
       User.findOrCreate({
         where: { fortytwo_id: profile.id },
         defaults: {
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           picture: profile.photos[0].value,
-          userName:
-            profile.name.givenName +
-            profile.name.familyName +
-            Math.floor(Math.random() * 100)
+          userName: profile.username,
+          fortytwo_id: profile.id 
         }
       }).then(([user, created]) => {
         // if (err) {
@@ -208,15 +189,3 @@ passport.use(
     }
   )
 );
-
-// passport.use(new FortyTwoStrategy({
-//   clientID: FORTYTWO_APP_ID,
-//   clientSecret: FORTYTWO_APP_SECRET,
-//   callbackURL: "http://127.0.0.1:3000/auth/42/callback"
-// },
-// function(accessToken, refreshToken, profile, cb) {
-//   User.findOrCreate({ fortytwoId: profile.id }, function (err, user) {
-//     return cb(err, user);
-//   });
-// }
-// ));

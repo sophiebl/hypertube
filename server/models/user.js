@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.TEXT,
       language: DataTypes.STRING,
       validated: DataTypes.BOOLEAN,
-      facebook_id: DataTypes.STRING
+      facebook_id: DataTypes.STRING,
+      fortytwo_id: DataTypes.STRING
     },
     {}
   );
