@@ -7,6 +7,15 @@ const fs = require("fs");
 const fileType = require("file-type");
 const s3 = require("./../../config/awsConfig");
 
+const deleteFile = url => {
+  const name = url.match(/[^\/]+\/[^\/]+\/[^\/]+$/)[0];
+  const params = {
+    Bucket: process.env.S3_BUCKET,
+    Key: name
+  };
+  return s3.deleteObject(params).promise();
+};
+
 const uploadImage = async (req, res) => {
 const id = req.user.id;
   const form = new multiparty.Form();
@@ -19,6 +28,12 @@ const id = req.user.id;
       const timestamp = Date.now().toString();
       const fileName = `${process.env.ENVIRONMENT}/${id}/${timestamp}`;
       const data = await uploadFile(buffer, fileName, type);
+
+      if (data) {
+        const user = await User.findByPk(id);
+        const oldPicture = user.picture
+        deleteFile(oldPicture);
+      }
       
       User.update({picture: data.Location}, {
         where: { id }
