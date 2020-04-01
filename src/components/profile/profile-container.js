@@ -78,34 +78,24 @@ const UseProfileForm = (userData, token) => {
 
   const sendCroppedImageServer = formData => {
     axios
-      .post(
-        `/api/images/upload`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'x-access-token': token,
-          },
-        },
-      )
+      .post(`/api/images/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "JWT " + token,
+        }
+      })
       .then(response => {
-        if (profile.picture === null) {
+        if (response.data.success) {
           const newInput = {
             ...profile,
-            images: [...profile.images, response.data.Location],
-            picture: response.data.Location,
+            picture: response.data.Location
           };
           setProfile(newInput);
-        } else {
-          const newInput = {
-            ...profile,
-            images: [...profile.images, response.data.Location],
-          };
-          setProfile(newInput);
+          toast.success(response.data.message);
         }
       })
       .catch(error => {
-        if (process.env.REACT_APP_VERBOSE === 'true') console.log(error);
+        if (process.env.REACT_APP_VERBOSE === "true") console.log(error);
       });
     setShowModal(false);
   };
