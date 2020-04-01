@@ -23,23 +23,23 @@ function App() {
     <div className="App">
       <AuthProvider>
         <Router>
-          <Nav />
-          <Switch>
-            <NotLoggedRoute path="/login" component={Login} />
-            <NotLoggedRoute path="/register" component={Register} />
-            {/* <NotLoggedRoute
-              path="/validation/newaccount/:token"
-              component={UserValidation}
-            />
-            <NotLoggedRoute path="/forgotpassword" component={ForgotPassword} />
-            <NotLoggedRoute
-              path="/validation/forgotpassword/:token"
-              component={ResetForgotPassword}
-            />
-            <LoggedRoute path="/profile/:username" component={ProfileShow} /> */}
-            <LoggedRoute path="/profile" component={Profile} />
-            <Route path="/" component={Home} />
-          </Switch>
+            <Nav />
+            <Switch>
+              <NotLoggedRoute path="/login" component={Login} />
+              <NotLoggedRoute path="/register" component={Register} />
+              {/* <NotLoggedRoute
+                path="/validation/newaccount/:token"
+                component={UserValidation}
+              />
+              <NotLoggedRoute path="/forgotpassword" component={ForgotPassword} />
+              <NotLoggedRoute
+                path="/validation/forgotpassword/:token"
+                component={ResetForgotPassword}
+              />
+              <LoggedRoute path="/profile/:username" component={ProfileShow} /> */}
+              <LoggedRoute path="/profile" component={Profile} />
+              <Route path="/" component={Home} />
+            </Switch>
         </Router>
         {/* <Toaster /> */}
         <ToastContainer />
