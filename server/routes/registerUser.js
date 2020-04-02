@@ -24,16 +24,17 @@ module.exports = app => {
               userName: data.username,
             },
           }).then(user => {
-            user
-              .update({
-                firstName: data.first_name,
-                lastName: data.last_name,
-                email: data.email,
-              })
-              .then(() => {
+            // user
+            //   .update({
+            //     // firstName: data.first_name,
+            //     // lastName: data.last_name,
+            //     // email: data.email,
+            //     // language: 'EN',
+            //   })
+              // .then(() => {
                 console.log('user created in db');
                 res.status(200).send({ created: true, message: 'user created' });
-              });
+              // });
           });
         });
       }

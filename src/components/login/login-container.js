@@ -30,6 +30,7 @@ const useLoginForm = callback => {
             localStorage.setItem('token', data.token);
             callback(true);
           } else {
+            console.log(data);
             toast.error(data.err);
           }
         });
