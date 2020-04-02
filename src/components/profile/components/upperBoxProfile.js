@@ -1,15 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fab from '@material-ui/core/Fab';
-
-import LoggedDot from '../../profileshow/components/loggedDot';
 import CloudUpload from "@material-ui/icons/CloudUpload";
 
 const useStyles = makeStyles(theme => ({

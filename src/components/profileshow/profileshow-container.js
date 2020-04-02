@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useState, useContext } from 'react';
 import _ from 'lodash';
-import { toast } from 'react-toastify';
 import { AuthContext } from '../App/AuthContext';
 
 const ProfileShowContainer = visitedUsername => {

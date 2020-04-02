@@ -2,10 +2,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
-// import ModalCrop from './components/modal';
-
-let newInput;
-let newChangedFields;
 
 const UseProfileForm = (userData, token) => {
   const [profile, setProfile] = useState({});

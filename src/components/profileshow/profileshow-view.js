@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
-import _ from 'lodash';
 import ProfileShowContainer from './profileshow-container';
 import UpperBoxProfile from '../profile/components/upperBoxProfile';
-import { AuthContext } from '../App/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   '@global': {

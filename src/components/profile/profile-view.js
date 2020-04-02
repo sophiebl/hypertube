@@ -99,9 +99,6 @@ const useStyles = makeStyles(theme => ({
     height: "fit-content",
     width: "100%"
   },
-  picture: {
-    objectFit: "cover"
-  },
   deleteButtonPicture: {
     position: "absolute",
     top: "10px",
