@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import Login from "../login";
 import Register from "../register";
 import Profile from "../profile";
-// import ProfileShow from '../profileshow';
+import ProfileShow from '../profileshow';
 import Home from "../home";
 import { AuthProvider } from "./AuthContext";
 import LoggedRoute from "./LoggedRoute";
@@ -35,8 +35,8 @@ function App() {
             <NotLoggedRoute
               path="/validation/forgotpassword/:token"
               component={ResetForgotPassword}
-            />
-            <LoggedRoute path="/profile/:username" component={ProfileShow} /> */}
+            />*/}
+            <LoggedRoute path="/profile/:username" component={ProfileShow} />
             <LoggedRoute path="/profile" component={Profile} />
             <Route path="/" component={Home} />
           </Switch>

@@ -51,6 +51,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: "16px",
     padding: "16px 32px"
   },
+  names: {
+    marginLeft: '1em',
+  },
   blockedIcon: {
     position: "absolute"
   }
@@ -79,20 +82,22 @@ const UpperBoxProfile = ({
                 alt="My profile"
                 width="100%"
               />
-              <div className={upBoxClasses.middle}>
-                <div class={upBoxClasses.textImage}>
-                  <CloudUpload />
-                  <br />
-                  Upload Picture
+              {type !== "public" ? (
+                <div className={upBoxClasses.middle}>
+                  <div className={upBoxClasses.textImage}>
+                    <CloudUpload />
+                    <br />
+                    Upload Picture
+                  </div>
+                  <input
+                    label="upload file"
+                    type="file"
+                    accept="image/png, image/jpeg"
+                    onChange={handleFileUpload}
+                    className={classes.uploadInput}
+                  />
                 </div>
-                <input
-                  label="upload file"
-                  type="file"
-                  accept="image/png, image/jpeg"
-                  onChange={handleFileUpload}
-                  className={classes.uploadInput}
-                />
-              </div>
+              ) : null}
             </div>
           </Grid>
           <Grid
@@ -101,17 +106,10 @@ const UpperBoxProfile = ({
             sm={7}
             className={classes.containerUpProfileLeftInfo}
           >
-            <div>
-              <span>{profile.firstname}</span>
-            </div>
-            <div>
-              {type === "public" ? (
-                <LoggedDot
-                  loggedState={profile.connected}
-                  lastConnection={profile.lastConnection}
-                  displayLast
-                />
-              ) : null}
+            <div className={upBoxClasses.names}>
+              <span>
+                {profile.firstName} {profile.lastName}
+              </span>
             </div>
           </Grid>
         </Grid>

@@ -4,15 +4,11 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Paper from '@material-ui/core/Paper';
-import SwipeableViews from 'react-swipeable-views';
 import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
 import ProfileShowContainer from './profileshow-container';
 import UpperBoxProfile from '../profile/components/upperBoxProfile';
-import { AuthContext } from '../app/AuthContext';
-import UseProfileForm from '../profile/profile-container';
-import ChipsList from './components/chipsList';
+import { AuthContext } from '../App/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -150,18 +146,10 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileShow = ({ computedMatch }) => {
   const classes = useStyles();
-  const { authContext } = useContext(AuthContext);
   const visitedUsername = computedMatch.params.username;
-  const { handleChangeCity, getAge } = UseProfileForm(
-    authContext.userData,
-    authContext.token,
-  );
   const {
     visitedProfile,
     loaded,
-    handleBlock,
-    handleReport,
-    handleLike,
   } = ProfileShowContainer(visitedUsername);
 
   if (loaded === false) {
@@ -177,11 +165,6 @@ const ProfileShow = ({ computedMatch }) => {
       <UpperBoxProfile
         classes={classes}
         profile={visitedProfile}
-        getAge={getAge}
-        handleBlock={handleBlock}
-        handleReport={handleReport}
-        handleChangeCity={handleChangeCity}
-        handleLike={handleLike}
         type="public"
       />
       <Divider className={classes.divider} />
@@ -190,68 +173,9 @@ const ProfileShow = ({ computedMatch }) => {
           <Grid item sm={6} className={classes.columnPublicProfile}>
             <Typography variant="subtitle1" className={classes.item}>
               <Box fontWeight="fontWeightBold">
-                {visitedProfile.firstname} identifies as
+                {visitedProfile.firstName} watched this movies recently
               </Box>
             </Typography>
-            {_.isEmpty(visitedProfile.gender) ? (
-              <p>No gender defined so far</p>
-            ) : (
-              <ChipsList
-                classes={classes}
-                list={visitedProfile.gender}
-                type="gender"
-              />
-            )}
-            <Typography variant="subtitle1" className={classes.item}>
-              <Box fontWeight="fontWeightBold">
-                {visitedProfile.firstname} is looking for
-              </Box>
-            </Typography>
-            {_.isEmpty(visitedProfile.sexualOrientation) ? (
-              <p>No preference defined so far</p>
-            ) : (
-              <ChipsList
-                classes={classes}
-                list={visitedProfile.sexualOrientation}
-                type="preference"
-              />
-            )}
-          </Grid>
-          <Grid item sm={6} className={classes.columnPublicProfile}>
-            <Typography variant="subtitle1" className={classes.item}>
-              <Box fontWeight="fontWeightBold">
-                {visitedProfile.firstname}'s interests
-              </Box>
-            </Typography>
-            {_.isEmpty(visitedProfile.interests) ? (
-              <p>No interests defined so far</p>
-            ) : (
-              <ChipsList
-                classes={classes}
-                list={visitedProfile.interests}
-                type="interests"
-              />
-            )}
-            <Typography variant="subtitle1" className={classes.item}>
-              <Box fontWeight="fontWeightBold">
-                {visitedProfile.firstname}'s pictures
-              </Box>
-            </Typography>
-            <SwipeableViews className={classes.carousel} enableMouseEvents>
-              {_.isEmpty(visitedProfile.images) ? (
-                <p>No pictures uploaded so far</p>
-              ) : (
-                visitedProfile.images.map((image, index) => (
-                  <div key={index} className={classes.slide}>
-                    <img
-                      className={classes.imageSlider}
-                      src={visitedProfile.images[index]}
-                      alt="profile"
-                    />
-                  </div>
-                ))
-              )}
-            </SwipeableViews>
           </Grid>
         </Grid>
       </div>

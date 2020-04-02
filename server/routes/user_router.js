@@ -5,7 +5,7 @@ const passport = require("passport");
 const userRouter = express.Router();
 require("./loginUser")(userRouter); // /api/users/login
 require("./registerUser")(userRouter); // /api/users/register
-require("./findUser")(userRouter); // /api/users/find
+require("./findUser")(userRouter); // /api/users/:username
 require("./facebook")(userRouter); // /api/users/auth/facebook
 require("./checkToken")(userRouter); // /api/users/checkToken
 require("./updateUser")(userRouter); // PUT /api/users
