@@ -9,8 +9,9 @@ const FacebookStrategy = strategy.Strategy;
 
 dotenv.config();
 
-const sendRegisterEmail = () => {
+const sendRegisterEmail = email => {
   console.log("EMAIL FUNCTION //////////");
+  console.log(email);
   mailjet
     .post("send", { version: "v3.1" })
     .request({
@@ -18,17 +19,17 @@ const sendRegisterEmail = () => {
         {
           From: {
             Email: "segolene.alquier@gmail.com",
-            Name: "Me"
+            Name: "Hypertube team"
           },
           To: [
             {
-              Email: "segolene.alquier@yahoo.com",
+              Email: email,
               Name: "You"
             }
           ],
           TemplateID: 1322275,
           TemplateLanguage: true,
-          Subject: "Welcome to Matcha",
+          Subject: "Welcome to Hypertube",
           Variables: {
             firstname: "user",
             COMFIRMATION_TOKEN: ""

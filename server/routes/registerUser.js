@@ -9,7 +9,7 @@ module.exports = app => {
       if (err) {
         console.log(err);
       }
-      if (info != undefined) {
+      if (info !== undefined) {
         console.log(info.message);
         res.send(info.message);
       } else {
@@ -36,8 +36,7 @@ module.exports = app => {
                 res
                   .status(200)
                   .send({ created: true, message: "user created" });
-                // send email
-                sendRegisterEmail();
+                sendRegisterEmail(data.email);
               });
           });
         });
