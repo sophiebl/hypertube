@@ -6,10 +6,10 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
 module.exports = app => {
-  app.get("/auth/facebook", passport.authenticate("facebook"));
+  app.get("/auth/fortytwo", passport.authenticate("fortyTwo"));
   app.get(
-    "/auth/facebook/callback",
-    passport.authenticate("facebook", {
+    "/auth/fortytwo/callback",
+    passport.authenticate("fortyTwo", {
       failureRedirect: "http://localhost:3000/?message=oauth_fail"
     }),
     async (req, res) => {
@@ -18,4 +18,4 @@ module.exports = app => {
       res.redirect("http://localhost:3000?accessToken=" + token);
     }
   );
-};
+}

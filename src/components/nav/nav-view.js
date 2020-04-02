@@ -15,16 +15,20 @@ import { logout } from "../auth";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    backgroundColor: '#000'
   },
   menuButton: {
     marginRight: theme.spacing(2)
   },
-  matchaLogo: {
+  hypertubeLogo: {
+    fontFamily: 'Monoton, cursive',
+    fontSize: '2rem',
+    color: '#f44336',
+    textAlign: 'left',
     flexGrow: 1
   },
   navIcon: {
-    color: "white",
     "&:focus": {
       textDecoration: "none"
     },
@@ -65,13 +69,13 @@ const Nav = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={classes.matchaLogo}>
+        <Typography variant="h6" className={classes.hypertubeLogo}>
           <Link
             href="/"
             style={{ textDecoration: "none" }}
-            className={classes.navIcon}
+            className={classes.hypertubeLogo}
           >
-            Matcha
+            Hypertube
           </Link>
         </Typography>
         {isLoggedIn ? (

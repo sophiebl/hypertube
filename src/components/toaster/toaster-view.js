@@ -3,6 +3,7 @@ import {
   loginSuccess,
   logoutSuccess,
   oauthFail,
+  badUsername,
   signupSuccess,
   alreadyLoggedin,
   userValidated,
@@ -17,6 +18,7 @@ import {
 } from './toaster-container';
 
 const Toaster = ({ getParams }) => {
+  console.log(getParams);
   const [toastDebounced] = useDebouncedCallback(getParams => {
     switch (getParams.message) {
       case 'login_success':
@@ -24,6 +26,9 @@ const Toaster = ({ getParams }) => {
         break;
       case 'logout_success':
         logoutSuccess();
+        break;
+      case 'bad_username':
+        badUsername();
         break;
       case 'oauth_fail':
         oauthFail();

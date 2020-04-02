@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('WatchedMovies', {
@@ -9,13 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user: {
-        type: Sequelize.INTEGER, allowNull: false
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       alreadyWatched: {
-        type: Sequelize.INTEGER, defaultValue: 0
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       movie: {
-        type: Sequelize.STRING, allowNull: false
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

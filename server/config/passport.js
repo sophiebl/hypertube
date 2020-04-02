@@ -7,6 +7,7 @@ const passport = require("passport"),
   localStrategy = require("passport-local").Strategy,
   JWTstrategy = require("passport-jwt").Strategy,
   ExtractJWT = require("passport-jwt").ExtractJwt,
+  FortyTwoStrategy = require('passport-42').Strategy,
   FacebookStrategy = require("passport-facebook").Strategy;
 
 const { sequelize } = require("../models/index");
@@ -23,40 +24,74 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+const checkPwd = pwd => {
+  if (pwd.length > 5) {
+    if (pwd.match(/.*[0-9]+.*/) !== null) {
+      if (pwd.match(/.*[A-Z]+.*/) !== null) {
+        if (pwd.match(/.*[!@#-_$%^&*\(\){}\[\]:;<,>.?\/\\~`]+.*/) !== null) // eslint-disable-line no-useless-escape
+          return true;
+        else
+          return false;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
 passport.use(
   "register",
   new localStrategy(
     {
       usernameField: "username",
       passwordField: "password",
-      session: false
+      session: false,
+      passReqToCallback: true
     },
-    (username, password, done) => {
+    (req, username, password, done) => {
+      // console.log({req});
       try {
         User.findOne({
           where: {
             userName: username
           }
         }).then(user => {
-          console.log("username   ::::::");
-          console.log(username);
+          console.log("user   ::::::");
+          console.log(user);
           if (user != null) {
             console.log("username already taken");
             return done(null, false, { message: "username already taken" });
           } else {
-            bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
-              User.create({
-                userName: username,
-                password: hashedPassword
-              }).then(user => {
-                console.log("user created");
-                // note the return needed with passport local - remove this return for passport JWT to work
-                return done(null, user);
+            // var check = checkPwd(password);
+            // if (check) {
+              bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
+                User.create({
+                  userName: username,
+                  password: hashedPassword,
+                  firstName: req.body.first_name,
+                  lastName: req.body.last_name,
+                  email: req.body.email
+                })
+                  .then(user => {
+                    console.log("user created");
+                    // note the return needed with passport local - remove this return for passport JWT to work
+                    return done(null, user);
+                  })
+                  .catch(err => console.log("erreur!!", err)); // res.send pour envoyer au front les erreurs de maniere plus humaine :) 
               });
-            });
+            // }
+            // else {
+              // return done(null, false, { message: "Password must be at least 5 characters, contains at least 1 letter, 1 number, 1 Uppercase and 1 special characters." });
+              // return done(null, false, { message: "WRONGPASSWORD" });
+            // }
           }
         });
       } catch (err) {
+        
         done(err);
       }
     }
@@ -79,7 +114,7 @@ passport.use(
           }
         }).then(user => {
           if (user === null) {
-            return done(null, false, { message: "bad username" });
+            return done(null, false, { message: "bad_username" });
           } else {
             bcrypt.compare(password, user.password).then(response => {
               if (response !== true) {
@@ -144,6 +179,7 @@ passport.use(
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           picture: profile.photos[0].value,
+          facebook_id: profile.id,
           userName:
             profile.name.givenName +
             profile.name.familyName +
@@ -155,6 +191,37 @@ passport.use(
         // }
         done(null, user, { message: user.dataValues.id });
       });
+    }
+  )
+);
+
+passport.use(
+  "fortyTwo",
+  new FortyTwoStrategy(
+    {
+      clientID: process.env.FORTYTWO_APP_ID,
+      clientSecret: process.env.FORTYTWO_APP_SECRET,
+      callbackURL: process.env.FORTYTWO_CALLBACK_URL
+    },
+    
+    function(accessToken, refreshToken, profile, done) {
+      
+      User.findOrCreate({
+        where: { fortytwo_id: profile.id },
+        defaults: {
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
+          picture: profile.photos[0].value,
+          userName: profile.username,
+          fortytwo_id: profile.id
+        }
+      })
+        .then(([user, created]) => {
+          // if (err) {
+          //   return done(err);
+          // }
+          done(null, user, { message: user.dataValues.id });
+        })
     }
   )
 );

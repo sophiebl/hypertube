@@ -156,14 +156,42 @@ const Register = () => {
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/login" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
         </form>
+        <p>or sign up with your social media account</p>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                href="http://localhost:8080/api/users/auth/facebook"
+                fullWidth
+                className={classes.submit}
+              >
+              <img width="30px" alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585581406/icons8-facebook_vlisgc.svg"/>
+              Facebook
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Button
+                type="submit"
+                variant="contained"
+                href="http://localhost:8080/api/users/auth/fortytwo"
+                fullWidth
+                className={classes.submit}
+              >
+                <img width="30px" alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585580741/42_logo_black_kdm4iy.svg"/>
+                42
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid container justify="flex-end">
+          <Grid item>
+            <Link href="/login" variant="body2">
+              Already have an account? Sign in
+            </Link>
+          </Grid>
+        </Grid>
       </div>
     </Container>
   );

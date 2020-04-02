@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('DownloadedMovies', {
@@ -12,10 +12,12 @@ module.exports = {
         type: Sequelize.DATE
       },
       path: {
-        type: Sequelize.TEXT, allowNull: false
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       movie: {
-        type: Sequelize.STRING, allowNull: false
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

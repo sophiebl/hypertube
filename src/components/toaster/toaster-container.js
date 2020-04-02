@@ -14,6 +14,13 @@ export const logoutSuccess = () => {
   toast(toasterMessage, { type: toasterType });
 };
 
+export const badUsername = () => {
+  const toasterType = 'error';
+  const toasterMessage = "bad username";
+
+  toast(toasterMessage, { type: toasterType });
+};
+
 export const oauthFail = () => {
     const toasterType = 'error';
     const toasterMessage = "You could not connect through your oauth";

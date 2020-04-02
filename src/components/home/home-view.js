@@ -34,9 +34,6 @@ const Home = ({ location }) => {
   return (
     <>
       <h1>HOME</h1>
-      <a href="http://localhost:8080/api/users/auth/facebook">
-        Login with Facebook
-      </a>
       <Toaster getParams={getParams} />
     </>
   );
