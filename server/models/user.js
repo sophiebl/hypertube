@@ -4,22 +4,21 @@ module.exports = (sequelize, DataTypes) => {
     {
       userName: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+        // allowNull: false,
+        // unique: true
       },
       firstName: {
         type: DataTypes.STRING,
-        isAlpha: true
+        // isAlpha: true
       },
       lastName: {
         type: DataTypes.STRING,
-        isAlpha: true
+        // isAlpha: true
       },
       email: {
         type: DataTypes.STRING,
-        unique: true,
         // validate: {
-          // msg: 'Email address already in use!'
+        // msg: 'Email address already in use!'
         // },
         // validate: {
         //   args: {
@@ -32,8 +31,8 @@ module.exports = (sequelize, DataTypes) => {
       picture: DataTypes.STRING,
       password: {
         type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {notEmpty: true, min: 6}
+        // allowNull: false,
+        // validate: { notEmpty: true, min: 6 }
         // validate: {
         //   len: { args: [8, Infinity], msg: "Password must be at least 8 characters." },
         //   not: { args: [/\s+/ig], msg: "Password must not have blank spaces." }
@@ -42,7 +41,9 @@ module.exports = (sequelize, DataTypes) => {
       language: DataTypes.STRING,
       validated: DataTypes.BOOLEAN,
       facebook_id: DataTypes.STRING,
-      fortytwo_id: DataTypes.STRING
+      fortytwo_id: DataTypes.STRING,
+      validationToken: DataTypes.STRING,
+      resetPasswordToken: DataTypes.STRING
     },
     {}
   );

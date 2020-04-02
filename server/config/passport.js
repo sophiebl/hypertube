@@ -7,7 +7,7 @@ const passport = require("passport"),
   localStrategy = require("passport-local").Strategy,
   JWTstrategy = require("passport-jwt").Strategy,
   ExtractJWT = require("passport-jwt").ExtractJwt,
-  FortyTwoStrategy = require('passport-42').Strategy;
+  FortyTwoStrategy = require('passport-42').Strategy,
   FacebookStrategy = require("passport-facebook").Strategy;
 
 const { sequelize } = require("../models/index");
@@ -74,12 +74,14 @@ passport.use(
                   password: hashedPassword,
                   firstName: req.body.first_name,
                   lastName: req.body.last_name,
-                  email: req.body.email,
-                }).then(user => {
-                  console.log("user created");
-                  // note the return needed with passport local - remove this return for passport JWT to work
-                  return done(null, user);
-                });
+                  email: req.body.email
+                })
+                  .then(user => {
+                    console.log("user created");
+                    // note the return needed with passport local - remove this return for passport JWT to work
+                    return done(null, user);
+                  })
+                  .catch(err => console.log("erreur!!", err)); // res.send pour envoyer au front les erreurs de maniere plus humaine :) 
               });
             // }
             // else {
@@ -89,6 +91,7 @@ passport.use(
           }
         });
       } catch (err) {
+        
         done(err);
       }
     }
@@ -202,6 +205,7 @@ passport.use(
     },
     
     function(accessToken, refreshToken, profile, done) {
+      
       User.findOrCreate({
         where: { fortytwo_id: profile.id },
         defaults: {
@@ -209,14 +213,15 @@ passport.use(
           lastName: profile.name.familyName,
           picture: profile.photos[0].value,
           userName: profile.username,
-          fortytwo_id: profile.id 
+          fortytwo_id: profile.id
         }
-      }).then(([user, created]) => {
-        // if (err) {
-        //   return done(err);
-        // }
-        done(null, user, { message: user.dataValues.id });
-      });
+      })
+        .then(([user, created]) => {
+          // if (err) {
+          //   return done(err);
+          // }
+          done(null, user, { message: user.dataValues.id });
+        })
     }
   )
 );

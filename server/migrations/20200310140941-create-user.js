@@ -8,29 +8,46 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
       },
       firstName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       lastName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
       },
       picture: {
         type: Sequelize.STRING
       },
       password: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       language: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "EN"
       },
       validated: {
-        defaultValue: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      validationToken: {
+        type: Sequelize.STRING
+      },
+      resetPasswordToken: {
+        type: Sequelize.STRING
+      },
+      facebook_id: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
