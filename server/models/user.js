@@ -4,41 +4,58 @@ module.exports = (sequelize, DataTypes) => {
     {
       userName: {
         type: DataTypes.STRING,
-        // allowNull: false,
-        // unique: true
+        validate: {
+          isAlphanumeric:  {
+            msg: "Username must be alphanumeric"
+          } 
+        }
       },
       firstName: {
         type: DataTypes.STRING,
-        // isAlpha: true
+        validate: {
+          is:  {
+            args: /^[a-z\s-]+$/i,
+            msg: "Firstname must be just letter with whitespace or hyphen"
+          } 
+        }
       },
       lastName: {
         type: DataTypes.STRING,
-        // isAlpha: true
+        validate: {
+          is:  {
+            args: /^[a-z\s-]+$/i,
+            msg: "Lastname must be just letter with whitespace or hyphen"
+          } 
+        } 
       },
       email: {
         type: DataTypes.STRING,
-        // validate: {
-        // msg: 'Email address already in use!'
-        // },
-        // validate: {
-        //   args: {
-        //     isEmail: true,
-        //     unique: true
-        //   },
-        //   msg: 'Email address already in use!'
-        // }
+        validate: {
+          isEmail: {
+            msg: 'Email must be in email format'
+          }
+        },
       },
-      picture: DataTypes.STRING,
+      picture: {
+        type: DataTypes.STRING,
+        validate: {
+          isUrl: {
+            msg: 'Picture must be url format'
+          }
+        }
+      }, 
       password: {
         type: DataTypes.TEXT,
-        // allowNull: false,
-        // validate: { notEmpty: true, min: 6 }
-        // validate: {
-        //   len: { args: [8, Infinity], msg: "Password must be at least 8 characters." },
-        //   not: { args: [/\s+/ig], msg: "Password must not have blank spaces." }
-        // }
       },
-      language: DataTypes.STRING,
+      language: {
+        type: DataTypes.STRING,
+        validate: {
+          isIn: {
+            args: [['EN', 'FR']],
+            msg: 'Language should be EN or FR'
+          }
+        }
+      },
       validated: DataTypes.BOOLEAN,
       facebook_id: DataTypes.STRING,
       fortytwo_id: DataTypes.STRING,

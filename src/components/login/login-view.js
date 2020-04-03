@@ -35,12 +35,13 @@ const useStyles = makeStyles(theme => ({
   },
   submitFB: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: '#039be5',
-    color: 'white'
+    backgroundColor: '#039be5'
   },
-  logoSocial: {
-    marginRight: '10px' 
-  }
+  // submitFB: {
+  //   "&:hover": {
+  //     backgroundColor: '#039be5',
+  //   },
+  // },
 }));
 
 const Login = () => {
@@ -123,8 +124,7 @@ const Login = () => {
                 fullWidth
                 className={classes.submitFB}
               >
-              <img width="30px" className={classes.logoSocial} alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585581406/icons8-facebook_vlisgc.svg"/>
-              Facebook
+              <img width="30px" alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585581406/icons8-facebook_vlisgc.svg"/>
             </Button>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -135,8 +135,7 @@ const Login = () => {
                 fullWidth
                 className={classes.submit}
               >
-                <img width="30px" className={classes.logoSocial} alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585580741/42_logo_black_kdm4iy.svg"/>
-                42
+                <img width="30px" alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585580741/42_logo_black_kdm4iy.svg"/>
             </Button>
           </Grid>
         </Grid>
