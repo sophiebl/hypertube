@@ -29,23 +29,9 @@ module.exports = app => {
         console.log(info.message);
         res.send(info.message);
       } else {
-        req.logIn(user, err => {
-          const data = {
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            email: req.body.email,
-            username: user.userName,
-          };
-          User.findOne({
-            where: {
-              userName: data.username,
-            },
-          }).then(user => {
-                console.log('user created in db');
-                res.status(200).send({ created: true, message: 'user created' });
-              // });
-          });
-        });
+        res
+          .status(200)
+          .send({ created: true, message: "user created" });
       }
     })(req, res, next);
   });
