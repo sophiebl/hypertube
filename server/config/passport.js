@@ -60,11 +60,9 @@ passport.use(
             userName: username
           }
         }).then(user => {
-          console.log("user   ::::::");
-          console.log(user);
           if (user != null) {
             console.log("username already taken");
-            return done(null, false, { message: "username already taken" });
+            return done(null, false, { message: {created: false, message:"Username already taken"} });
           } else {
             // var check = checkPwd(password);
             // if (check) {
@@ -79,9 +77,17 @@ passport.use(
                   .then(user => {
                     console.log("user created");
                     // note the return needed with passport local - remove this return for passport JWT to work
-                    return done(null, user);
+                    return done(null, user, {
+                      message: {
+                        created: true,
+                        message: "User created!"
+                      }
+                    });
                   })
-                  .catch(err => console.log("erreur!!", err)); // res.send pour envoyer au front les erreurs de maniere plus humaine :) 
+                  .catch(err => {
+                    const errors = err.errors.map(error => error.message)
+                    done(null, false, {message: {created: false, message: 'il y a une erreur', errors }})
+                  }); // res.send pour envoyer au front les erreurs de maniere plus humaine :) 
               });
             // }
             // else {

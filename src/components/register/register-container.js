@@ -35,7 +35,8 @@ const useSignUpForm = callback => {
           if (data.created === true) {
             callback(true);
           } else {
-            toast.error(data.message);
+            // toast.error(data.message);
+            data.errors.forEach(error => toast.error(error));
           }
         });
     }
