@@ -14,7 +14,6 @@ const { sequelize } = require("../models/index");
 const User = sequelize.import("../models/user");
 
 passport.serializeUser(function(user, done) {
-  // console.log('Datavalues ID', user.dataValues.id);
   done(null, user.dataValues.id);
 });
 
@@ -50,54 +49,48 @@ passport.use(
       usernameField: "username",
       passwordField: "password",
       session: false,
-      passReqToCallback: true
+      passReqToCallback: true,
+      failWithError: true,
     },
     (req, username, password, done) => {
-      // console.log({req});
       try {
-        User.findOne({
-          where: {
-            userName: username
-          }
-        }).then(user => {
-          if (user != null) {
-            console.log("username already taken");
-            return done(null, false, { message: {created: false, message:"Username already taken"} });
-          } else {
-            // var check = checkPwd(password);
-            // if (check) {
-              bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
-                User.create({
-                  userName: username,
-                  password: hashedPassword,
-                  firstName: req.body.first_name,
-                  lastName: req.body.last_name,
-                  email: req.body.email
-                })
-                  .then(user => {
-                    console.log("user created");
-                    // note the return needed with passport local - remove this return for passport JWT to work
-                    return done(null, user, {
-                      message: {
-                        created: true,
-                        message: "User created!"
-                      }
-                    });
-                  })
-                  .catch(err => {
-                    const errors = err.errors.map(error => error.message)
-                    done(null, false, {message: {created: false, message: 'il y a une erreur', errors }})
-                  }); // res.send pour envoyer au front les erreurs de maniere plus humaine :) 
+        bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
+          User.create({
+            userName: username,
+            password: hashedPassword,
+            firstName: req.body.first_name,
+            lastName: req.body.last_name,
+            email: req.body.email
+          })
+            .then(user => {
+              console.log("user created");
+              // note the return needed with passport local - remove this return for passport JWT to work
+              return done(null, user, {
+                message: {
+                  created: true,
+                  message: "User created!"
+                }
               });
-            // }
-            // else {
-              // return done(null, false, { message: "Password must be at least 5 characters, contains at least 1 letter, 1 number, 1 Uppercase and 1 special characters." });
-              // return done(null, false, { message: "WRONGPASSWORD" });
-            // }
-          }
+            })
+            .catch(err => {
+              const errors = err.errors.map(error => error.message);
+              done(null, false, {
+                message: {
+                  created: false,
+                  message: "il y a une erreur",
+                  errors
+                }
+              });
+            }); // res.send pour envoyer au front les erreurs de maniere plus humaine :)
         });
+        // }
+        // else {
+        // return done(null, false, { message: "Password must be at least 5 characters, contains at least 1 letter, 1 number, 1 Uppercase and 1 special characters." });
+        // return done(null, false, { message: "WRONGPASSWORD" });
+        // }
+        //   }
+        // });
       } catch (err) {
-        
         done(err);
       }
     }
