@@ -11,8 +11,10 @@ const useSignUpForm = callback => {
     password1: '',
     password2: '',
   });
-  const { firstname, lastname, username, email, password1 } = inputs;
+  const { firstname, lastname, username, email, password1, password2 } = inputs;
   const handleSubmit = event => {
+    if (password1 !== password2)
+      toast.error("Passwords doesn't match");
     if (event) {
       event.preventDefault();
       axios

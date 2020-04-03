@@ -1,5 +1,4 @@
 const { sequelize } = require("../models/index");
-const User = sequelize.import("../models/user");
 const passport = require("passport");
 const _ = require('lodash')
 
@@ -15,7 +14,6 @@ const checkEmptyFields = inputs => {
 }
 
 module.exports = app => {
-
   app.post('/register', (req, res, next) => {
     const errors = checkEmptyFields(req.body)
     if (errors.length > 0) {

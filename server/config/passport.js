@@ -54,43 +54,50 @@ passport.use(
     },
     (req, username, password, done) => {
       try {
-        bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
-          User.create({
-            userName: username,
-            password: hashedPassword,
-            firstName: req.body.first_name,
-            lastName: req.body.last_name,
-            email: req.body.email
-          })
-            .then(user => {
-              console.log("user created");
-              // note the return needed with passport local - remove this return for passport JWT to work
-              return done(null, user, {
-                message: {
-                  created: true,
-                  message: "User created!"
-                }
-              });
+        var check = checkPwd(password);
+        if (check) {
+          bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
+            User.create({
+              userName: username,
+              password: hashedPassword,
+              firstName: req.body.first_name,
+              lastName: req.body.last_name,
+              email: req.body.email
             })
-            .catch(err => {
-              const errors = err.errors.map(error => error.message);
-              done(null, false, {
-                message: {
-                  created: false,
-                  message: "il y a une erreur",
-                  errors
-                }
+              .then(user => {
+                console.log("user created");
+                // note the return needed with passport local - remove this return for passport JWT to work
+                return done(null, user, {
+                  message: {
+                    created: true,
+                    message: "User created!"
+                  }
+                });
+              })
+              .catch(err => {
+                const errors = err.errors.map(error => error.message);
+                done(null, false, {
+                  message: {
+                    created: false,
+                    message: "il y a une erreur",
+                    errors
+                  }
+                });
               });
-            }); // res.send pour envoyer au front les erreurs de maniere plus humaine :)
-        });
-        // }
-        // else {
-        // return done(null, false, { message: "Password must be at least 5 characters, contains at least 1 letter, 1 number, 1 Uppercase and 1 special characters." });
-        // return done(null, false, { message: "WRONGPASSWORD" });
-        // }
-        //   }
-        // });
-      } catch (err) {
+          });
+        }
+        else {
+          let errors = ["Password must be at least 5 characters, contains at least 1 letter, 1 number, 1 Uppercase and 1 special characters."];
+            done(null, false, { 
+              message: {
+                created: false,
+                message: "Wrong password",
+                errors
+              }
+            });
+        }
+      }
+       catch(err) {
         done(err);
       }
     }
