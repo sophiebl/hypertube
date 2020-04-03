@@ -18,7 +18,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  userModel.findByPk(id, function(err, user) {
+  User.findByPk(id, function(err, user) {
     done(err, user);
   });
 });
@@ -149,9 +149,10 @@ passport.use(
   "jwt",
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
+      console.log(jwt_payload)
       User.findOne({
         where: {
-          userName: jwt_payload.id
+          id: jwt_payload.id
         }
       }).then(user => {
         if (user) {

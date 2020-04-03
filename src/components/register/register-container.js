@@ -13,33 +13,35 @@ const useSignUpForm = callback => {
   });
   const { firstname, lastname, username, email, password1, password2 } = inputs;
   const handleSubmit = event => {
-    if (password1 !== password2)
-      toast.error("Passwords doesn't match");
-    if (event) {
-      event.preventDefault();
-      axios
-        .post(
-          `/api/users/register`,
-          {
-            first_name: firstname,
-            username,
-            last_name: lastname,
-            email,
-            password: password1,
-          },
-          {
-            headers: {
-              'Content-type': 'application/json; charset=UTF-8',
+    if (password1 !== password2) {
+      toast.error("Passwords don't match");
+    } else {
+      if (event) {
+        event.preventDefault();
+        axios
+          .post(
+            `/api/users/register`,
+            {
+              first_name: firstname,
+              username,
+              last_name: lastname,
+              email,
+              password: password1,
             },
-          },
-        )
-        .then(({ data }) => {
-          if (data.created === true) {
-            callback(true);
-          } else {
-            data.errors.forEach(error => toast.error(error));
-          }
-        });
+            {
+              headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+              },
+            },
+          )
+          .then(({ data }) => {
+            if (data.created === true) {
+              callback(true);
+            } else {
+              data.errors.forEach(error => toast.error(error));
+            }
+          });
+      }
     }
   };
   const handleInputChange = event => {

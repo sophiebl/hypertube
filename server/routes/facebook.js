@@ -13,8 +13,8 @@ module.exports = app => {
       failureRedirect: "http://localhost:3000/?message=oauth_fail"
     }),
     async (req, res) => {
-      const userName = req.user.dataValues.userName;
-      const token = jwt.sign({ id: userName }, jwtSecret.secret);
+      const id = req.user.dataValues.id;
+      const token = jwt.sign({ id }, jwtSecret.secret);
       res.redirect("http://localhost:3000?accessToken=" + token);
     }
   );
