@@ -10,5 +10,6 @@ require("./facebook")(userRouter); // /api/users/auth/facebook
 require("./fortytwo")(userRouter); // /api/users/auth/fortyTwo
 require("./checkToken")(userRouter); // /api/users/checkToken
 require("./updateUser")(userRouter); // PUT /api/users
+require("./deleteUser")(userRouter); // DELETE /api/users
 
 module.exports = userRouter;

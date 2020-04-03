@@ -32,7 +32,8 @@ const id = req.user.id;
       if (data) {
         const user = await User.findByPk(id);
         const oldPicture = user.picture
-        deleteFile(oldPicture);
+        if (oldPicture)
+          deleteFile(oldPicture);
       }
       
       User.update({picture: data.Location}, {

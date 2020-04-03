@@ -12,7 +12,13 @@ const updateUser = async (req, res) => {
   if (_.isEmpty(errors)) {
     User.update(inputs, {
       where: { id: userId }
-    }).then(updatedRows => res.send({ success: true, message: 'User successfully updated!'}));
+    }).then(updatedRows => res.send({ 
+      success: true, 
+      message: 'User successfully updated!'
+    })).catch(err => {
+      const errors = err.errors.map(error => error.message);
+      res.send({ success: false, errors})
+    });
   } else {
     res.send({ success: false, errors})
   }
