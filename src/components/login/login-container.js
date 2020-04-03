@@ -31,7 +31,7 @@ const useLoginForm = callback => {
             callback(true);
           } else {
             console.log(data);
-            toast.error(data.err);
+            toast.error(data.message);
           }
         });
     }

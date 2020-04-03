@@ -12,10 +12,9 @@ module.exports = app => {
         console.log(err);
       }
       if (info !== undefined) {
-        console.log(info.message);
         res.send({
           auth: false,
-          message: info.message
+          message: 'One or multiple fields are empty'
         });
       } else {
         req.logIn(user, err => {
