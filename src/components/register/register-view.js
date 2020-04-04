@@ -58,7 +58,7 @@ const Register = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <div className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -157,10 +157,11 @@ const Register = () => {
             color="primary"
             fullWidth
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>
-        </form>
+        </div>
         <p>or sign up with your social media account</p>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>

@@ -124,16 +124,15 @@ passport.use(
             userName: username,
           },
         }).then((user) => {
-          const validated = user.dataValues.validated;
           if (user === null) {
-            return done(null, false, { message: "bad_username" });
-          } else if (validated === false) {
+            return done(null, false, { message: "We didn't recognize your username. Are you sure?" });
+          } else if (user.dataValues.validated === false) {
             return done(null, false, { message: "Account not validated yet!" });
           } else {
             bcrypt.compare(password, user.password).then((response) => {
               if (response !== true) {
                 console.log("passwords do not match");
-                return done(null, false, { message: "passwords do not match" });
+                return done(null, false, { message: "Passwords do not match" });
               }
               console.log("user found & authenticated");
               // note the return needed with passport local - remove this return for passport JWT
@@ -226,7 +225,7 @@ passport.use(
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
           picture: profile.photos[0].value,
-          userName: profile.username,
+          userName: profile.username + Math.floor(Math.random() * 100),
           fortytwo_id: profile.id,
         },
       }).then(([user, created]) => {

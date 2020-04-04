@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           is:  {
-            args: /^[a-z\s-]+$/i,
+            args: /^[a-z\s-éèàêïëi]+$/i,
             msg: "Firstname must be just letter with whitespace or hyphen"
           } 
         }
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           is:  {
-            args: /^[a-z\s-]+$/i,
+            args: /^[a-z\s-éèàêïëi]+$/i,
             msg: "Lastname must be just letter with whitespace or hyphen"
           } 
         } 
