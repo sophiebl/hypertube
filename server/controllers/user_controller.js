@@ -9,9 +9,7 @@ const FacebookStrategy = strategy.Strategy;
 
 dotenv.config();
 
-const sendRegisterEmail = email => {
-  console.log("EMAIL FUNCTION //////////");
-  console.log(email);
+const sendRegisterEmail = (email, token) => {
   mailjet
     .post("send", { version: "v3.1" })
     .request({
@@ -19,28 +17,28 @@ const sendRegisterEmail = email => {
         {
           From: {
             Email: "segolene.alquier@gmail.com",
-            Name: "Hypertube team"
+            Name: "Hypertube team",
           },
           To: [
             {
               Email: email,
-              Name: "You"
-            }
+              Name: "You",
+            },
           ],
           TemplateID: 1322275,
           TemplateLanguage: true,
           Subject: "Welcome to Hypertube",
           Variables: {
             firstname: "user",
-            COMFIRMATION_TOKEN: ""
-          }
-        }
-      ]
+            COMFIRMATION_TOKEN: token,
+          },
+        },
+      ],
     })
-    .then(result => {
+    .then((result) => {
       console.log(result.body);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err.statusCode);
     });
 };

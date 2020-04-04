@@ -11,5 +11,6 @@ require("./fortytwo")(userRouter); // /api/users/auth/fortyTwo
 require("./checkToken")(userRouter); // /api/users/checkToken
 require("./updateUser")(userRouter); // PUT /api/users
 require("./deleteUser")(userRouter); // DELETE /api/users
+require("./validateUser")(userRouter); // GET /api/users/validate/:token
 
 module.exports = userRouter;

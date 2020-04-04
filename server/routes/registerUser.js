@@ -1,28 +1,26 @@
 const { sequelize } = require("../models/index");
 const passport = require("passport");
 const { sendRegisterEmail } = require("../controllers/user_controller");
-const _ = require('lodash')
+const _ = require("lodash");
 
-const checkEmptyFields = inputs => {
+const checkEmptyFields = (inputs) => {
   const errors = [];
-  
+
   _.forEach(inputs, (input, inputName) => {
-    if (input === '') {
-      errors.push(inputName + ' is empty')
+    if (input === "") {
+      errors.push(inputName + " is empty");
     }
-  })
+  });
   return errors;
-}
+};
 
-module.exports = app => {
-  app.post('/register', (req, res, next) => {
-        passport.authenticate("register", (err, user, info) => {
-
-    const errors = checkEmptyFields(req.body)
+module.exports = (app) => {
+  app.post("/register", (req, res, next) => {
+    const errors = checkEmptyFields(req.body);
     if (errors.length > 0) {
-      return res.send({created: false, errors})
+      return res.send({ created: false, errors });
     }
-    passport.authenticate('register', (err, user, info) => {
+    passport.authenticate("register", (err, user, info) => {
       if (err) {
         console.log(err);
       }
@@ -30,9 +28,7 @@ module.exports = app => {
         console.log(info.message);
         res.send(info.message);
       } else {
-        res
-          .status(200)
-          .send({ created: true, message: "user created" });
+        res.status(200).send({ created: true, message: "user created" });
       }
     })(req, res, next);
   });
