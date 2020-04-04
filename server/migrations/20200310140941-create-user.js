@@ -22,15 +22,13 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        unique: true,
-        allowNull: false
+        unique: true
       },
       picture: {
         type: Sequelize.STRING
       },
       password: {
-        type: Sequelize.TEXT,
-        allowNull: false
+        type: Sequelize.TEXT
       },
       language: {
         type: Sequelize.STRING,

@@ -14,12 +14,11 @@ const { sequelize } = require("../models/index");
 const User = sequelize.import("../models/user");
 
 passport.serializeUser(function(user, done) {
-  // console.log('Datavalues ID', user.dataValues.id);
   done(null, user.dataValues.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  userModel.findByPk(id, function(err, user) {
+  User.findByPk(id, function(err, user) {
     done(err, user);
   });
 });
@@ -50,48 +49,55 @@ passport.use(
       usernameField: "username",
       passwordField: "password",
       session: false,
-      passReqToCallback: true
+      passReqToCallback: true,
+      failWithError: true,
     },
     (req, username, password, done) => {
-      // console.log({req});
       try {
-        User.findOne({
-          where: {
-            userName: username
-          }
-        }).then(user => {
-          console.log("user   ::::::");
-          console.log(user);
-          if (user != null) {
-            console.log("username already taken");
-            return done(null, false, { message: "username already taken" });
-          } else {
-            // var check = checkPwd(password);
-            // if (check) {
-              bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
-                User.create({
-                  userName: username,
-                  password: hashedPassword,
-                  firstName: req.body.first_name,
-                  lastName: req.body.last_name,
-                  email: req.body.email
-                })
-                  .then(user => {
-                    console.log("user created");
-                    // note the return needed with passport local - remove this return for passport JWT to work
-                    return done(null, user);
-                  })
-                  .catch(err => console.log("erreur!!", err)); // res.send pour envoyer au front les erreurs de maniere plus humaine :) 
+        var check = checkPwd(password);
+        if (check) {
+          bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then(hashedPassword => {
+            User.create({
+              userName: username,
+              password: hashedPassword,
+              firstName: req.body.first_name,
+              lastName: req.body.last_name,
+              email: req.body.email
+            })
+              .then(user => {
+                console.log("user created");
+                // note the return needed with passport local - remove this return for passport JWT to work
+                return done(null, user, {
+                  message: {
+                    created: true,
+                    message: "User created!"
+                  }
+                });
+              })
+              .catch(err => {
+                const errors = err.errors.map(error => error.message);
+                done(null, false, {
+                  message: {
+                    created: false,
+                    message: "il y a une erreur",
+                    errors
+                  }
+                });
               });
-            // }
-            // else {
-              // return done(null, false, { message: "Password must be at least 5 characters, contains at least 1 letter, 1 number, 1 Uppercase and 1 special characters." });
-              // return done(null, false, { message: "WRONGPASSWORD" });
-            // }
-          }
-        });
-      } catch (err) {
-        
+          });
+        }
+        else {
+          let errors = ["Password must be at least 5 characters, contains at least 1 letter, 1 number, 1 Uppercase and 1 special characters."];
+            done(null, false, { 
+              message: {
+                created: false,
+                message: "Wrong password",
+                errors
+              }
+            });
+        }
+      }
+       catch(err) {
         done(err);
       }
     }
@@ -143,9 +149,10 @@ passport.use(
   "jwt",
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
+      console.log(jwt_payload)
       User.findOne({
         where: {
-          userName: jwt_payload.id
+          id: jwt_payload.id
         }
       }).then(user => {
         if (user) {

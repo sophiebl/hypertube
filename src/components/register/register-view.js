@@ -34,6 +34,10 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  submitFB: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: '#039be5'
+  },
 }));
 
 const Register = () => {
@@ -166,10 +170,9 @@ const Register = () => {
                 color="primary"
                 href="http://localhost:8080/api/users/auth/facebook"
                 fullWidth
-                className={classes.submit}
+                className={classes.submitFB}
               >
               <img width="30px" alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585581406/icons8-facebook_vlisgc.svg"/>
-              Facebook
             </Button>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -181,7 +184,6 @@ const Register = () => {
                 className={classes.submit}
               >
                 <img width="30px" alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585580741/42_logo_black_kdm4iy.svg"/>
-                42
             </Button>
           </Grid>
         </Grid>

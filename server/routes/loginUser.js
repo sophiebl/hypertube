@@ -12,10 +12,9 @@ module.exports = app => {
         console.log(err);
       }
       if (info !== undefined) {
-        console.log(info.message);
         res.send({
           auth: false,
-          message: info.message
+          message: 'One or multiple fields are empty'
         });
       } else {
         req.logIn(user, err => {
@@ -24,7 +23,7 @@ module.exports = app => {
               userName: user.userName
             }
           }).then(user => {
-            const token = jwt.sign({ id: user.userName }, jwtSecret.secret);
+            const token = jwt.sign({ id: user.id }, jwtSecret.secret);
             res.status(200).send({
               auth: true,
               token: token,
