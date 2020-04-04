@@ -124,8 +124,11 @@ passport.use(
             userName: username,
           },
         }).then((user) => {
+          const validated = user.dataValues.validated;
           if (user === null) {
             return done(null, false, { message: "bad_username" });
+          } else if (validated === false) {
+            return done(null, false, { message: "Account not validated yet!" });
           } else {
             bcrypt.compare(password, user.password).then((response) => {
               if (response !== true) {

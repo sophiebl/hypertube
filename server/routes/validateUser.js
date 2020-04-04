@@ -1,6 +1,5 @@
 const passport = require("passport");
 const { sequelize } = require("../models/index");
-const _ = require("lodash");
 const User = sequelize.import("../models/user");
 
 module.exports = (app) => {
@@ -19,6 +18,7 @@ module.exports = (app) => {
           });
         } else {
           user.validationToken = "";
+          user.validated = true;
           user.save();
           res.status(200).send({
             validated: true,

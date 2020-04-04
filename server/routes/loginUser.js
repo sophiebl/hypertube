@@ -5,7 +5,7 @@ const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
-module.exports = app => {
+module.exports = (app) => {
   app.get("/login", (req, res, next) => {
     passport.authenticate("login", (err, user, info) => {
       if (err) {
@@ -14,20 +14,20 @@ module.exports = app => {
       if (info !== undefined) {
         res.send({
           auth: false,
-          message: 'One or multiple fields are empty'
+          message: info.message,
         });
       } else {
-        req.logIn(user, err => {
+        req.logIn(user, (err) => {
           User.findOne({
             where: {
-              userName: user.userName
-            }
-          }).then(user => {
+              userName: user.userName,
+            },
+          }).then((user) => {
             const token = jwt.sign({ id: user.id }, jwtSecret.secret);
             res.status(200).send({
               auth: true,
               token: token,
-              message: "user found & logged in"
+              message: "user found & logged in",
             });
           });
         });
