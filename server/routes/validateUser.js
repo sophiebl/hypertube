@@ -16,8 +16,12 @@ module.exports = (app) => {
             validated: false,
             message: "We were unable to find a user for this token.",
           });
+        } else if (user.validated === true) {
+          res.status(400).send({
+            validated: false,
+            message: "This account has already been validated.",
+          });
         } else {
-          user.validationToken = "";
           user.validated = true;
           user.save();
           res.status(200).send({
