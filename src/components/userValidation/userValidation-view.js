@@ -11,14 +11,12 @@ const UserValidation = ({ match }) => {
       },
     })
     .then(({ data }) => {
-      console.log("DATA ///// ", data);
-      /// afficher messages apres redirection login
       if (data.validated) {
         toast.success(data.message);
-        window.location = "/login";
+        setTimeout(() => (window.location = "/login"), 3000);
       } else {
-        window.location = "/login";
         toast.error(data.message);
+        setTimeout(() => (window.location = "/register"), 3000);
       }
     });
   return <h1>UserValidation</h1>;

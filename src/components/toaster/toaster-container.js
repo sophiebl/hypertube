@@ -1,102 +1,102 @@
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 export const loginSuccess = () => {
-  const toasterType = 'success';
-  const toasterMessage = 'You successfully logged in!';
+  const toasterType = "success";
+  const toasterMessage = "You successfully logged in!";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const logoutSuccess = () => {
-  const toasterType = 'success';
-  const toasterMessage = 'You successfully logged out!';
+  const toasterType = "success";
+  const toasterMessage = "You successfully logged out!";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const badUsername = () => {
-  const toasterType = 'error';
+  const toasterType = "error";
   const toasterMessage = "bad username";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const oauthFail = () => {
-    const toasterType = 'error';
-    const toasterMessage = "You could not connect through your oauth";
+  const toasterType = "error";
+  const toasterMessage = "You could not connect through your oauth";
 
-    toast(toasterMessage, { type: toasterType });
+  toast(toasterMessage, { type: toasterType });
 };
 
 export const deleteSuccess = () => {
-  const toasterType = 'success';
-  const toasterMessage = 'Your account was successfully deleted! Bye bye!';
+  const toasterType = "success";
+  const toasterMessage = "Your account was successfully deleted! Bye bye!";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const signupSuccess = () => {
-  const toasterType = 'success';
-  const toasterMessage = 'You successfully signed up!';
+  const toasterType = "success";
+  const toasterMessage = "You successfully signed up!";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const alreadyLoggedin = () => {
-  const toasterType = 'warning';
-  const toasterMessage = 'You are already logged in!';
+  const toasterType = "warning";
+  const toasterMessage = "You are already logged in!";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const userNotFound = () => {
-  const toasterType = 'warning';
+  const toasterType = "warning";
   const toasterMessage = "This user doesn't exist!";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const userValidated = () => {
-  const toasterType = 'success';
-  const toasterMessage = 'Your account is successfully validated!';
+  const toasterType = "success";
+  const toasterMessage = "Your account is successfully validated!";
 
   toast(toasterMessage, { type: toasterType });
 };
 export const userNotValidated = () => {
-  const toasterType = 'warning';
-  const toasterMessage = 'The validation link is not valid!';
+  const toasterType = "warning";
+  const toasterMessage = "The validation link is not valid!";
 
   toast(toasterMessage, { type: toasterType });
 };
 export const forgotPasswordSuccess = () => {
-  const toasterType = 'success';
-  const toasterMessage = 'You have receive a reset link inside your email';
+  const toasterType = "success";
+  const toasterMessage = "You have receive a reset link inside your email";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const resetPasswordSuccess = () => {
-  const toasterType = 'success';
-  const toasterMessage = 'You have successfully reset the password';
+  const toasterType = "success";
+  const toasterMessage = "You have successfully reset the password";
 
   toast(toasterMessage, { type: toasterType });
 };
 
 export const profileNotCompleted = () => {
-  const toasterType = 'warning';
+  const toasterType = "warning";
   const toasterMessage =
-    'You need to complete your profile in order to access to other profiles';
+    "You need to complete your profile in order to access to other profiles";
   toast(toasterMessage, { type: toasterType });
 };
 
 export const userBlockedYou = () => {
-  const toasterType = 'warning';
-  const toasterMessage = 'You have been blocked by this user!';
+  const toasterType = "warning";
+  const toasterMessage = "You have been blocked by this user!";
   toast(toasterMessage, { type: toasterType });
 };
 
 export const accessDenied = () => {
-  const toasterType = 'error';
+  const toasterType = "error";
   const toasterMessage = "You can't access this chatroom. Sorry!";
   toast(toasterMessage, { type: toasterType });
 };
