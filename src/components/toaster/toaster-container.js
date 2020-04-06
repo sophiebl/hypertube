@@ -37,7 +37,8 @@ export const deleteSuccess = () => {
 
 export const signupSuccess = () => {
   const toasterType = "success";
-  const toasterMessage = "You successfully signed up!";
+  const toasterMessage =
+    "You successfully signed up! You now need to validate your account, check your emails 🤓";
 
   toast(toasterMessage, { type: toasterType });
 };

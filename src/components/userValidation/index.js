@@ -1,3 +1,3 @@
-import UserValidation from "./userValidation-view";
+import UserValidation from "./userValidation";
 
 export default UserValidation;
