@@ -1,13 +1,15 @@
 const { sequelize } = require("../models/index");
 const User = sequelize.import("../models/user");
+const jwt = require("jwt-simple");
 
 module.exports = (app) => {
   app.get("/validate/:token", (req, res, next) => {
-    var token = req.params.token;
+    const token = req.params.token;
+    const decoded = jwt.decode(token, process.env.JWT_SECRET).email;
     try {
       User.findOne({
         where: {
-          validationToken: token,
+          email: decoded,
         },
       }).then((user) => {
         if (!user) {

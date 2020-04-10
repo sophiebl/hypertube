@@ -1,6 +1,4 @@
-const { sequelize } = require("../models/index");
 const passport = require("passport");
-const { sendRegisterEmail } = require("../controllers/user_controller");
 const _ = require("lodash");
 
 const checkEmptyFields = (inputs) => {
