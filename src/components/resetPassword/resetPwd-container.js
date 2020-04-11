@@ -1,0 +1,88 @@
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const useResetForm = (mail) => {
+  const [inputs, setInputs] = useState({
+    email: "",
+    password1: "",
+    password2: "",
+  });
+  const { email, password1, password2 } = inputs;
+
+  const handleSubmit = async (event) => {
+    console.log({ event });
+    if (event) {
+      event.preventDefault();
+      if (password1 !== password2) {
+        toast.error("The passwords don't match");
+        return;
+      }
+      axios
+        .post(
+          `/api/users/resetPassword`,
+          {
+            password1,
+            mail,
+          },
+          {
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        )
+        .then(({ data }) => {
+          console.log({ data });
+          // if (data.auth === true) {
+          //   localStorage.setItem("token", data.token);
+          // } else {
+          //   console.log(data);
+          //   toast.error(data.message);
+          // }
+        });
+    }
+  };
+
+  const handleInputChange = (event) => {
+    event.persist();
+    const newInput = {
+      ...inputs,
+      [event.target.name]: event.target.value,
+    };
+    setInputs(newInput);
+  };
+
+  const sendResetEmail = (email) => {
+    console.log({ email });
+    axios
+      .post(
+        `/api/users/sendResetEmail`,
+        {
+          email,
+        },
+        {
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      )
+      .then(({ data }) => {
+        if (data.validEmail === true) {
+          toast.success(data.message);
+          setTimeout(() => (window.location = "/"), 5000);
+        } else {
+          toast.error(data.message);
+        }
+      });
+  };
+
+  return {
+    handleSubmit,
+    handleInputChange,
+    sendResetEmail,
+    inputs,
+    setInputs,
+  };
+};
+
+export default useResetForm;

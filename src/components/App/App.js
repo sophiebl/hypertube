@@ -6,7 +6,9 @@ import Login from "../login";
 import Register from "../register";
 import Profile from "../profile";
 import ProfileShow from "../profileshow";
+import ResetPasswordEmailForm from "../resetPassword/resetPasswordEmail";
 import ResetPassword from "../resetPassword";
+import ResetPasswordValidation from "../resetPassword/resetPasswordValidation";
 import UserValidation from "../userValidation";
 import Home from "../home";
 import { AuthProvider } from "./AuthContext";
@@ -27,7 +29,18 @@ function App() {
           <Switch>
             <NotLoggedRoute path="/login" component={Login} />
             <NotLoggedRoute path="/register" component={Register} />
-            <NotLoggedRoute path="/resetPassword" component={ResetPassword} />
+            <NotLoggedRoute
+              path="/resetPasswordValidation/:token"
+              component={ResetPasswordValidation}
+            />
+            <NotLoggedRoute
+              path="/resetPasswordEmail"
+              component={ResetPasswordEmailForm}
+            />
+            <NotLoggedRoute
+              path="/resetPassword/:email"
+              component={ResetPassword}
+            />
             <NotLoggedRoute
               path="/userValidation/:token"
               component={UserValidation}
