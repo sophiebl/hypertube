@@ -1,5 +1,13 @@
 import { toast } from "react-toastify";
 
+export const passwordReset = () => {
+  const toasterType = "success";
+  const toasterMessage =
+    "Your password has been updated! You can now login with this new password 🔑";
+
+  toast(toasterMessage, { type: toasterType });
+};
+
 export const loginSuccess = () => {
   const toasterType = "success";
   const toasterMessage = "You successfully logged in!";

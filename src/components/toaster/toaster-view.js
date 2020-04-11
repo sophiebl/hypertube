@@ -15,10 +15,10 @@ import {
   profileNotCompleted,
   userBlockedYou,
   accessDenied,
+  passwordReset,
 } from "./toaster-container";
 
 const Toaster = ({ getParams }) => {
-  console.log(getParams);
   const [toastDebounced] = useDebouncedCallback((getParams) => {
     switch (getParams.message) {
       case "login_success":
@@ -68,6 +68,9 @@ const Toaster = ({ getParams }) => {
         break;
       case "cant_access_chat":
         accessDenied();
+        break;
+      case "password_reset":
+        passwordReset();
         break;
       default:
         break;

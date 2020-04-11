@@ -8,10 +8,9 @@ const useResetForm = (mail) => {
     password1: "",
     password2: "",
   });
-  const { email, password1, password2 } = inputs;
+  const { password1, password2 } = inputs;
 
   const handleSubmit = async (event) => {
-    console.log({ event });
     if (event) {
       event.preventDefault();
       if (password1 !== password2) {
@@ -32,13 +31,11 @@ const useResetForm = (mail) => {
           }
         )
         .then(({ data }) => {
-          console.log({ data });
-          // if (data.auth === true) {
-          //   localStorage.setItem("token", data.token);
-          // } else {
-          //   console.log(data);
-          //   toast.error(data.message);
-          // }
+          if (data.resetDone === true) {
+            window.location = "/?message=password_reset";
+          } else {
+            toast.error(data.message);
+          }
         });
     }
   };
@@ -53,7 +50,6 @@ const useResetForm = (mail) => {
   };
 
   const sendResetEmail = (email) => {
-    console.log({ email });
     axios
       .post(
         `/api/users/sendResetEmail`,

@@ -17,8 +17,6 @@ import NotLoggedRoute from "./NotLoggedRoute";
 import "react-toastify/dist/ReactToastify.css";
 import Nav from "../nav";
 // import Toaster from '../toaster';
-// import ResetForgotPassword from '../ResetforgotPassword';
-// import ForgotPassword from '../forgotpassword';
 
 function App() {
   return (
@@ -45,21 +43,11 @@ function App() {
               path="/userValidation/:token"
               component={UserValidation}
             />
-            {/* <NotLoggedRoute
-              path="/validation/newaccount/:token"
-              component={UserValidation}
-            />
-            <NotLoggedRoute path="/forgotpassword" component={ForgotPassword} />
-            <NotLoggedRoute
-              path="/validation/forgotpassword/:token"
-              component={ResetForgotPassword}
-            />*/}
             <LoggedRoute path="/profile/:username" component={ProfileShow} />
             <LoggedRoute path="/profile" component={Profile} />
             <Route path="/" component={Home} />
           </Switch>
         </Router>
-        {/* <Toaster /> */}
         <ToastContainer />
       </AuthProvider>
     </div>

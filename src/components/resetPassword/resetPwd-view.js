@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import TextField from "@material-ui/core/TextField";
@@ -31,15 +31,10 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  submitFB: {
-    margin: theme.spacing(3, 0, 2),
-    backgroundColor: "#039be5",
-  },
 }));
 
 const ResetPassword = ({ match }) => {
   const { email } = match.params;
-  console.log({ email });
   const classes = useStyles();
   const { inputs, handleSubmit, handleInputChange } = useResetForm(email);
 
