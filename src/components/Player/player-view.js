@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Player = ({ movieRequest }) => {
-  const { subs, player } = PlayerContainer(movieRequest);
+  const { subs, player, token } = PlayerContainer(movieRequest);
   const classes = useStyles();
     const { torrentUrl, provider, quality, imdbId } = movieRequest;
 
@@ -19,10 +19,10 @@ const Player = ({ movieRequest }) => {
       <p>
         {imdbId} - {torrentUrl}- {provider}- {quality}
       </p>
-      {torrentUrl && provider && quality && imdbId ? (
+      {torrentUrl && provider && quality && imdbId && token ? (
         <video controls>
           <source
-            src={`http://localhost:8080/api/player/stream?provider=${provider}&id=${imdbId}&magnet=${torrentUrl}&quality=${quality}`}
+            src={`http://localhost:8080/api/player/stream?token=${token}&provider=${provider}&id=${imdbId}&magnet=${torrentUrl}&quality=${quality}`}
             type="video/mp4"
           />
           {player && subs}

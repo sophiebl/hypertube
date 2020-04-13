@@ -39,7 +39,7 @@ const PlayerContainer = (movieRequest) => {
         .catch((err) => console.log(err));
     }
   }, [token, imdbId]);
-  return {subs, player}
+  return { subs, player, token };
 }
 
 export default PlayerContainer

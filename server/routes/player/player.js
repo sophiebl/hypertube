@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath("/usr/local/Cellar/ffmpeg/4.2.2_2/bin/ffmpeg");
+const passport = require("passport");
 const { nativeExtensions, otherExtensions} = require("./shared");
 
 
@@ -77,7 +78,7 @@ const downloadTorrent = async (movieFile, magnet, options, req, res) => {
   });
 };
 
-const handleTorrent = async (req, res) => {
+const stream = async (req, res) => {
   const { provider, id, magnet } = req.query;
   const movieFile = { file: {}, path: "" };
   const options = {
@@ -99,3 +100,10 @@ const handleTorrent = async (req, res) => {
   }
 };
 
+module.exports = (app) => {
+  app.get(
+    "/stream",
+    passport.authenticate("jwt", { session: false }),
+    stream
+  );
+};
