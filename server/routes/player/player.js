@@ -6,6 +6,10 @@ const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath("/usr/local/Cellar/ffmpeg/4.2.2_2/bin/ffmpeg");
 const passport = require("passport");
 const { nativeExtensions, otherExtensions} = require("./shared");
+const { sequelize } = require("../../models/index");
+const DownloadedMovie = sequelize.import("../../models/downloadedmovie");
+const WatchedMovie = sequelize.import("../../models/watchedmovie");
+
 
 
 const convertStreamTorrent = async (file, res, path) => {
@@ -78,8 +82,33 @@ const downloadTorrent = async (movieFile, magnet, options, req, res) => {
   });
 };
 
+const saveMovieToDB = (path, movieId) => {
+  DownloadedMovie.findOne({where: {movie: movieId}}).then(obj => {
+    if (obj) {
+      obj.update({ lastWatched: sequelize.fn("NOW") });
+    } else {
+      DownloadedMovie.create({ movie: movieId, path, lastWatched: sequelize.fn("NOW") });
+    }
+  })
+}
+
+const saveWatchedMovieToDb = (userId, movieId) => {
+  WatchedMovie.findOne({ where: { movie: movieId } }).then((obj) => {
+    if (obj) {
+      obj.update({ alreadyWatched: 1 });
+    } else {
+      WatchedMovie.create({
+        user: userId,
+        movie: movieId,
+        alreadyWatched: 1,
+      });
+    }
+  });
+}
+
 const stream = async (req, res) => {
   const { provider, id, magnet } = req.query;
+  const userId = req.user.id
   const movieFile = { file: {}, path: "" };
   const options = {
     connections: 100,
@@ -95,9 +124,11 @@ const stream = async (req, res) => {
       if (err) return res.status(400).json({ message: "Torrent not found" });
       downloadTorrent(movieFile, uri, options, req, res);
     });
-  } else {
-    downloadTorrent(movieFile, magnet, options, req, res);
-  }
+  } else if (provider === "YTS") {
+      downloadTorrent(movieFile, magnet, options, req, res);
+    }
+    saveMovieToDB(options.path, id)
+    saveWatchedMovieToDb(userId, id);
 };
 
 module.exports = (app) => {
