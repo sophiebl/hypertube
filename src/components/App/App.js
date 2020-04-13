@@ -7,6 +7,8 @@ import Login from "../login";
 import Register from "../register";
 import Profile from "../profile";
 import ProfileShow from '../profileshow';
+import Player from "../Player";
+import MovieDetails from "../MovieDetails";
 import Home from "../home";
 import { AuthProvider } from "./AuthContext";
 import LoggedRoute from "./LoggedRoute";
@@ -36,6 +38,8 @@ function App() {
               path="/validation/forgotpassword/:token"
               component={ResetForgotPassword}
             />*/}
+            <LoggedRoute path="/player/:movie" component={Player} />
+            <LoggedRoute path="/movie/:movie" component={MovieDetails} />
             <LoggedRoute path="/profile/:username" component={ProfileShow} />
             <LoggedRoute path="/profile" component={Profile} />
             <Route path="/" component={Home} />
