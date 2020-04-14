@@ -36,7 +36,7 @@ function App() {
               component={ResetPasswordEmailForm}
             />
             <NotLoggedRoute
-              path="/resetPassword/:email"
+              path="/resetPassword/:token"
               component={ResetPassword}
             />
             <NotLoggedRoute

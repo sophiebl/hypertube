@@ -24,10 +24,7 @@ const ResetPasswordValidation = ({ match }) => {
       if (data.resetAccepted) {
         console.log({ data });
         toast.success(data.message);
-        setTimeout(
-          () => (window.location = `/resetPassword/${data.email}`),
-          5000
-        );
+        setTimeout(() => (window.location = `/resetPassword/${token}`), 5000);
       } else {
         toast.error(data.message);
         setTimeout(() => (window.location = "/register"), 5000);

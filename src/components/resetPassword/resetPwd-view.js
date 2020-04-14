@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ResetPassword = ({ match }) => {
-  const { email } = match.params;
+  const { token } = match.params;
   const classes = useStyles();
-  const { inputs, handleSubmit, handleInputChange } = useResetForm(email);
+  const { inputs, handleSubmit, handleInputChange } = useResetForm(token);
 
   return (
     <Container component="main" maxWidth="xs">

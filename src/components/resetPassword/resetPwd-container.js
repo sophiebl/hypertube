@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const useResetForm = (mail) => {
+const useResetForm = (token) => {
   const [inputs, setInputs] = useState({
     email: "",
     password1: "",
@@ -22,7 +22,7 @@ const useResetForm = (mail) => {
           `/api/users/resetPassword`,
           {
             password1,
-            mail,
+            token,
           },
           {
             headers: {
