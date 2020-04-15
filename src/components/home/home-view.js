@@ -49,12 +49,34 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   gridContainer: {
-    // flexGrow: 1,
-    // margin: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    width: "100vw",
   },
   card: {
     backgroundColor: theme.palette.secondary.main,
-    height: "100px",
+    margin: theme.spacing(1),
+    position: "relative",
+    // height: "300px",
+  },
+  fabAdd: {
+    position: "absolute",
+    top: "30px",
+    left: "calc(50% - 55.99px/2)",
+  },
+  cardInfo: {
+    backgroundColor: theme.palette.secondary.main,
+    position: "absolute",
+    bottom: "0px",
+    width: "100%",
+    padding: theme.spacing(1),
+  },
+  cardInfoText: {
+    color: "white",
+  },
+  img: {
+    objectFit: "cover",
+    height: "300px",
+    width: "100%",
   },
 }));
 
@@ -66,25 +88,65 @@ const Home = ({ location }) => {
     saveToken(getParams.accessToken);
   }
   return (
-    <Box className={classes.gridContainer}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3} lg={3}>
+    <>
+      <Grid className={classes.gridContainer} container>
+        <Grid item xs={12} sm={6} md={2} lg={2}>
           <Box className={classes.card}>
-            <img src="" />
+            <img className={classes.img} src="assets/titanic.jpeg" alt="" />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={3} lg={3}>
-          <Box className={classes.card}></Box>
+        <Grid item xs={12} sm={6} md={2} lg={2}>
+          <Box className={classes.card}>
+            <img className={classes.img} src="assets/joker.jpeg" alt="" />
+          </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={3} lg={3}>
-          <Box className={classes.card}></Box>
+        <Grid item xs={12} sm={6} md={2} lg={2}>
+          <Box className={classes.card}>
+            <img className={classes.img} src="assets/paradisio.jpeg" alt="" />
+          </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={3} lg={3}>
-          <Box className={classes.card}></Box>
+        <Grid item xs={12} sm={6} md={2} lg={2}>
+          <Box className={classes.card}>
+            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={6} md={2} lg={2}>
+          <Box className={classes.card}>
+            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
+            <Fab color="primary" aria-label="add" className={classes.fabAdd}>
+              <AddIcon />
+            </Fab>
+            <Box className={classes.cardInfo}>
+              <Grid container>
+                <Grid item xs={8} sm={8} md={8} lg={8}>
+                  <Typography
+                    variant="h5"
+                    component="h3"
+                    className={classes.cardInfoText}
+                  >
+                    Hollywood
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    component="h4"
+                    className={classes.cardInfoText}
+                  >
+                    Drama | 2014
+                  </Typography>
+                </Grid>
+                <Grid item xs={4} sm={4} md={4} lg={4}></Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={6} md={2} lg={2}>
+          <Box className={classes.card}>
+            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
+          </Box>
         </Grid>
       </Grid>
       <Toaster getParams={getParams} />
-    </Box>
+    </>
   );
 };
 
