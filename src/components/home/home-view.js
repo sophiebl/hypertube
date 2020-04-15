@@ -2,26 +2,9 @@ import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Box,
-  Typography,
-  Fab,
-  Avatar,
-  Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-} from "@material-ui/core";
+import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import ChatIcon from "@material-ui/icons/Chat";
-import VisibilityIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import SearchIcon from "@material-ui/icons/Search";
 import Toaster from "../toaster/index";
 // import Background from '../../assets/images/home-bg-1.jpg';
 import HomeContainer from "./home-container";
@@ -113,6 +96,11 @@ const Home = ({ location }) => {
         <Grid item xs={12} sm={6} md={2} lg={2}>
           <Box className={classes.card}>
             <img className={classes.img} src="assets/titanic.jpeg" alt="" />
+            <LinearProgress
+              variant="determinate"
+              value={90}
+              color="secondary"
+            />
           </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={2} lg={2}>
