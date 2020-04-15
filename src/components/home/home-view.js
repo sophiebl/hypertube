@@ -14,6 +14,7 @@ import {
   ListItemText,
   Paper,
 } from "@material-ui/core";
+import StarRateIcon from "@material-ui/icons/StarRate";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ChatIcon from "@material-ui/icons/Chat";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -72,6 +73,25 @@ const useStyles = makeStyles((theme) => ({
   },
   cardInfoText: {
     color: "white",
+  },
+  ratingBoxDiv: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  ratingBox: {
+    backgroundColor: "white",
+    width: "50px",
+    height: "50px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "5px",
+  },
+  ratingText: {
+    // color: "white",
+    fontSize: "15px",
   },
   img: {
     objectFit: "cover",
@@ -134,7 +154,19 @@ const Home = ({ location }) => {
                     Drama | 2014
                   </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={4} lg={4}></Grid>
+                <Grid
+                  item
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  lg={4}
+                  className={classes.ratingBoxDiv}
+                >
+                  <Box className={classes.ratingBox}>
+                    <StarRateIcon />
+                    <Typography className={classes.ratingText}>8.0</Typography>
+                  </Box>
+                </Grid>
               </Grid>
             </Box>
           </Box>
