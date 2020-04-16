@@ -111,7 +111,7 @@ const Home = ({ location }) => {
   return (
     <>
       <Grid className={classes.gridContainer} container>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
+        <Grid item xs={12} sm={4} md={2} lg={2}>
           <Box className={classes.card}>
             <img className={classes.img} src="assets/titanic.jpeg" alt="" />
             <LinearProgress
@@ -122,12 +122,12 @@ const Home = ({ location }) => {
             />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
+        <Grid item xs={12} sm={4} md={2} lg={2}>
           <Box className={classes.card}>
             <img className={classes.img} src="assets/joker.jpeg" alt="" />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
+        <Grid item xs={12} sm={4} md={2} lg={2}>
           <Box className={classes.card}>
             <img className={classes.img} src="assets/paradisio.jpeg" alt="" />
             <CheckCircleIcon className={classes.viewedIcon} color="primary" />
@@ -139,12 +139,12 @@ const Home = ({ location }) => {
             />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
+        <Grid item xs={12} sm={4} md={2} lg={2}>
           <Box className={classes.card}>
             <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
+        <Grid item xs={12} sm={4} md={2} lg={2}>
           <Box className={classes.card}>
             <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
             <Fab color="primary" aria-label="add" className={classes.fabAdd}>
@@ -190,7 +190,7 @@ const Home = ({ location }) => {
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
+        <Grid item xs={12} sm={4} md={2} lg={2}>
           <Box className={classes.card}>
             <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
           </Box>
