@@ -6,6 +6,7 @@ import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import AddIcon from "@material-ui/icons/Add";
 import Toaster from "../toaster/index";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 // import Background from '../../assets/images/home-bg-1.jpg';
 import HomeContainer from "./home-container";
 
@@ -42,6 +43,17 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     // height: "300px",
   },
+  progressBar: {
+    position: "absolute",
+    bottom: "0px",
+    width: "100%",
+    height: "8px",
+  },
+  viewedIcon: {
+    position: "absolute",
+    top: "15px",
+    right: "15px",
+  },
   fabAdd: {
     position: "absolute",
     top: "30px",
@@ -56,6 +68,12 @@ const useStyles = makeStyles((theme) => ({
   },
   cardInfoText: {
     color: "white",
+  },
+  movieName: {
+    fontSize: "18px",
+  },
+  movieTypeYear: {
+    fontSize: "16px",
   },
   ratingBoxDiv: {
     display: "flex",
@@ -74,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
   },
   ratingText: {
     // color: "white",
-    fontSize: "15px",
+    fontSize: "14px",
   },
   img: {
     objectFit: "cover",
@@ -100,6 +118,7 @@ const Home = ({ location }) => {
               variant="determinate"
               value={90}
               color="secondary"
+              className={classes.progressBar}
             />
           </Box>
         </Grid>
@@ -111,6 +130,13 @@ const Home = ({ location }) => {
         <Grid item xs={12} sm={6} md={2} lg={2}>
           <Box className={classes.card}>
             <img className={classes.img} src="assets/paradisio.jpeg" alt="" />
+            <CheckCircleIcon className={classes.viewedIcon} color="primary" />
+            <LinearProgress
+              variant="determinate"
+              value={100}
+              color="secondary"
+              className={classes.progressBar}
+            />
           </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={2} lg={2}>
@@ -130,14 +156,19 @@ const Home = ({ location }) => {
                   <Typography
                     variant="h5"
                     component="h3"
-                    className={classes.cardInfoText}
+                    className={[classes.cardInfoText, classes.movieName].join(
+                      " "
+                    )}
                   >
                     Hollywood
                   </Typography>
                   <Typography
                     variant="h6"
                     component="h4"
-                    className={classes.cardInfoText}
+                    className={[
+                      classes.cardInfoText,
+                      classes.movieTypeYear,
+                    ].join(" ")}
                   >
                     Drama | 2014
                   </Typography>
