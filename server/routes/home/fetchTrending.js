@@ -1,9 +1,9 @@
 const request = require("request");
 
 module.exports = (app) => {
-  app.get("/fetchTMDBApi", (req, res, next) => {
+  app.get("/fetchTrending", (req, res, next) => {
     request({
-      uri: "https://api.themoviedb.org/3/movie/76341",
+      uri: "https://api.themoviedb.org/3/trending/movie/week",
       headers: {
         Authorization: "Bearer " + process.env.TMDB_ACCESS_TOKEN,
       },
