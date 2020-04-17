@@ -104,7 +104,8 @@ const useStyles = makeStyles((theme) => ({
 const Home = ({ location }) => {
   const classes = useStyles();
   const getParams = queryString.parse(location.search);
-  const { saveToken } = HomeContainer();
+  const { saveToken, fetchTMDPApi } = HomeContainer();
+  fetchTMDPApi();
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
