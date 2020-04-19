@@ -8,7 +8,6 @@ const MovieContainer = (imdbId) => {
   const [movieDetails, setMovieDetails] = useState({})
   const [showModal, setShowModal] = useState(false);
   const [movieRequest, setMovieRequest] = useState({torrentUrl: null, provider: null, quality: null, imdbId: null})
-
   const fetchYTS = axios
     .get("https://yts.mx/api/v2/list_movies.json?query_term=" + imdbId)
     .then((result) => {
@@ -24,7 +23,10 @@ const MovieContainer = (imdbId) => {
     });
 
   const fetchPopCorn = axios
-    .get("https://tv-v2.api-fetch.website/movie/" + imdbId)
+    .get(
+      "https://cors-anywhere.herokuapp.com/movies-v2.api-fetch.sh/movie/" +
+        imdbId
+    )
     .then((result) => {
       if (result.data) {
         return result.data;
