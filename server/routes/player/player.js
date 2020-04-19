@@ -9,6 +9,7 @@ const { nativeExtensions, otherExtensions} = require("./shared");
 const { sequelize } = require("../../models/index");
 const DownloadedMovie = sequelize.import("../../models/downloadedmovie");
 const WatchedMovie = sequelize.import("../../models/watchedmovie");
+let numberOfDownloads = 0;
 
 
 
@@ -52,6 +53,8 @@ const streamTorrent = async (path, size, res, range) => {
 };
 
 const downloadTorrent = async (movieFile, magnet, options, req, res) => {
+  numberOfDownloads = numberOfDownloads + 1;
+  movieFile.numberOfDownloads = numberOfDownloads;
   const engine = torrentStream(magnet, options);
   engine.on("ready", () => {
     engine.files.forEach(async (file) => {
@@ -72,7 +75,9 @@ const downloadTorrent = async (movieFile, magnet, options, req, res) => {
   });
   engine.on("download", () => {
     console.log("[ DL TRACKER ]");
-    console.log(`Filename : ${movieFile.file.name}`);
+    console.log(
+      `Filename : ${movieFile.file.name} ${movieFile.numberOfDownloads}`
+    );
     console.log(
       `Progress : ${(
         (100 * engine.swarm.downloaded) /
@@ -107,7 +112,7 @@ const saveWatchedMovieToDb = (userId, movieId) => {
 }
 
 const stream = async (req, res) => {
-  const { provider, id, magnet } = req.query;
+  const { provider, id, magnet, token } = req.query;
   const userId = req.user.id
   const movieFile = { file: {}, path: "" };
   const options = {
@@ -120,11 +125,12 @@ const stream = async (req, res) => {
     path: `/tmp/movies/${id}`,
   };
   if (provider === "YTS") {
+    console.log({magnet})
     torrentToMagnet(magnet, (err, uri) => {
       if (err) return res.status(400).json({ message: "Torrent not found" });
       downloadTorrent(movieFile, uri, options, req, res);
     });
-  } else if (provider === "YTS") {
+  } else if (provider === "popcorn") {
       downloadTorrent(movieFile, magnet, options, req, res);
     }
     saveMovieToDB(options.path, id)
@@ -136,5 +142,5 @@ module.exports = (app) => {
     "/stream",
     passport.authenticate("jwt", { session: false }),
     stream
-  );
+  );  
 };

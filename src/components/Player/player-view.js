@@ -19,7 +19,7 @@ const Player = ({ movieRequest }) => {
       <p>
         {imdbId} - {torrentUrl}- {provider}- {quality}
       </p>
-      {torrentUrl && provider && quality && imdbId && token ? (
+      {torrentUrl && provider && quality && imdbId && token && player ? (
         <video controls>
           <source
             src={`http://localhost:8080/api/player/stream?token=${token}&provider=${provider}&id=${imdbId}&magnet=${torrentUrl}&quality=${quality}`}
