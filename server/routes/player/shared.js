@@ -16,4 +16,4 @@ module.exports.otherExtensions = [
   ".wmv",
 ];
 
-module.exports.languages = ["en", "fr"];
+module.exports.languages = ["en", "fr", "de", "it", "es", "nl", "fi", "ko", "hu"];

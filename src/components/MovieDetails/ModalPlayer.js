@@ -22,7 +22,7 @@ const ModalPlayer = ({
             imdbId: null,
           });
         }}
-        dialogClassName="modal-90w"
+        dialogClassName="modalwidth"
         aria-labelledby="example-custom-modal-styling-title"
       >
         <Modal.Header closeButton>

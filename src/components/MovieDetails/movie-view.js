@@ -18,10 +18,9 @@ import _ from "lodash"
 import MovieContainer from './movie-container'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  modal: {
     width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    maxWidth: "800px",
   },
   nested: {
     paddingLeft: theme.spacing(4),

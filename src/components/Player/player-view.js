@@ -16,11 +16,8 @@ const Player = ({ movieRequest }) => {
 
   return (
     <>
-      <p>
-        {imdbId} - {torrentUrl}- {provider}- {quality}
-      </p>
       {torrentUrl && provider && quality && imdbId && token && player ? (
-        <video controls>
+        <video controls className="width100">
           <source
             src={`http://localhost:8080/api/player/stream?token=${token}&provider=${provider}&id=${imdbId}&magnet=${torrentUrl}&quality=${quality}`}
             type="video/mp4"
