@@ -18,6 +18,8 @@ app.use(passport.initialize());
 
 app.use("/api/users", require("./server/routes/user_router"));
 app.use("/api/images", require("./server/routes/images/images_router"));
+app.use("/api/player", require("./server/routes/player/player_router"));
+app.use("/api/movies", require("./server/routes/movies/movies_router"));
 
 // UserModel.findAll().then(users => {
   // console.log("All users:", users);
