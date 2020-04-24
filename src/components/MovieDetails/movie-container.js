@@ -35,20 +35,33 @@ const MovieContainer = (imdbId) => {
       }
     });
 
+  const fetchTMDB = axios
+    .get(
+      "/api/movies/find/tt0371746" +
+      imdbId
+    )
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return false;
+      }
+    });
+
   useEffect(() => {
-    Promise.all([fetchYTS, fetchPopCorn]).then(values => {
+    Promise.all([fetchYTS, fetchPopCorn, fetchTMDB]).then(values => {
       console.log(values)
       const {
         title,
-        synopsis,
-        trailer,
-        torrents: popCornTorrents,
-      } = values[1]
+        overview: synopsis,
+        poster_path
+      } = values[0]
       const YTSTorrents = values[0].torrents
+      const popCornTorrents = values[1].torrents
       setMovieDetails({
         title,
         synopsis,
-        trailer,
+        poster_path,
         popCornTorrents,
         YTSTorrents,
       });
