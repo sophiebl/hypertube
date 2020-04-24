@@ -11,6 +11,7 @@ import ResetPassword from "../resetPassword";
 import ResetPasswordValidation from "../resetPassword/resetPasswordValidation";
 import UserValidation from "../userValidation";
 import Home from "../home";
+import MovieInfo from "../movieInfo";
 import { AuthProvider } from "./AuthContext";
 import LoggedRoute from "./LoggedRoute";
 import NotLoggedRoute from "./NotLoggedRoute";
@@ -43,6 +44,7 @@ function App() {
               path="/userValidation/:token"
               component={UserValidation}
             />
+            <LoggedRoute path="/movieInfo" component={MovieInfo} />
             <LoggedRoute path="/profile/:username" component={ProfileShow} />
             <LoggedRoute path="/profile" component={Profile} />
             <Route path="/" component={Home} />

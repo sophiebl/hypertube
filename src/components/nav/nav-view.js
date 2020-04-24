@@ -76,6 +76,9 @@ const Nav = () => {
           >
             Hypertube
           </Link>
+          <Button color="inherit" href="/movieInfo">
+            Movie Infos
+          </Button>
         </Typography>
         {isLoggedIn ? (
           <>
