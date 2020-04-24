@@ -21,7 +21,7 @@ const MovieContainer = (imdbId) => {
         return false;
       }
     });
-
+    
   const fetchPopCorn = axios
     .get(
       "https://cors-anywhere.herokuapp.com/movies-v2.api-fetch.sh/movie/" +
@@ -37,7 +37,7 @@ const MovieContainer = (imdbId) => {
 
   const fetchTMDB = axios
     .get(
-      "/api/movies/find/tt0371746" +
+      "/api/movies/find/" +
       imdbId
     )
     .then((result) => {
@@ -51,17 +51,10 @@ const MovieContainer = (imdbId) => {
   useEffect(() => {
     Promise.all([fetchYTS, fetchPopCorn, fetchTMDB]).then(values => {
       console.log(values)
-      const {
-        title,
-        overview: synopsis,
-        poster_path
-      } = values[0]
       const YTSTorrents = values[0].torrents
       const popCornTorrents = values[1].torrents
       setMovieDetails({
-        title,
-        synopsis,
-        poster_path,
+        ...values[2],
         popCornTorrents,
         YTSTorrents,
       });
