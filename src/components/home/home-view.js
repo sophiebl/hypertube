@@ -107,16 +107,10 @@ const useStyles = makeStyles((theme) => ({
 const Home = ({ location }) => {
   const classes = useStyles();
   const getParams = queryString.parse(location.search);
-  const {
-    saveToken,
-    fetchTMDPApi,
-    fetchYTSApiTrending,
-    trendingMovies,
-  } = HomeContainer();
+  const { saveToken, trendingMovies } = HomeContainer();
   const cardInfo = useRef(null);
   const fabAdd = useRef(null);
 
-  // fetchYTSApi();
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
@@ -135,24 +129,12 @@ const Home = ({ location }) => {
       <SearchBox />
       <Grid className={classes.gridContainer} container>
         <Grid item xs={12} sm={4} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/titanic.jpeg" alt="" />
-            <LinearProgress
-              variant="determinate"
-              value={90}
-              color="secondary"
-              className={classes.progressBar}
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={4} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/joker.jpeg" alt="" />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={4} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/paradisio.jpeg" alt="" />
+          <Box
+            className={classes.card}
+            onMouseOver={showCardInfo}
+            onMouseOut={hideCardInfo}
+          >
+            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
             <CheckCircleIcon className={classes.viewedIcon} color="primary" />
             <LinearProgress
               variant="determinate"
@@ -160,20 +142,6 @@ const Home = ({ location }) => {
               color="secondary"
               className={classes.progressBar}
             />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={4} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={4} md={2} lg={2}>
-          <Box
-            className={classes.card}
-            onMouseOver={showCardInfo}
-            onMouseOut={hideCardInfo}
-          >
-            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
             <Fab
               color="primary"
               aria-label="add"
@@ -220,11 +188,6 @@ const Home = ({ location }) => {
                 </Grid>
               </Grid>
             </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={4} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
           </Box>
         </Grid>
       </Grid>
