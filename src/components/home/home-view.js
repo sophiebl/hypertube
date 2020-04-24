@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +9,7 @@ import Toaster from "../toaster/index";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 // import Background from '../../assets/images/home-bg-1.jpg';
 import HomeContainer from "./home-container";
+import SearchBox from "./components/searchBox.js";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -58,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: "30px",
     left: "calc(50% - 55.99px/2)",
+    display: "none",
   },
   cardInfo: {
     backgroundColor: theme.palette.secondary.main,
@@ -65,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: "0px",
     width: "100%",
     padding: theme.spacing(1),
+    display: "none",
   },
   cardInfoText: {
     color: "white",
@@ -104,13 +107,32 @@ const useStyles = makeStyles((theme) => ({
 const Home = ({ location }) => {
   const classes = useStyles();
   const getParams = queryString.parse(location.search);
-  const { saveToken, fetchTMDPApi } = HomeContainer();
-  fetchTMDPApi();
+  const {
+    saveToken,
+    fetchTMDPApi,
+    fetchYTSApiTrending,
+    trendingMovies,
+  } = HomeContainer();
+  const cardInfo = useRef(null);
+  const fabAdd = useRef(null);
+
+  // fetchYTSApi();
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
+  const showCardInfo = () => {
+    fabAdd.current.style.display = "block";
+    cardInfo.current.style.display = "block";
+  };
+  const hideCardInfo = () => {
+    fabAdd.current.style.display = "none";
+    cardInfo.current.style.display = "none";
+  };
+
+  if (trendingMovies) console.log("coucou", trendingMovies);
   return (
     <>
+      <SearchBox />
       <Grid className={classes.gridContainer} container>
         <Grid item xs={12} sm={4} md={2} lg={2}>
           <Box className={classes.card}>
@@ -146,12 +168,21 @@ const Home = ({ location }) => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={4} md={2} lg={2}>
-          <Box className={classes.card}>
+          <Box
+            className={classes.card}
+            onMouseOver={showCardInfo}
+            onMouseOut={hideCardInfo}
+          >
             <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
-            <Fab color="primary" aria-label="add" className={classes.fabAdd}>
+            <Fab
+              color="primary"
+              aria-label="add"
+              className={classes.fabAdd}
+              ref={fabAdd}
+            >
               <AddIcon />
             </Fab>
-            <Box className={classes.cardInfo}>
+            <Box className={classes.cardInfo} ref={cardInfo}>
               <Grid container>
                 <Grid item xs={8} sm={8} md={8} lg={8}>
                   <Typography

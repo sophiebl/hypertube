@@ -1,14 +1,20 @@
 import _ from "lodash";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../App/AuthContext";
 
 const HomeContainer = () => {
   const [loaded, setLoaded] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const [trendingMovies, setTrendingMovies] = useState(null);
   const {
     authContext: { userData },
   } = useContext(AuthContext);
+
+  useEffect(() => {
+    fetchYTSApiTrending();
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchProfile = () => {
     userData
@@ -37,11 +43,33 @@ const HomeContainer = () => {
       .then((data) => console.log(data));
   };
 
+  const fetchYTSApiTrending = () => {
+    axios
+      .get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating`)
+      .then((result) => {
+        if (result.data && result.data.status === "ok") {
+          // console.log(result.data.data.movies);
+          setTrendingMovies(result.data.data.movies);
+          return result.data.data.movies;
+        } else {
+          console.log("nope");
+          return false;
+        }
+      });
+  };
+
   if (_.isEmpty(userInfo) && loaded === false) {
     fetchProfile();
   }
 
-  return { userInfo, loaded, saveToken, fetchTMDPApi };
+  return {
+    userInfo,
+    loaded,
+    saveToken,
+    fetchTMDPApi,
+    fetchYTSApiTrending,
+    trendingMovies,
+  };
 };
 
 export default HomeContainer;
