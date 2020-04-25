@@ -101,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "cover",
     height: "300px",
     width: "100%",
+    // filter: "grayscale(100%)",
   },
 }));
 
@@ -109,6 +110,7 @@ const Home = ({ location }) => {
   const getParams = queryString.parse(location.search);
   const { saveToken, trendingMovies } = HomeContainer();
   const cardInfo = useRef(null);
+  const image = useRef(null);
   const fabAdd = useRef(null);
 
   if (getParams.accessToken) {
@@ -117,10 +119,12 @@ const Home = ({ location }) => {
   const showCardInfo = () => {
     fabAdd.current.style.display = "block";
     cardInfo.current.style.display = "block";
+    image.current.style.filter = "grayscale(80%)";
   };
   const hideCardInfo = () => {
     fabAdd.current.style.display = "none";
     cardInfo.current.style.display = "none";
+    image.current.style.filter = "grayscale(0%)";
   };
 
   if (trendingMovies) console.log("coucou", trendingMovies);
@@ -134,7 +138,12 @@ const Home = ({ location }) => {
             onMouseOver={showCardInfo}
             onMouseOut={hideCardInfo}
           >
-            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
+            <img
+              className={classes.img}
+              src="assets/hollywood.jpeg"
+              alt=""
+              ref={image}
+            />
             <CheckCircleIcon className={classes.viewedIcon} color="primary" />
             <LinearProgress
               variant="determinate"
