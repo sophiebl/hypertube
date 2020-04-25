@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import AddIcon from "@material-ui/icons/Add";
+import _ from "lodash";
 import Toaster from "../toaster/index";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 // import Background from '../../assets/images/home-bg-1.jpg';
@@ -49,17 +49,18 @@ const useStyles = makeStyles((theme) => ({
     bottom: "0px",
     width: "100%",
     height: "8px",
+    display: "none",
   },
   viewedIcon: {
     position: "absolute",
     top: "15px",
     right: "15px",
+    display: "none",
   },
   fabAdd: {
     position: "absolute",
     top: "30px",
     left: "calc(50% - 55.99px/2)",
-    display: "none",
   },
   cardInfo: {
     backgroundColor: theme.palette.secondary.main,
@@ -67,16 +68,15 @@ const useStyles = makeStyles((theme) => ({
     bottom: "0px",
     width: "100%",
     padding: theme.spacing(1),
-    display: "none",
   },
   cardInfoText: {
     color: "white",
   },
   movieName: {
-    fontSize: "18px",
+    fontSize: "16px",
   },
   movieTypeYear: {
-    fontSize: "16px",
+    fontSize: "14px",
   },
   ratingBoxDiv: {
     display: "flex",
@@ -101,7 +101,9 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "cover",
     height: "300px",
     width: "100%",
-    // filter: "grayscale(100%)",
+    "&:hover": {
+      filter: "grayscale(80%)",
+    },
   },
 }));
 
@@ -109,100 +111,106 @@ const Home = ({ location }) => {
   const classes = useStyles();
   const getParams = queryString.parse(location.search);
   const { saveToken, trendingMovies } = HomeContainer();
-  const cardInfo = useRef(null);
-  const image = useRef(null);
-  const fabAdd = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
-  const showCardInfo = () => {
-    fabAdd.current.style.display = "block";
-    cardInfo.current.style.display = "block";
-    image.current.style.filter = "grayscale(80%)";
-  };
-  const hideCardInfo = () => {
-    fabAdd.current.style.display = "none";
-    cardInfo.current.style.display = "none";
-    image.current.style.filter = "grayscale(0%)";
-  };
 
-  if (trendingMovies) console.log("coucou", trendingMovies);
-  return (
-    <>
-      <SearchBox />
-      <Grid className={classes.gridContainer} container>
-        <Grid item xs={12} sm={4} md={2} lg={2}>
-          <Box
-            className={classes.card}
-            onMouseOver={showCardInfo}
-            onMouseOut={hideCardInfo}
-          >
-            <img
-              className={classes.img}
-              src="assets/hollywood.jpeg"
-              alt=""
-              ref={image}
-            />
-            <CheckCircleIcon className={classes.viewedIcon} color="primary" />
-            <LinearProgress
-              variant="determinate"
-              value={100}
-              color="secondary"
-              className={classes.progressBar}
-            />
-            <Fab
-              color="primary"
-              aria-label="add"
-              className={classes.fabAdd}
-              ref={fabAdd}
+  if (trendingMovies) {
+    return (
+      <>
+        <SearchBox />
+        <Grid className={classes.gridContainer} container>
+          {_.map(trendingMovies, (trendingMovie, index) => (
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={2}
+              lg={2}
+              key={trendingMovie.id}
+              onMouseEnter={() => setIsHovered(index)}
+              onMouseLeave={() => setIsHovered(null)}
             >
-              <AddIcon />
-            </Fab>
-            <Box className={classes.cardInfo} ref={cardInfo}>
-              <Grid container>
-                <Grid item xs={8} sm={8} md={8} lg={8}>
-                  <Typography
-                    variant="h5"
-                    component="h3"
-                    className={[classes.cardInfoText, classes.movieName].join(
-                      " "
-                    )}
-                  >
-                    Hollywood
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    component="h4"
-                    className={[
-                      classes.cardInfoText,
-                      classes.movieTypeYear,
-                    ].join(" ")}
-                  >
-                    Drama | 2014
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={4}
-                  sm={4}
-                  md={4}
-                  lg={4}
-                  className={classes.ratingBoxDiv}
-                >
-                  <Box className={classes.ratingBox}>
-                    <StarRateIcon />
-                    <Typography className={classes.ratingText}>8.0</Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
+              <Box className={classes.card}>
+                <img
+                  className={classes.img}
+                  src={trendingMovie.medium_cover_image}
+                  alt={trendingMovie.title}
+                />
+                <CheckCircleIcon
+                  className={classes.viewedIcon}
+                  color="primary"
+                />
+                <LinearProgress
+                  variant="determinate"
+                  value={100}
+                  color="secondary"
+                  className={classes.progressBar}
+                />
+                {isHovered === index ? (
+                  <>
+                    <Fab
+                      color="primary"
+                      aria-label="add"
+                      className={classes.fabAdd}
+                    >
+                      <AddIcon />
+                    </Fab>
+                    <Box className={classes.cardInfo}>
+                      <Grid container>
+                        <Grid item xs={8} sm={8} md={8} lg={8}>
+                          <Typography
+                            variant="h5"
+                            component="h3"
+                            className={[
+                              classes.cardInfoText,
+                              classes.movieName,
+                            ].join(" ")}
+                          >
+                            {trendingMovie.title}
+                          </Typography>
+                          <Typography
+                            variant="h6"
+                            component="h4"
+                            className={[
+                              classes.cardInfoText,
+                              classes.movieTypeYear,
+                            ].join(" ")}
+                          >
+                            Drama | {trendingMovie.year}
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={4}
+                          sm={4}
+                          md={4}
+                          lg={4}
+                          className={classes.ratingBoxDiv}
+                        >
+                          <Box className={classes.ratingBox}>
+                            <StarRateIcon />
+                            <Typography className={classes.ratingText}>
+                              {trendingMovie.rating}
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </>
+                ) : null}
+              </Box>
+            </Grid>
+          ))}
         </Grid>
-      </Grid>
-      <Toaster getParams={getParams} />
-    </>
-  );
+        <Toaster getParams={getParams} />
+      </>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Home;
