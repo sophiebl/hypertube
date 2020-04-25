@@ -179,7 +179,7 @@ const Home = ({ location }) => {
                               classes.movieTypeYear,
                             ].join(" ")}
                           >
-                            Drama | {trendingMovie.year}
+                            {trendingMovie.genres[0]} | {trendingMovie.year}
                           </Typography>
                         </Grid>
                         <Grid
