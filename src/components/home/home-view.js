@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
+import {
+  Box,
+  Typography,
+  Fab,
+  Grid,
+  LinearProgress,
+  Divider,
+} from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import AddIcon from "@material-ui/icons/Add";
 import _ from "lodash";
@@ -110,7 +117,14 @@ const useStyles = makeStyles((theme) => ({
 const Home = ({ location }) => {
   const classes = useStyles();
   const getParams = queryString.parse(location.search);
-  const { saveToken, trendingMovies } = HomeContainer();
+  const {
+    saveToken,
+    trendingMovies,
+    searchOptions,
+    handleSort,
+    handleChangeSlider,
+    fetchSearch,
+  } = HomeContainer();
   const [isHovered, setIsHovered] = useState(false);
 
   if (getParams.accessToken) {
@@ -120,7 +134,15 @@ const Home = ({ location }) => {
   if (trendingMovies) {
     return (
       <>
-        <SearchBox />
+        <SearchBox
+          classes={classes}
+          searchOptions={searchOptions}
+          handleChangeSlider={handleChangeSlider}
+          // currentUserProfile={currentUserProfile}
+          // fetchSearch={fetchSearch}
+          handleSort={handleSort}
+        />
+        <Divider light />;
         <Grid className={classes.gridContainer} container>
           {_.map(trendingMovies, (trendingMovie, index) => (
             <Grid
