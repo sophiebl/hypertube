@@ -1,6 +1,7 @@
 import React from "react";
 import { Slider, Typography, Grid, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import SearchIcon from "@material-ui/icons/Search";
 
 const SearchBox = ({
   classes,
@@ -41,28 +42,19 @@ const SearchBox = ({
     <div className={classes.filtersContainer}>
       <Grid container spacing={5} direction="row" justify="center">
         <Grid item sm={2} xs={6}>
-          <Typography
-            id="discrete-slider"
-            className={classes.titleGutterbottom}
-            align="center"
+          <Grid
+            container
+            spacing={1}
+            alignItems="flex-end"
+            className={classes.whiteField}
           >
-            Distance
-          </Typography>
-          <Slider
-            defaultValue={100}
-            getAriaValueText={(value) => `${value} kms`}
-            aria-labelledby="discrete-slider"
-            valueLabelDisplay="auto"
-            onChange={(event, newValue) =>
-              handleChangeSlider("distanceMax", newValue)
-            }
-            // onChangeCommitted={() => fetchSearch()}
-            step={10}
-            marks
-            min={0}
-            max={500}
-            className={classes.titleGutterbottom + " " + classes.slider}
-          />
+            <Grid item>
+              <SearchIcon />
+            </Grid>
+            <Grid item>
+              <TextField id="input-with-icon-grid" label="Movie name" />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item sm={2} xs={6}>
           <Typography
@@ -70,7 +62,7 @@ const SearchBox = ({
             className={classes.titleGutterbottom}
             align="center"
           >
-            Age
+            Rating
           </Typography>
           <Slider
             className={classes.slider}
@@ -92,7 +84,7 @@ const SearchBox = ({
             className={classes.titleGutterbottom}
             align="center"
           >
-            Popularity
+            Year
           </Typography>
           <Slider
             className={classes.slider}
@@ -114,7 +106,7 @@ const SearchBox = ({
             className={classes.titleGutterbottom}
             align="center"
           >
-            Interests
+            Genre
           </Typography>
           <div className={classes.interestChips}>
             <div>
@@ -143,18 +135,13 @@ const SearchBox = ({
         </Grid>
         <Grid item sm={2} xs={6}>
           <form className={classes.container} noValidate autoComplete="off">
-            <Typography
-              id="discrete-slider"
-              className={classes.titleGutterbottom}
-              align="center"
-            >
-              Sort by
-            </Typography>
             <TextField
               id="outlined-select-currency-native"
               select
-              className={classes.textField}
+              // className={classes.textField}
+              className={classes.whiteField}
               value={searchOptions.sort}
+              label="Sort by"
               onChange={(event) => handleSort(event)}
               fullWidth
               SelectProps={{

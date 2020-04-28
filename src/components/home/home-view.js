@@ -34,6 +34,18 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+  filtersContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    padding: "20px 10px",
+    backgroundColor: "#f5f5f5",
+  },
+  whiteField: {
+    backgroundColor: "white",
+    borderRadius: "3px",
+  },
   form: {
     width: "100%",
     marginTop: theme.spacing(1),
