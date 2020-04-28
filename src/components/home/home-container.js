@@ -9,10 +9,10 @@ const HomeContainer = () => {
   const [trendingMovies, setTrendingMovies] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
   const [searchOptions, setSearchOptions] = useState({
-    ageRange: [18, 85],
-    popularityRange: [0, 100],
-    interests: [],
-    distanceMax: 100,
+    name: "",
+    rating: [0, 10],
+    year: [1900, 2020],
+    genre: [],
     sort: "",
   });
   const {
@@ -120,16 +120,11 @@ const HomeContainer = () => {
   };
 
   const handleChangeSlider = (type, newValue) => {
-    if (type === "interests") {
-      newValue = newValue.map((interest) => {
-        return interest.name;
-      });
-      const newSearchOptions = { ...searchOptions, [type]: newValue };
-      setSearchOptions(newSearchOptions);
-      // fetchSearch(newSearchOptions);
-      return;
-    }
+    console.log({ type });
+    console.log({ newValue });
     const newSearchOptions = { ...searchOptions, [type]: newValue };
+    console.log({ newSearchOptions });
+
     setSearchOptions(newSearchOptions);
   };
 
@@ -166,6 +161,7 @@ const HomeContainer = () => {
     // fetchYTSApiTrending,
     trendingMovies,
     searchOptions,
+    setSearchOptions,
     handleSort,
     handleChangeSlider,
     // fetchSearch,

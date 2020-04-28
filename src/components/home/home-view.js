@@ -133,6 +133,7 @@ const Home = ({ location }) => {
     saveToken,
     trendingMovies,
     searchOptions,
+    setSearchOptions,
     handleSort,
     handleChangeSlider,
     fetchSearch,

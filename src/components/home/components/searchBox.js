@@ -6,6 +6,7 @@ import SearchIcon from "@material-ui/icons/Search";
 const SearchBox = ({
   classes,
   searchOptions,
+  setSearchOptions,
   handleChangeSlider,
   // currentUserProfile,
   // fetchSearch,
@@ -52,7 +53,14 @@ const SearchBox = ({
               <SearchIcon />
             </Grid>
             <Grid item>
-              <TextField id="input-with-icon-grid" label="Movie name" />
+              <TextField
+                id="input-with-icon-grid"
+                label="Movie name"
+                value={searchOptions.name}
+                onChange={(event) =>
+                  handleChangeSlider("name", event.target.value)
+                }
+              />
             </Grid>
           </Grid>
         </Grid>
@@ -66,16 +74,16 @@ const SearchBox = ({
           </Typography>
           <Slider
             className={classes.slider}
-            value={searchOptions.ageRange}
+            value={searchOptions.rating}
             onChange={(event, newValue) =>
-              handleChangeSlider("ageRange", newValue)
+              handleChangeSlider("rating", newValue)
             }
             // onChangeCommitted={() => fetchSearch()}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             getAriaValueText={(value) => `${value} kms`}
-            min={18}
-            max={100}
+            min={0}
+            max={10}
           />
         </Grid>
         <Grid item sm={2} xs={6}>
@@ -88,16 +96,14 @@ const SearchBox = ({
           </Typography>
           <Slider
             className={classes.slider}
-            value={searchOptions.popularityRange}
-            onChange={(event, newValue) =>
-              handleChangeSlider("popularityRange", newValue)
-            }
+            value={searchOptions.year}
+            onChange={(event, newValue) => handleChangeSlider("year", newValue)}
             // onChangeCommitted={() => fetchSearch()}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             getAriaValueText={(value) => `${value} kms`}
-            min={0}
-            max={100}
+            min={1900}
+            max={2020}
           />
         </Grid>
         <Grid item sm={2} xs={6}>
@@ -118,7 +124,7 @@ const SearchBox = ({
                 // })}
                 getOptionLabel={(option) => option.name}
                 onChange={(event, value) => {
-                  handleChangeSlider("interests", value);
+                  handleChangeSlider("genre", value);
                 }}
                 name="interest"
                 renderInput={(params) => (
