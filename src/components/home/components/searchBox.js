@@ -2,6 +2,7 @@ import React from "react";
 import { Slider, Typography, Grid, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SearchIcon from "@material-ui/icons/Search";
+import useDebounce from "./use-debounce";
 
 const SearchBox = ({
   classes,
@@ -9,8 +10,8 @@ const SearchBox = ({
   setSearchOptions,
   handleChangeSlider,
   // currentUserProfile,
-  // fetchSearch,
   handleSort,
+  fetchSearch,
 }) => {
   const sortOptions = [
     {
@@ -38,7 +39,6 @@ const SearchBox = ({
       label: "Interests",
     },
   ];
-
   return (
     <div className={classes.filtersContainer}>
       <Grid container spacing={5} direction="row" justify="center">
@@ -60,6 +60,7 @@ const SearchBox = ({
                 onChange={(event) =>
                   handleChangeSlider("name", event.target.value)
                 }
+                // onChangeCommitted={() => fetchSearch()}
               />
             </Grid>
           </Grid>
@@ -78,10 +79,10 @@ const SearchBox = ({
             onChange={(event, newValue) =>
               handleChangeSlider("rating", newValue)
             }
-            // onChangeCommitted={() => fetchSearch()}
+            onChangeCommitted={() => fetchSearch()}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
-            getAriaValueText={(value) => `${value} kms`}
+            // getAriaValueText={(value) => `${value} kms`}
             min={0}
             max={10}
           />

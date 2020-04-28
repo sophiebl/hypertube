@@ -154,6 +154,7 @@ const Home = ({ location }) => {
           // currentUserProfile={currentUserProfile}
           // fetchSearch={fetchSearch}
           handleSort={handleSort}
+          fetchSearch={fetchSearch}
         />
         <Divider light />;
         <Grid className={classes.gridContainer} container>

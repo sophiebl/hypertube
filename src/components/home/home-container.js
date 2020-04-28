@@ -120,34 +120,28 @@ const HomeContainer = () => {
   };
 
   const handleChangeSlider = (type, newValue) => {
-    console.log({ type });
-    console.log({ newValue });
     const newSearchOptions = { ...searchOptions, [type]: newValue };
-    console.log({ newSearchOptions });
-
     setSearchOptions(newSearchOptions);
   };
 
-  // const fetchSearch = (searchQuery = searchOptions) => {
-  //   axios
-  //     .post(
-  //       `${process.env.REACT_APP_PUBLIC_API_URL}/users/search`,
-  //       searchQuery,
-  //       {
-  //         headers: {
-  //           "Content-type": "application/json; charset=UTF-8",
-  //           "x-access-token": token,
-  //         },
-  //       }
-  //     )
-  //     .then((result) => {
-  //       if (result.data.authorized === false) {
-  //         window.location = "/profile?message=profile_not_completed";
-  //         return;
-  //       }
-  //       handleSort(null, result.data);
-  //     });
-  // };
+  const fetchSearch = () => {
+    // console.log("coucou");
+    console.log(searchOptions.rating[0]);
+    axios
+      .get(
+        `https://yts.mx/api/v2/list_movies.json?minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}`
+      )
+      .then((result) => {
+        if (result.data && result.data.status === "ok") {
+          console.log(result.data.data.movies);
+          // setTrendingMovies(result.data.data.movies);
+          // return result.data.data.movies;
+        } else {
+          console.log("nope");
+          return false;
+        }
+      });
+  };
 
   if (_.isEmpty(userInfo) && loaded === false) {
     fetchProfile();
@@ -164,7 +158,7 @@ const HomeContainer = () => {
     setSearchOptions,
     handleSort,
     handleChangeSlider,
-    // fetchSearch,
+    fetchSearch,
   };
 };
 
