@@ -1,13 +1,13 @@
 import _ from "lodash";
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { useDebounce, useDebouncedCallback } from "use-debounce";
 import { AuthContext } from "../App/AuthContext";
 
 const HomeContainer = () => {
   const [loaded, setLoaded] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [trendingMovies, setTrendingMovies] = useState(null);
-  const [searchResult, setSearchResult] = useState([]);
   const [searchOptions, setSearchOptions] = useState({
     name: "",
     rating: [0, 10],
@@ -15,9 +15,16 @@ const HomeContainer = () => {
     genre: [],
     sort: "",
   });
+  const [searchResult, setSearchResult] = useState(null);
+  const [emptyResult, setEmptyResult] = useState(false);
   const {
     authContext: { userData },
   } = useContext(AuthContext);
+
+  const [debouncedCallback] = useDebouncedCallback(async () => {
+    const bitch = await fetchSearch();
+    console.log({ bitch });
+  }, 1000);
 
   useEffect(() => {
     fetchYTSApiTrending();
@@ -58,6 +65,7 @@ const HomeContainer = () => {
         if (result.data && result.data.status === "ok") {
           // console.log(result.data.data.movies);
           setTrendingMovies(result.data.data.movies);
+          // console.log(trendingMovies);
           return result.data.data.movies;
         } else {
           console.log("nope");
@@ -119,23 +127,33 @@ const HomeContainer = () => {
     );
   };
 
-  const handleChangeSlider = (type, newValue) => {
+  const handleChangeInput = (type, newValue) => {
     const newSearchOptions = { ...searchOptions, [type]: newValue };
     setSearchOptions(newSearchOptions);
+    if (type === "name") {
+      debouncedCallback();
+      // fetchSearch();
+    }
   };
 
   const fetchSearch = () => {
-    // console.log("coucou");
     console.log(searchOptions.rating[0]);
+    console.log(searchOptions.name);
+    const queryString = `minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}`;
     axios
-      .get(
-        `https://yts.mx/api/v2/list_movies.json?minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}`
-      )
+      .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
       .then((result) => {
         if (result.data && result.data.status === "ok") {
-          console.log(result.data.data.movies);
-          // setTrendingMovies(result.data.data.movies);
-          // return result.data.data.movies;
+          if (result.data.data.movie_count === 0) {
+            console.log("pas de film deso");
+            setEmptyResult(true);
+            return false;
+          } else {
+            setSearchResult(result.data.data.movies);
+            // console.log(searchResult);
+            console.log(result.data.data.movies);
+            return result.data.data.movies;
+          }
         } else {
           console.log("nope");
           return false;
@@ -157,8 +175,10 @@ const HomeContainer = () => {
     searchOptions,
     setSearchOptions,
     handleSort,
-    handleChangeSlider,
+    handleChangeInput,
     fetchSearch,
+    debouncedCallback,
+    searchResult,
   };
 };
 

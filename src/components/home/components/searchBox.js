@@ -2,16 +2,16 @@ import React from "react";
 import { Slider, Typography, Grid, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import SearchIcon from "@material-ui/icons/Search";
-import useDebounce from "./use-debounce";
 
 const SearchBox = ({
   classes,
   searchOptions,
   setSearchOptions,
-  handleChangeSlider,
+  handleChangeInput,
   // currentUserProfile,
   handleSort,
   fetchSearch,
+  debouncedCallback,
 }) => {
   const sortOptions = [
     {
@@ -58,9 +58,8 @@ const SearchBox = ({
                 label="Movie name"
                 value={searchOptions.name}
                 onChange={(event) =>
-                  handleChangeSlider("name", event.target.value)
+                  handleChangeInput("name", event.target.value)
                 }
-                // onChangeCommitted={() => fetchSearch()}
               />
             </Grid>
           </Grid>
@@ -77,7 +76,7 @@ const SearchBox = ({
             className={classes.slider}
             value={searchOptions.rating}
             onChange={(event, newValue) =>
-              handleChangeSlider("rating", newValue)
+              handleChangeInput("rating", newValue)
             }
             onChangeCommitted={() => fetchSearch()}
             valueLabelDisplay="auto"
@@ -98,7 +97,7 @@ const SearchBox = ({
           <Slider
             className={classes.slider}
             value={searchOptions.year}
-            onChange={(event, newValue) => handleChangeSlider("year", newValue)}
+            onChange={(event, newValue) => handleChangeInput("year", newValue)}
             // onChangeCommitted={() => fetchSearch()}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
@@ -125,7 +124,7 @@ const SearchBox = ({
                 // })}
                 getOptionLabel={(option) => option.name}
                 onChange={(event, value) => {
-                  handleChangeSlider("genre", value);
+                  handleChangeInput("genre", value);
                 }}
                 name="interest"
                 renderInput={(params) => (

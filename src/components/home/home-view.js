@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -135,8 +135,10 @@ const Home = ({ location }) => {
     searchOptions,
     setSearchOptions,
     handleSort,
-    handleChangeSlider,
+    handleChangeInput,
     fetchSearch,
+    debouncedCallback,
+    searchResult,
   } = HomeContainer();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -144,17 +146,22 @@ const Home = ({ location }) => {
     saveToken(getParams.accessToken);
   }
 
+  useEffect(() => {
+    console.log({ trendingMovies });
+    console.log({ searchResult });
+  }, [trendingMovies, searchResult]);
   if (trendingMovies) {
     return (
       <>
         <SearchBox
           classes={classes}
           searchOptions={searchOptions}
-          handleChangeSlider={handleChangeSlider}
+          handleChangeInput={handleChangeInput}
           // currentUserProfile={currentUserProfile}
           // fetchSearch={fetchSearch}
           handleSort={handleSort}
           fetchSearch={fetchSearch}
+          debouncedCallback={debouncedCallback}
         />
         <Divider light />;
         <Grid className={classes.gridContainer} container>
