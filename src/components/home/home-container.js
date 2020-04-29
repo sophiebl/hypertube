@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { useDebounce, useDebouncedCallback } from "use-debounce";
+import { useDebouncedCallback } from "use-debounce";
 import { AuthContext } from "../App/AuthContext";
 
 const HomeContainer = () => {
@@ -30,6 +30,17 @@ const HomeContainer = () => {
     fetchYTSApiTrending();
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const clearFilters = () => {
+    setSearchOptions({
+      name: "",
+      rating: [0, 10],
+      year: [1900, 2020],
+      genre: [],
+      sort: "",
+    });
+    setEmptyResult(false);
+  };
 
   const fetchProfile = () => {
     userData
@@ -165,18 +176,18 @@ const HomeContainer = () => {
 
   return {
     userInfo,
-    loaded,
     saveToken,
     // fetchTMDPApi,
-    // fetchYTSApiTrending,
     trendingMovies,
     searchOptions,
-    setSearchOptions,
     handleSort,
     handleChangeInput,
     fetchSearch,
     debouncedCallback,
     searchResult,
+    emptyResult,
+    setEmptyResult,
+    clearFilters,
   };
 };
 

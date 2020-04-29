@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
@@ -6,6 +6,7 @@ import Toaster from "../toaster/index";
 import HomeContainer from "./home-container";
 import SearchBox from "./components/searchBox.js";
 import MoviesList from "./components/moviesList.js";
+import EmptyResult from "./components/emptyResult";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -113,6 +114,20 @@ const useStyles = makeStyles((theme) => ({
       filter: "grayscale(80%)",
     },
   },
+  noResultBox: {
+    marginTop: theme.spacing(5),
+    margin: "auto",
+    maxWidth: "600px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  noResultBoxImg: {
+    width: "200px",
+  },
+  clearIcon: {
+    marginTop: theme.spacing(3),
+  },
 }));
 
 const Home = ({ location }) => {
@@ -122,12 +137,14 @@ const Home = ({ location }) => {
     saveToken,
     trendingMovies,
     searchOptions,
-    setSearchOptions,
     handleSort,
     handleChangeInput,
     fetchSearch,
     debouncedCallback,
     searchResult,
+    emptyResult,
+    setEmptyResult,
+    clearFilters,
   } = HomeContainer();
 
   if (getParams.accessToken) {
@@ -149,13 +166,18 @@ const Home = ({ location }) => {
         fetchSearch={fetchSearch}
         debouncedCallback={debouncedCallback}
       />
-      <Divider light />;
-      <Grid className={classes.gridContainer} container>
-        <MoviesList
-          classes={classes}
-          list={searchResult ? searchResult : trendingMovies}
-        />
-      </Grid>
+      <Divider light />
+      {emptyResult ? (
+        <EmptyResult classes={classes} clearFilters={clearFilters} />
+      ) : (
+        <Grid className={classes.gridContainer} container>
+          <MoviesList
+            classes={classes}
+            list={searchResult ? searchResult : trendingMovies}
+            setEmptyResult={setEmptyResult}
+          />
+        </Grid>
+      )}
       <Toaster getParams={getParams} />
     </>
   );

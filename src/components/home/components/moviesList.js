@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import AddIcon from "@material-ui/icons/Add";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import _ from "lodash";
 
-const MoviesList = ({ classes, list }) => {
+const MoviesList = ({ classes, list, emptyResult }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
