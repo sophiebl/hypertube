@@ -137,8 +137,6 @@ const HomeContainer = () => {
   };
 
   const fetchSearch = () => {
-    console.log(searchOptions.rating[0]);
-    console.log(searchOptions.name);
     const queryString = `minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}`;
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)

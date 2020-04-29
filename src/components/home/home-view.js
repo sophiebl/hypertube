@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Box,
-  Typography,
-  Fab,
-  Grid,
-  LinearProgress,
-  Divider,
-} from "@material-ui/core";
-import StarRateIcon from "@material-ui/icons/StarRate";
-import AddIcon from "@material-ui/icons/Add";
-import _ from "lodash";
+import { Grid, Divider } from "@material-ui/core";
 import Toaster from "../toaster/index";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-// import Background from '../../assets/images/home-bg-1.jpg';
 import HomeContainer from "./home-container";
 import SearchBox from "./components/searchBox.js";
+import MoviesList from "./components/moviesList.js";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -140,7 +129,6 @@ const Home = ({ location }) => {
     debouncedCallback,
     searchResult,
   } = HomeContainer();
-  const [isHovered, setIsHovered] = useState(false);
 
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
@@ -150,110 +138,27 @@ const Home = ({ location }) => {
     console.log({ trendingMovies });
     console.log({ searchResult });
   }, [trendingMovies, searchResult]);
-  if (trendingMovies) {
-    return (
-      <>
-        <SearchBox
+  return (
+    <>
+      <SearchBox
+        classes={classes}
+        searchOptions={searchOptions}
+        handleChangeInput={handleChangeInput}
+        // currentUserProfile={currentUserProfile}
+        handleSort={handleSort}
+        fetchSearch={fetchSearch}
+        debouncedCallback={debouncedCallback}
+      />
+      <Divider light />;
+      <Grid className={classes.gridContainer} container>
+        <MoviesList
           classes={classes}
-          searchOptions={searchOptions}
-          handleChangeInput={handleChangeInput}
-          // currentUserProfile={currentUserProfile}
-          // fetchSearch={fetchSearch}
-          handleSort={handleSort}
-          fetchSearch={fetchSearch}
-          debouncedCallback={debouncedCallback}
+          list={searchResult ? searchResult : trendingMovies}
         />
-        <Divider light />;
-        <Grid className={classes.gridContainer} container>
-          {_.map(trendingMovies, (trendingMovie, index) => (
-            <Grid
-              item
-              xs={12}
-              sm={4}
-              md={2}
-              lg={2}
-              key={trendingMovie.id}
-              onMouseEnter={() => setIsHovered(index)}
-              onMouseLeave={() => setIsHovered(null)}
-            >
-              <Box className={classes.card}>
-                <img
-                  className={classes.img}
-                  src={trendingMovie.medium_cover_image}
-                  alt={trendingMovie.title}
-                />
-                <CheckCircleIcon
-                  className={classes.viewedIcon}
-                  color="primary"
-                />
-                <LinearProgress
-                  variant="determinate"
-                  value={100}
-                  color="secondary"
-                  className={classes.progressBar}
-                />
-                {isHovered === index ? (
-                  <>
-                    <Fab
-                      color="primary"
-                      aria-label="add"
-                      className={classes.fabAdd}
-                    >
-                      <AddIcon />
-                    </Fab>
-                    <Box className={classes.cardInfo}>
-                      <Grid container>
-                        <Grid item xs={8} sm={8} md={8} lg={8}>
-                          <Typography
-                            variant="h5"
-                            component="h3"
-                            className={[
-                              classes.cardInfoText,
-                              classes.movieName,
-                            ].join(" ")}
-                          >
-                            {trendingMovie.title}
-                          </Typography>
-                          <Typography
-                            variant="h6"
-                            component="h4"
-                            className={[
-                              classes.cardInfoText,
-                              classes.movieTypeYear,
-                            ].join(" ")}
-                          >
-                            {trendingMovie.genres[0]} | {trendingMovie.year}
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          item
-                          xs={4}
-                          sm={4}
-                          md={4}
-                          lg={4}
-                          className={classes.ratingBoxDiv}
-                        >
-                          <Box className={classes.ratingBox}>
-                            <StarRateIcon />
-                            <Typography className={classes.ratingText}>
-                              {trendingMovie.rating}
-                            </Typography>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </Box>
-                  </>
-                ) : null}
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-        <Toaster getParams={getParams} />
-      </>
-    );
-  } else {
-    return null;
-  }
+      </Grid>
+      <Toaster getParams={getParams} />
+    </>
+  );
 };
 
 export default Home;
