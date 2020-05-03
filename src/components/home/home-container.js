@@ -146,9 +146,20 @@ const HomeContainer = () => {
       // fetchSearch();
     }
   };
+  const filterSearch = (result) => {
+    console.log({ result });
+    const filteredResult = _.filter(result, function (movie) {
+      return (
+        movie.year >= searchOptions.year[0] &&
+        movie.year <= searchOptions.year[1]
+      );
+    });
+    console.log({ filteredResult });
+    return filteredResult;
+  };
 
   const fetchSearch = () => {
-    const queryString = `minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}`;
+    const queryString = `minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
       .then((result) => {
@@ -158,9 +169,17 @@ const HomeContainer = () => {
             setEmptyResult(true);
             return false;
           } else {
-            setSearchResult(result.data.data.movies);
+            // if (
+            //   searchOptions.year[0] !== 1900 ||
+            //   searchOptions.year[1] !== 2020
+            // ) {
+            // filtrer la sortie en enlevant les films dont l'annee n'est pas comprise
+            const filteredResult = filterSearch(result.data.data.movies);
+            // }
+            setSearchResult(filteredResult);
+            // setSearchResult(result.data.data.movies);
             // console.log(searchResult);
-            console.log(result.data.data.movies);
+            // console.log(result.data.data.movies);
             return result.data.data.movies;
           }
         } else {

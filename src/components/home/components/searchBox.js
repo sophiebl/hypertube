@@ -98,7 +98,7 @@ const SearchBox = ({
             className={classes.slider}
             value={searchOptions.year}
             onChange={(event, newValue) => handleChangeInput("year", newValue)}
-            // onChangeCommitted={() => fetchSearch()}
+            onChangeCommitted={() => fetchSearch()}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             getAriaValueText={(value) => `${value} kms`}
