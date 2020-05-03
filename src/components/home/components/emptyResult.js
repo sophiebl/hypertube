@@ -11,18 +11,10 @@ const EmptyResult = ({ classes, clearFilters }) => {
         alt=""
         className={classes.noResultBoxImg}
       />
-      <Typography
-        variant="h4"
-        component="h3"
-        //   className={}
-      >
+      <Typography variant="h4" component="h3">
         No matching search results
       </Typography>
-      <Typography
-        variant="h5"
-        component="h4"
-        //   className={}
-      >
+      <Typography variant="h5" component="h4">
         Try again with another title. Sure you spelled it right?
       </Typography>
       <Fab

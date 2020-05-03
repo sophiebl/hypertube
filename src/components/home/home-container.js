@@ -12,7 +12,7 @@ const HomeContainer = () => {
     name: "",
     rating: [0, 10],
     year: [1900, 2020],
-    genre: [],
+    genre: "",
     sort: "",
   });
   const [searchResult, setSearchResult] = useState(null);
@@ -21,9 +21,8 @@ const HomeContainer = () => {
     authContext: { userData },
   } = useContext(AuthContext);
 
-  const [debouncedCallback] = useDebouncedCallback(async () => {
-    const bitch = await fetchSearch();
-    console.log({ bitch });
+  const [debouncedCallback] = useDebouncedCallback(() => {
+    fetchSearch();
   }, 1000);
 
   useEffect(() => {
@@ -36,7 +35,7 @@ const HomeContainer = () => {
       name: "",
       rating: [0, 10],
       year: [1900, 2020],
-      genre: [],
+      genre: "",
       sort: "",
     });
     setEmptyResult(false);
@@ -145,16 +144,18 @@ const HomeContainer = () => {
       debouncedCallback();
       // fetchSearch();
     }
+    if (type === "genre") fetchSearch();
   };
   const filterSearch = (result) => {
     console.log({ result });
-    const filteredResult = _.filter(result, function (movie) {
+    console.log(searchOptions.genre);
+    const filteredResult = _.filter(result, (movie) => {
       return (
+        movie.genres.includes(searchOptions.genre) &&
         movie.year >= searchOptions.year[0] &&
         movie.year <= searchOptions.year[1]
       );
     });
-    console.log({ filteredResult });
     return filteredResult;
   };
 
@@ -169,18 +170,13 @@ const HomeContainer = () => {
             setEmptyResult(true);
             return false;
           } else {
-            // if (
-            //   searchOptions.year[0] !== 1900 ||
-            //   searchOptions.year[1] !== 2020
-            // ) {
-            // filtrer la sortie en enlevant les films dont l'annee n'est pas comprise
             const filteredResult = filterSearch(result.data.data.movies);
-            // }
+            console.log({ filteredResult });
             setSearchResult(filteredResult);
             // setSearchResult(result.data.data.movies);
-            // console.log(searchResult);
+            console.log({ searchResult });
             // console.log(result.data.data.movies);
-            return result.data.data.movies;
+            return filteredResult;
           }
         } else {
           console.log("nope");

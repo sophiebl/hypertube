@@ -152,9 +152,9 @@ const Home = ({ location }) => {
   }
 
   useEffect(() => {
-    console.log({ trendingMovies });
+    //   console.log({ trendingMovies });
     console.log({ searchResult });
-  }, [trendingMovies, searchResult]);
+  }, [searchResult]);
   return (
     <>
       <SearchBox
