@@ -101,24 +101,20 @@ const SearchBox = ({
       label: "",
     },
     {
-      value: "distance",
-      label: "Distance",
+      value: "ratingAsc",
+      label: "Rating: Low to high",
     },
     {
-      value: "ageAsc",
-      label: "Age: Low to high",
+      value: "ratingDesc",
+      label: "Rating: High to low",
     },
     {
-      value: "ageDesc",
-      label: "Age: High to low",
+      value: "yearAsc",
+      label: "Year: Old to New",
     },
     {
-      value: "popularity",
-      label: "Popularity",
-    },
-    {
-      value: "interests",
-      label: "Interests",
+      value: "yearDesc",
+      label: "Year: New to Old",
     },
   ];
   return (
