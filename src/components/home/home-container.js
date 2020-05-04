@@ -151,7 +151,7 @@ const HomeContainer = () => {
     // console.log(searchOptions.genre);
     const filteredResult = _.filter(result, (movie) => {
       return (
-        movie.genres.includes(searchOptions.genre) &&
+        // movie.genres.includes(searchOptions.genre) &&
         movie.year >= searchOptions.year[0] &&
         movie.year <= searchOptions.year[1]
       );
@@ -172,11 +172,11 @@ const HomeContainer = () => {
             return false;
           } else {
             setEmptyResult(false);
-            // const filteredResult = filterSearch(result.data.data.movies);
-            // console.log({ filteredResult });
-            // setSearchResult(filteredResult);
-            console.log(result.data.data.movies);
-            setSearchResult(result.data.data.movies);
+            const filteredResult = filterSearch(result.data.data.movies);
+            console.log({ filteredResult });
+            setSearchResult(filteredResult);
+            // console.log(result.data.data.movies);
+            // setSearchResult(result.data.data.movies);
             // console.log({ searchResult });
             // console.log(result.data.data.movies);
             return result.data.data.movies;
