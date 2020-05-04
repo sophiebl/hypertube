@@ -140,10 +140,9 @@ const HomeContainer = () => {
   const handleChangeInput = (type, newValue) => {
     const newSearchOptions = { ...searchOptions, [type]: newValue };
     setSearchOptions(newSearchOptions);
-    if (type === "name") {
+    if (type === "name" || type === "genre") {
       debouncedCallback();
     }
-    if (type === "genre") debouncedCallback();
   };
 
   const filterSearch = (result) => {
