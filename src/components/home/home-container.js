@@ -23,7 +23,7 @@ const HomeContainer = () => {
 
   const [debouncedCallback] = useDebouncedCallback(() => {
     fetchSearch();
-  }, 1000);
+  });
 
   useEffect(() => {
     fetchYTSApiTrending();
@@ -142,13 +142,13 @@ const HomeContainer = () => {
     setSearchOptions(newSearchOptions);
     if (type === "name") {
       debouncedCallback();
-      // fetchSearch();
     }
-    if (type === "genre") fetchSearch();
+    if (type === "genre") debouncedCallback();
   };
+
   const filterSearch = (result) => {
-    console.log({ result });
-    console.log(searchOptions.genre);
+    // console.log({ result });
+    // console.log(searchOptions.genre);
     const filteredResult = _.filter(result, (movie) => {
       return (
         movie.genres.includes(searchOptions.genre) &&
@@ -161,6 +161,7 @@ const HomeContainer = () => {
 
   const fetchSearch = () => {
     const queryString = `minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
+    console.log({ queryString });
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
       .then((result) => {
@@ -170,13 +171,15 @@ const HomeContainer = () => {
             setEmptyResult(true);
             return false;
           } else {
-            const filteredResult = filterSearch(result.data.data.movies);
-            console.log({ filteredResult });
-            setSearchResult(filteredResult);
-            // setSearchResult(result.data.data.movies);
-            console.log({ searchResult });
+            setEmptyResult(false);
+            // const filteredResult = filterSearch(result.data.data.movies);
+            // console.log({ filteredResult });
+            // setSearchResult(filteredResult);
+            console.log(result.data.data.movies);
+            setSearchResult(result.data.data.movies);
+            // console.log({ searchResult });
             // console.log(result.data.data.movies);
-            return filteredResult;
+            return result.data.data.movies;
           }
         } else {
           console.log("nope");
