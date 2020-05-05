@@ -20,7 +20,7 @@ const HomeContainer = () => {
   const {
     authContext: { userData },
   } = useContext(AuthContext);
-
+  const [page, setPage] = useState(1);
   const [debouncedCallback] = useDebouncedCallback(() => {
     fetchSearch();
   });
@@ -28,7 +28,6 @@ const HomeContainer = () => {
   useEffect(() => {
     // fetchYTSApiTrending();
     fetchSearch();
-
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -155,7 +154,7 @@ const HomeContainer = () => {
   };
 
   const fetchSearch = () => {
-    const queryString = `limit=50&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
+    const queryString = `limit=50&page=${page}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
       .then((result) => {
@@ -168,6 +167,7 @@ const HomeContainer = () => {
             setEmptyResult(false);
             const filteredResult = filterSearch(result.data.data.movies);
             setSearchResult(filteredResult);
+
             if (searchOptions.sort) handleSort(null, filteredResult);
             return searchResult;
           }
