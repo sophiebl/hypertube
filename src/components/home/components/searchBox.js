@@ -150,7 +150,14 @@ const SearchBox = ({
           >
             Rating
           </Typography>
+          {/* <Slider
+            aria-labelledby="track-inverted-slider"
+            getAriaValueText={valuetext}
+            defaultValue={30}
+            // marks={marks}
+          /> */}
           <Slider
+            track="inverted"
             className={classes.slider}
             value={searchOptions.rating}
             onChange={(event, newValue) =>
@@ -158,10 +165,13 @@ const SearchBox = ({
             }
             onChangeCommitted={() => fetchSearch()}
             valueLabelDisplay="auto"
-            aria-labelledby="range-slider"
+            aria-labelledby="track-inverted-slider"
+            // aria-labelledby="range-slider"
             // getAriaValueText={(value) => `${value} kms`}
-            min={0}
-            max={10}
+            defaultValue={0}
+            // marks={0}
+            // min={0}
+            // max={10}
           />
         </Grid>
         <Grid item sm={2} xs={6}>
@@ -180,7 +190,7 @@ const SearchBox = ({
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             getAriaValueText={(value) => `${value} kms`}
-            min={1900}
+            min={1930}
             max={2020}
           />
         </Grid>

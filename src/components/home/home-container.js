@@ -11,7 +11,7 @@ const HomeContainer = () => {
   const [searchOptions, setSearchOptions] = useState({
     name: "",
     rating: [0, 10],
-    year: [1900, 2020],
+    year: [1930, 2020],
     genre: "",
     sort: "",
   });
@@ -26,15 +26,17 @@ const HomeContainer = () => {
   });
 
   useEffect(() => {
-    fetchYTSApiTrending();
+    // fetchYTSApiTrending();
+    fetchSearch();
+
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const clearFilters = () => {
     setSearchOptions({
       name: "",
-      rating: [0, 10],
-      year: [1900, 2020],
+      rating: 0,
+      year: [1930, 2020],
       genre: "",
       sort: "",
     });
@@ -84,7 +86,7 @@ const HomeContainer = () => {
       });
   };
 
-  const handleSort = (event, profiles = searchResult) => {
+  const handleSort = (event, filteredResult) => {
     let sortChoice = "";
     if (event) {
       sortChoice = event.target.value;
@@ -93,20 +95,17 @@ const HomeContainer = () => {
     }
     let order = "";
     switch (sortChoice) {
-      case "distance":
+      case "ratingAsc":
         order = "asc";
         break;
-      case "ageAsc":
-        order = "asc";
-        break;
-      case "ageDesc":
+      case "ratingDesc":
         order = "desc";
         break;
-      case "popularity":
-        order = "desc";
-        break;
-      case "interests":
+      case "yearAsc":
         order = "asc";
+        break;
+      case "yearDesc":
+        order = "desc";
         break;
       default:
     }
@@ -114,20 +113,18 @@ const HomeContainer = () => {
     setSearchOptions(newSearchOptions);
     setSearchResult(
       _.orderBy(
-        profiles,
+        filteredResult ? filteredResult : searchResult,
         [
-          (profile) => {
+          (result) => {
             switch (sortChoice) {
-              case "distance":
-                return profile.distance;
-              case "ageAsc":
-                return profile.age;
-              case "ageDesc":
-                return profile.age;
-              case "popularity":
-                return profile.popularityRate;
-              case "interests":
-                return profile.interests[0] ? profile.interests[0] : "ZZZZ";
+              case "ratingAsc":
+                return result.rating;
+              case "ratingDesc":
+                return result.rating;
+              case "yearAsc":
+                return result.year;
+              case "yearDesc":
+                return result.year;
               default:
             }
           },
@@ -159,7 +156,6 @@ const HomeContainer = () => {
 
   const fetchSearch = () => {
     const queryString = `minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
-    console.log({ queryString });
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
       .then((result) => {
@@ -171,10 +167,9 @@ const HomeContainer = () => {
           } else {
             setEmptyResult(false);
             const filteredResult = filterSearch(result.data.data.movies);
-            console.log({ filteredResult });
             setSearchResult(filteredResult);
-            // console.log(result.data.data.movies);
-            return filteredResult;
+            if (searchOptions.sort) handleSort(null, filteredResult);
+            return searchResult;
           }
         } else {
           console.log("nope");
