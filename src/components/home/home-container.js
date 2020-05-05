@@ -10,7 +10,7 @@ const HomeContainer = () => {
   const [trendingMovies, setTrendingMovies] = useState(null);
   const [searchOptions, setSearchOptions] = useState({
     name: "",
-    rating: [0, 10],
+    rating: 0,
     year: [1930, 2020],
     genre: "",
     sort: "",
@@ -155,7 +155,7 @@ const HomeContainer = () => {
   };
 
   const fetchSearch = () => {
-    const queryString = `minimum_rating=${searchOptions.rating[0]}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
+    const queryString = `minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
       .then((result) => {

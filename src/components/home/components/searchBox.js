@@ -148,14 +148,8 @@ const SearchBox = ({
             className={classes.titleGutterbottom}
             align="center"
           >
-            Rating
+            Mimimum rating
           </Typography>
-          {/* <Slider
-            aria-labelledby="track-inverted-slider"
-            getAriaValueText={valuetext}
-            defaultValue={30}
-            // marks={marks}
-          /> */}
           <Slider
             track="inverted"
             className={classes.slider}
@@ -166,12 +160,8 @@ const SearchBox = ({
             onChangeCommitted={() => fetchSearch()}
             valueLabelDisplay="auto"
             aria-labelledby="track-inverted-slider"
-            // aria-labelledby="range-slider"
-            // getAriaValueText={(value) => `${value} kms`}
-            defaultValue={0}
-            // marks={0}
-            // min={0}
-            // max={10}
+            min={0}
+            max={10}
           />
         </Grid>
         <Grid item sm={2} xs={6}>
