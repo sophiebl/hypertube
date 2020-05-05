@@ -1,6 +1,5 @@
 import React from "react";
 import { Slider, Typography, Grid, TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import SearchIcon from "@material-ui/icons/Search";
 
 const SearchBox = ({

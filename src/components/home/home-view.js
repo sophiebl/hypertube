@@ -3,10 +3,12 @@ import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
 import Toaster from "../toaster/index";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import HomeContainer from "./home-container";
 import SearchBox from "./components/searchBox.js";
 import MoviesList from "./components/moviesList.js";
 import EmptyResult from "./components/emptyResult";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -150,7 +152,9 @@ const Home = ({ location }) => {
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
-
+  const displayMoreMovies = () => {
+    console.log("next");
+  };
   useEffect(() => {
     //   console.log({ trendingMovies });
     console.log({ searchResult });
@@ -170,13 +174,29 @@ const Home = ({ location }) => {
       {emptyResult ? (
         <EmptyResult classes={classes} clearFilters={clearFilters} />
       ) : (
-        <Grid className={classes.gridContainer} container>
-          <MoviesList
-            classes={classes}
-            list={searchResult ? searchResult : trendingMovies}
-            setEmptyResult={setEmptyResult}
-          />
-        </Grid>
+        <InfiniteScroll
+          dataLength={searchResult ? searchResult.length : null}
+          next={displayMoreMovies}
+          hasMore
+          loader={
+            <div className={classes.progress}>
+              <CircularProgress color="secondary" />
+            </div>
+          }
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+          <Grid className={classes.gridContainer} container>
+            <MoviesList
+              classes={classes}
+              list={searchResult ? searchResult : trendingMovies}
+              setEmptyResult={setEmptyResult}
+            />
+          </Grid>
+        </InfiniteScroll>
       )}
       <Toaster getParams={getParams} />
     </>
