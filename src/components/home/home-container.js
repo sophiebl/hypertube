@@ -153,7 +153,8 @@ const HomeContainer = () => {
     return filteredResult;
   };
 
-  const fetchSearch = () => {
+  const fetchSearch = (page) => {
+    console.log({ page });
     const queryString = `limit=50&page=${page}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
@@ -196,6 +197,8 @@ const HomeContainer = () => {
     emptyResult,
     setEmptyResult,
     clearFilters,
+    page,
+    setPage,
   };
 };
 

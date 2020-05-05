@@ -147,6 +147,8 @@ const Home = ({ location }) => {
     emptyResult,
     setEmptyResult,
     clearFilters,
+    page,
+    setPage,
   } = HomeContainer();
 
   if (getParams.accessToken) {
@@ -154,11 +156,11 @@ const Home = ({ location }) => {
   }
   const displayMoreMovies = () => {
     console.log("next");
+    // console.log({ page });
+    fetchSearch(page + 1);
+    setPage(page + 1);
   };
-  useEffect(() => {
-    //   console.log({ trendingMovies });
-    console.log({ searchResult });
-  }, [searchResult]);
+
   return (
     <>
       <SearchBox
