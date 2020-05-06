@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
@@ -150,19 +150,31 @@ const Home = ({ location }) => {
     page,
     setPage,
   } = HomeContainer();
-
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
+
   const displayMoreMovies = () => {
     console.log("next");
-    // console.log({ page });
-    fetchSearch(page + 1);
     setPage(page + 1);
+    if (searchResult) fetchSearch(true, page + 1);
   };
+
+  const [moreMovies, setMoreMovies] = useState(true);
+
+  // useEffect(() => {
+  //   // if (searchResult) fetchSearch(true);
+  //   // const hasMoreMovies = async () => {
+  //   //   const res = await fetchSearch();
+  //   //   console.log({ res });
+  //   // };
+  //   // hasMoreMovies();
+  //   // setMoreMovies(res);
+  // }, [page]);
 
   return (
     <>
+      {/* {console.log({ moreMovies })} */}
       <SearchBox
         classes={classes}
         searchOptions={searchOptions}
@@ -178,7 +190,7 @@ const Home = ({ location }) => {
       ) : (
         <InfiniteScroll
           dataLength={searchResult ? searchResult.length : null}
-          next={displayMoreMovies}
+          next={() => displayMoreMovies()}
           hasMore
           loader={
             <div className={classes.progress}>

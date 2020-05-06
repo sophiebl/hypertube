@@ -5,6 +5,8 @@ import { useDebouncedCallback } from "use-debounce";
 import { AuthContext } from "../App/AuthContext";
 
 const HomeContainer = () => {
+  // let page = 1;
+
   const [loaded, setLoaded] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [trendingMovies, setTrendingMovies] = useState(null);
@@ -137,6 +139,8 @@ const HomeContainer = () => {
     const newSearchOptions = { ...searchOptions, [type]: newValue };
     setSearchOptions(newSearchOptions);
     if (type === "name" || type === "genre") {
+      // setSearchResult(null);
+      setPage(1);
       debouncedCallback();
     }
   };
@@ -153,9 +157,8 @@ const HomeContainer = () => {
     return filteredResult;
   };
 
-  const fetchSearch = (page) => {
-    console.log({ page });
-    const queryString = `limit=50&page=${page}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
+  const fetchSearch = (scroll = false, pageScroll = 1) => {
+    const queryString = `limit=20&page=${pageScroll}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
       .then((result) => {
@@ -166,11 +169,15 @@ const HomeContainer = () => {
             return false;
           } else {
             setEmptyResult(false);
+            // setSearchResult(null);
             const filteredResult = filterSearch(result.data.data.movies);
-            setSearchResult(filteredResult);
-
+            if (scroll) {
+              const newSearchResult = _.concat(searchResult, filteredResult);
+              console.log({ newSearchResult });
+              setSearchResult(newSearchResult);
+            } else setSearchResult(filteredResult);
             if (searchOptions.sort) handleSort(null, filteredResult);
-            return searchResult;
+            return true;
           }
         } else {
           console.log("nope");

@@ -3,7 +3,6 @@ import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import AddIcon from "@material-ui/icons/Add";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import InfiniteScroll from "react-infinite-scroll-component";
 import _ from "lodash";
 
 const MoviesList = ({ classes, list, emptyResult }) => {
