@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
@@ -130,6 +130,12 @@ const useStyles = makeStyles((theme) => ({
   clearIcon: {
     marginTop: theme.spacing(3),
   },
+  progress: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 }));
 
 const Home = ({ location }) => {
@@ -149,32 +155,19 @@ const Home = ({ location }) => {
     clearFilters,
     page,
     setPage,
+    moreMovies,
   } = HomeContainer();
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
 
   const displayMoreMovies = () => {
-    console.log("next");
     setPage(page + 1);
     if (searchResult) fetchSearch(true, page + 1);
   };
 
-  const [moreMovies, setMoreMovies] = useState(true);
-
-  // useEffect(() => {
-  //   // if (searchResult) fetchSearch(true);
-  //   // const hasMoreMovies = async () => {
-  //   //   const res = await fetchSearch();
-  //   //   console.log({ res });
-  //   // };
-  //   // hasMoreMovies();
-  //   // setMoreMovies(res);
-  // }, [page]);
-
   return (
     <>
-      {/* {console.log({ moreMovies })} */}
       <SearchBox
         classes={classes}
         searchOptions={searchOptions}
@@ -191,7 +184,7 @@ const Home = ({ location }) => {
         <InfiniteScroll
           dataLength={searchResult ? searchResult.length : null}
           next={() => displayMoreMovies()}
-          hasMore
+          hasMore={moreMovies}
           loader={
             <div className={classes.progress}>
               <CircularProgress color="secondary" />

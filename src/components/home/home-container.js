@@ -5,8 +5,6 @@ import { useDebouncedCallback } from "use-debounce";
 import { AuthContext } from "../App/AuthContext";
 
 const HomeContainer = () => {
-  // let page = 1;
-
   const [loaded, setLoaded] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [trendingMovies, setTrendingMovies] = useState(null);
@@ -23,6 +21,7 @@ const HomeContainer = () => {
     authContext: { userData },
   } = useContext(AuthContext);
   const [page, setPage] = useState(1);
+  const [moreMovies, setMoreMovies] = useState(true);
   const [debouncedCallback] = useDebouncedCallback(() => {
     fetchSearch();
   });
@@ -139,7 +138,6 @@ const HomeContainer = () => {
     const newSearchOptions = { ...searchOptions, [type]: newValue };
     setSearchOptions(newSearchOptions);
     if (type === "name" || type === "genre") {
-      // setSearchResult(null);
       setPage(1);
       debouncedCallback();
     }
@@ -162,26 +160,27 @@ const HomeContainer = () => {
     axios
       .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
       .then((result) => {
-        if (result.data && result.data.status === "ok") {
+        if (result.data?.status === "ok") {
           if (result.data.data.movie_count === 0) {
             console.log("pas de film deso");
             setEmptyResult(true);
-            return false;
+            return;
+          }
+          if (!result.data.data.movies) {
+            console.log("plus de film a display");
+            setMoreMovies(false);
           } else {
             setEmptyResult(false);
-            // setSearchResult(null);
+            setMoreMovies(true);
             const filteredResult = filterSearch(result.data.data.movies);
             if (scroll) {
               const newSearchResult = _.concat(searchResult, filteredResult);
-              console.log({ newSearchResult });
               setSearchResult(newSearchResult);
             } else setSearchResult(filteredResult);
             if (searchOptions.sort) handleSort(null, filteredResult);
-            return true;
           }
         } else {
           console.log("nope");
-          return false;
         }
       });
   };
@@ -206,6 +205,7 @@ const HomeContainer = () => {
     clearFilters,
     page,
     setPage,
+    moreMovies,
   };
 };
 
