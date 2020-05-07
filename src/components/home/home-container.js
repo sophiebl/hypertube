@@ -29,6 +29,14 @@ const HomeContainer = () => {
   useEffect(() => {
     // fetchYTSApiTrending();
     fetchSearch();
+    // Promise.all([fetchYTS, fetchPopCorn]).then((values) => {
+    //   console.log(values);
+    //   const YTSMovies = values[0].data.movies;
+    //   const popCornMovies = values[1];
+    //   const newSearchResult = _.concat(popCornMovies, YTSMovies);
+    //   setSearchResult(newSearchResult);
+    //   console.log({ newSearchResult });
+    // });
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,17 +65,6 @@ const HomeContainer = () => {
   const saveToken = (token) => {
     localStorage.setItem("token", token);
     window.location = "/?message=login_success";
-  };
-
-  const fetchTMDPApi = () => {
-    axios
-      .get(`/api/home/fetchTMDPApi`, {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5Y2M1MGU5NmIzMjIzNDMzNDkwMmQ2YWExZGZjYjM5OSIsInN1YiI6IjVlOTliNGQ4ZmRmOGI3MDAxYWE0YTUwMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.j1ctA9Te_3qxM9ezjwquO9lvVIhlcEcBb0Ft9GCR4ug",
-        },
-      })
-      .then((data) => console.log(data));
   };
 
   const fetchYTSApiTrending = () => {
@@ -155,10 +152,37 @@ const HomeContainer = () => {
     return filteredResult;
   };
 
+  const PopCornQueryString = `${page}?keywords=${searchOptions.name}&sort=name&order=1`;
+
+  const fetchPopCorn = axios
+    .get(
+      "https://cors-anywhere.herokuapp.com/movies-v2.api-fetch.sh/movies/" +
+        PopCornQueryString
+    )
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return false;
+      }
+    });
+
+  // const YTSQueryString = `limit=20&page=1&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
+
+  // const fetchYTS = axios
+  //   .get(`https://yts.mx/api/v2/list_movies.json?${YTSQueryString}`)
+  //   .then((result) => {
+  //     if (result.data) {
+  //       return result.data;
+  //     } else {
+  //       return false;
+  //     }
+  //   });
+
   const fetchSearch = (scroll = false, pageScroll = 1) => {
-    const queryString = `limit=20&page=${pageScroll}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
+    const YTSQueryString = `limit=20&page=${pageScroll}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
     axios
-      .get(`https://yts.mx/api/v2/list_movies.json?${queryString}`)
+      .get(`https://yts.mx/api/v2/list_movies.json?${YTSQueryString}`)
       .then((result) => {
         if (result.data?.status === "ok") {
           if (result.data.data.movie_count === 0) {
