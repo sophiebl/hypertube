@@ -45,7 +45,7 @@ function App() {
             />
             <LoggedRoute path="/profile/:username" component={ProfileShow} />
             <LoggedRoute path="/profile" component={Profile} />
-            <Route path="/" component={Home} />
+            <LoggedRoute path="/" component={Home} />
           </Switch>
         </Router>
         <ToastContainer />
