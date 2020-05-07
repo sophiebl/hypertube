@@ -171,7 +171,9 @@ const HomeContainer = () => {
             setMoreMovies(false);
           } else {
             setEmptyResult(false);
-            setMoreMovies(true);
+            result.data.data.movie_count <= 20
+              ? setMoreMovies(false)
+              : setMoreMovies(true);
             const filteredResult = filterSearch(result.data.data.movies);
             if (scroll) {
               const newSearchResult = _.concat(searchResult, filteredResult);

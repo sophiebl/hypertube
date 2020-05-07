@@ -186,7 +186,6 @@ const SearchBox = ({
         <Grid item sm={2} xs={6}>
           <form className={classes.container} noValidate autoComplete="off">
             <TextField
-              id="outlined-select-currency-native"
               select
               // className={classes.textField}
               className={classes.whiteField}
@@ -215,7 +214,6 @@ const SearchBox = ({
         <Grid item sm={2} xs={6}>
           <form className={classes.container} noValidate autoComplete="off">
             <TextField
-              id="outlined-select-currency-native"
               select
               // className={classes.textField}
               className={classes.whiteField}
