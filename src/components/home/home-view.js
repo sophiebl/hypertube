@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
@@ -162,9 +162,15 @@ const Home = ({ location }) => {
   }
 
   const displayMoreMovies = () => {
-    setPage(page + 1);
-    if (searchResult) fetchSearch(true, page + 1);
+    console.log("next page");
+    if (searchResult) fetchSearch(true);
   };
+
+  useEffect(() => {
+    if (page > 1 && moreMovies) {
+      displayMoreMovies();
+    }
+  }, [page]);
 
   return (
     <>
@@ -183,7 +189,7 @@ const Home = ({ location }) => {
       ) : (
         <InfiniteScroll
           dataLength={searchResult ? searchResult.length : null}
-          next={() => displayMoreMovies()}
+          next={() => setPage(page + 1)}
           hasMore={moreMovies}
           loader={
             <div className={classes.progress}>

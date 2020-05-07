@@ -17,7 +17,7 @@ const MoviesList = ({ classes, list, emptyResult }) => {
           sm={4}
           md={2}
           lg={2}
-          key={movie.id}
+          key={movie.imdb_code}
           onMouseEnter={() => setIsHovered(index)}
           onMouseLeave={() => setIsHovered(null)}
         >

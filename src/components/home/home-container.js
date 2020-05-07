@@ -29,14 +29,6 @@ const HomeContainer = () => {
   useEffect(() => {
     // fetchYTSApiTrending();
     fetchSearch();
-    // Promise.all([fetchYTS, fetchPopCorn]).then((values) => {
-    //   console.log(values);
-    //   const YTSMovies = values[0].data.movies;
-    //   const popCornMovies = values[1];
-    //   const newSearchResult = _.concat(popCornMovies, YTSMovies);
-    //   setSearchResult(newSearchResult);
-    //   console.log({ newSearchResult });
-    // });
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -152,13 +144,36 @@ const HomeContainer = () => {
     return filteredResult;
   };
 
-  const PopCornQueryString = `${page}?keywords=${searchOptions.name}&sort=name&order=1`;
+  const popCornQueryString = `${page}?keywords=${searchOptions.name}&sort=name&order=1`;
 
   const fetchPopCorn = axios
     .get(
       "https://cors-anywhere.herokuapp.com/movies-v2.api-fetch.sh/movies/" +
-        PopCornQueryString
+        popCornQueryString
     )
+    .then((result) => {
+      if (result.data) {
+        return result.data.map((movie) => {
+          return {
+            imdb_code: movie.imdb_id,
+            medium_cover_image: movie.images.poster,
+            rating: movie.rating.percentage / 10,
+            title: movie.title,
+            genres: movie.genres.map(
+              (genre) => genre.charAt(0).toUpperCase() + genre.slice(1)
+            ),
+            year: movie.year,
+          };
+        });
+      } else {
+        return false;
+      }
+    });
+
+  const YTSQueryString = `limit=50&page=${page}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
+
+  const fetchYTS = axios
+    .get(`https://yts.mx/api/v2/list_movies.json?${YTSQueryString}`)
     .then((result) => {
       if (result.data) {
         return result.data;
@@ -167,48 +182,41 @@ const HomeContainer = () => {
       }
     });
 
-  // const YTSQueryString = `limit=20&page=1&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
-
-  // const fetchYTS = axios
-  //   .get(`https://yts.mx/api/v2/list_movies.json?${YTSQueryString}`)
-  //   .then((result) => {
-  //     if (result.data) {
-  //       return result.data;
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-
-  const fetchSearch = (scroll = false, pageScroll = 1) => {
-    const YTSQueryString = `limit=20&page=${pageScroll}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
-    axios
-      .get(`https://yts.mx/api/v2/list_movies.json?${YTSQueryString}`)
-      .then((result) => {
-        if (result.data?.status === "ok") {
-          if (result.data.data.movie_count === 0) {
-            console.log("pas de film deso");
-            setEmptyResult(true);
-            return;
-          }
-          if (!result.data.data.movies) {
-            console.log("plus de film a display");
-            setMoreMovies(false);
-          } else {
-            setEmptyResult(false);
-            result.data.data.movie_count <= 20
-              ? setMoreMovies(false)
-              : setMoreMovies(true);
-            const filteredResult = filterSearch(result.data.data.movies);
-            if (scroll) {
-              const newSearchResult = _.concat(searchResult, filteredResult);
-              setSearchResult(newSearchResult);
-            } else setSearchResult(filteredResult);
-            if (searchOptions.sort) handleSort(null, filteredResult);
-          }
-        } else {
-          console.log("nope");
+  const fetchSearch = (scroll = false) => {
+    Promise.all([fetchYTS, fetchPopCorn]).then((values) => {
+      const result = values[0];
+      const YTSMovies = values[0].data.movies;
+      const popCornMovies = values[1];
+      const mergedResult = _.uniqBy(
+        _.concat(YTSMovies, popCornMovies),
+        "imdb_code"
+      );
+      console.log({ result });
+      if (result?.status === "ok") {
+        if (result?.data.movie_count === 0) {
+          console.log("pas de film deso");
+          setEmptyResult(true);
+          return;
         }
-      });
+        if (!result.data.movies) {
+          console.log("plus de film a display");
+          setMoreMovies(false);
+        } else {
+          setEmptyResult(false);
+          result.data.movie_count <= 50
+            ? setMoreMovies(false)
+            : setMoreMovies(true);
+          const filteredResult = filterSearch(mergedResult);
+          if (scroll) {
+            const newSearchResult = _.concat(searchResult, filteredResult);
+            setSearchResult(newSearchResult);
+          } else setSearchResult(filteredResult);
+          if (searchOptions.sort) handleSort(null, filteredResult);
+        }
+      } else {
+        console.log("nope");
+      }
+    });
   };
 
   if (_.isEmpty(userInfo) && loaded === false) {
