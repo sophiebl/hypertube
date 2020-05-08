@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+
+.modalwidth{ 
+  max-width: 1000px !important;
+}
+
+.width100 {
+  width: 100%;
+}

@@ -5,11 +5,13 @@ import { ToastContainer } from "react-toastify";
 import Login from "../login";
 import Register from "../register";
 import Profile from "../profile";
-import ProfileShow from "../profileshow";
 import ResetPasswordEmailForm from "../resetPassword/resetPasswordEmail";
 import ResetPassword from "../resetPassword";
 import ResetPasswordValidation from "../resetPassword/resetPasswordValidation";
 import UserValidation from "../userValidation";
+import ProfileShow from "../profileshow";
+import Player from "../Player";
+import MovieDetails from "../MovieDetails";
 import Home from "../home";
 import { AuthProvider } from "./AuthContext";
 import LoggedRoute from "./LoggedRoute";
@@ -43,6 +45,8 @@ function App() {
               path="/userValidation/:token"
               component={UserValidation}
             />
+            <LoggedRoute path="/player/:movie" component={Player} />
+            <LoggedRoute path="/movie/:movie" component={MovieDetails} />
             <LoggedRoute path="/profile/:username" component={ProfileShow} />
             <LoggedRoute path="/profile" component={Profile} />
             <LoggedRoute path="/" component={Home} />
