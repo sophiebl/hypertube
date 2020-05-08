@@ -8,7 +8,8 @@ import HomeContainer from "./home-container";
 import SearchBox from "./components/searchBox.js";
 import MoviesList from "./components/moviesList.js";
 import EmptyResult from "./components/emptyResult";
-import InfiniteScroll from "react-infinite-scroll-component";
+// import InfiniteScroll from "react-infinite-scroll-component";
+import InfiniteScroll from "react-infinite-scroller";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -187,29 +188,36 @@ const Home = ({ location }) => {
       {emptyResult ? (
         <EmptyResult classes={classes} clearFilters={clearFilters} />
       ) : (
-        <InfiniteScroll
-          dataLength={searchResult ? searchResult.length : null}
-          next={() => setPage(page + 1)}
-          hasMore={moreMovies}
-          loader={
-            <div className={classes.progress}>
-              <CircularProgress color="secondary" />
-            </div>
-          }
-          endMessage={
-            <p style={{ textAlign: "center" }}>
-              <b>Yay! You have seen it all</b>
-            </p>
-          }
-        >
-          <Grid className={classes.gridContainer} container>
-            <MoviesList
-              classes={classes}
-              list={searchResult ? searchResult : trendingMovies}
-              setEmptyResult={setEmptyResult}
-            />
-          </Grid>
-        </InfiniteScroll>
+        // dataLength={searchResult.length}
+        // next={() => setPage(page + 1)}
+        // hasMore={moreMovies}
+        // loader={
+        //   <div className={classes.progress}>
+        //     <CircularProgress color="secondary" />
+        //   </div>
+        // }
+        // endMessage={
+        //   <p style={{ textAlign: "center" }}>
+        //     <b>Yay! You have seen it all</b>
+        //   </p>
+        // }
+        // <InfiniteScroll
+        //   pageStart={page}
+        //   loadMore={() => setPage(page + 1)}
+        //   hasMore={moreMovies}
+        //   loader={
+        //     <div className={classes.progress}>
+        //       <CircularProgress color="secondary" />
+        //     </div>
+        //   }
+        // ></InfiniteScroll>
+        <Grid className={classes.gridContainer} container>
+          <MoviesList
+            classes={classes}
+            list={searchResult ? searchResult : trendingMovies}
+            setEmptyResult={setEmptyResult}
+          />
+        </Grid>
       )}
       <Toaster getParams={getParams} />
     </>

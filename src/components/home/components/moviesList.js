@@ -21,21 +21,22 @@ const MoviesList = ({ classes, list, emptyResult }) => {
           lg={2}
           key={movie.imdb_code}
           onMouseEnter={() => setIsHovered(index)}
-          onMouseLeave={() => setIsHovered(null)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          <Box className={classes.card}>
-            <ReactImageFallback
-              src={movie.medium_cover_image}
+          <div className={classes.card}>
+            {/* <ReactImageFallback
+              // src={movie.medium_cover_image}
+              src="https://placekitten.com/g/200/200"
               fallbackImage="https://placekitten.com/g/200/300"
               initialImage="https://placekitten.com/g/200/400"
               alt={movie.title}
               className={classes.img}
-            />
-            {/* <img
-              className={classes.img}
-              src={movie.medium_cover_image}
-              alt={movie.title}
             /> */}
+            <img
+              className={classes.img}
+              src="/assets/hollywood.jpeg"
+              alt={movie.title}
+            />
             <CheckCircleIcon className={classes.viewedIcon} color="primary" />
             <LinearProgress
               variant="determinate"
@@ -52,7 +53,7 @@ const MoviesList = ({ classes, list, emptyResult }) => {
                 >
                   <AddIcon />
                 </Fab>
-                <Box className={classes.cardInfo}>
+                <div className={classes.cardInfo}>
                   <Grid container>
                     <Grid item xs={8} sm={8} md={8} lg={8}>
                       <Typography
@@ -84,18 +85,18 @@ const MoviesList = ({ classes, list, emptyResult }) => {
                       lg={4}
                       className={classes.ratingBoxDiv}
                     >
-                      <Box className={classes.ratingBox}>
+                      <div className={classes.ratingBox}>
                         <StarRateIcon />
                         <Typography className={classes.ratingText}>
                           {movie.rating}
                         </Typography>
-                      </Box>
+                      </div>
                     </Grid>
                   </Grid>
-                </Box>
+                </div>
               </>
             ) : null}
-          </Box>
+          </div>
         </Grid>
       ))}
     </>
