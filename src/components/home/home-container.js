@@ -23,12 +23,12 @@ const HomeContainer = () => {
   const [page, setPage] = useState(1);
   const [moreMovies, setMoreMovies] = useState(true);
   const [debouncedCallback] = useDebouncedCallback(() => {
-    fetchSearch();
+    fetchSearch(false, "debounced");
   });
 
   useEffect(() => {
     // fetchYTSApiTrending();
-    fetchSearch();
+    fetchSearch(false, "use effect");
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -144,50 +144,49 @@ const HomeContainer = () => {
     return filteredResult;
   };
 
-  const popCornQueryString = `${page}?keywords=${searchOptions.name}&sort=name&order=1`;
+  const fetchSearch = (scroll = false, who) => {
+    console.log({ who });
+    const popCornQueryString = `${page}?keywords=${searchOptions.name}&sort=name&order=1`;
 
-  const fetchPopCorn = axios
-    .get(
-      "https://cors-anywhere.herokuapp.com/movies-v2.api-fetch.sh/movies/" +
-        popCornQueryString
-    )
-    .then((result) => {
-      if (result.data) {
-        return result.data.map((movie) => {
-          return {
-            imdb_code: movie.imdb_id,
-            medium_cover_image: movie.images.poster,
-            rating: movie.rating.percentage / 10,
-            title: movie.title,
-            genres: movie.genres.map(
-              (genre) => genre.charAt(0).toUpperCase() + genre.slice(1)
-            ),
-            year: movie.year,
-          };
-        });
-      } else {
-        return false;
-      }
-    });
+    const fetchPopCorn = axios
+      .get(
+        "https://cors-anywhere.herokuapp.com/movies-v2.api-fetch.sh/movies/" +
+          popCornQueryString
+      )
+      .then((result) => {
+        if (result.data) {
+          return result.data.map((movie) => {
+            return {
+              imdb_code: movie.imdb_id,
+              medium_cover_image: movie.images.poster,
+              rating: movie.rating.percentage / 10,
+              title: movie.title,
+              genres: movie.genres.map(
+                (genre) => genre.charAt(0).toUpperCase() + genre.slice(1)
+              ),
+              year: movie.year,
+            };
+          });
+        } else {
+          return false;
+        }
+      });
 
-  const YTSQueryString = `limit=50&page=${page}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
+    const YTSQueryString = `limit=50&page=${page}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
 
-  const fetchYTS = axios
-    .get(`https://yts.mx/api/v2/list_movies.json?${YTSQueryString}`)
-    .then((result) => {
-      if (result.data) {
-        return result.data;
-      } else {
-        return false;
-      }
-    });
-
-  const fetchSearch = (scroll = false) => {
+    const fetchYTS = axios
+      .get(`https://yts.mx/api/v2/list_movies.json?${YTSQueryString}`)
+      .then((result) => {
+        if (result.data) {
+          return result.data;
+        } else {
+          return false;
+        }
+      });
     Promise.all([fetchYTS, fetchPopCorn]).then((values) => {
       const result = values[0];
       const YTSMovies = values[0].data.movies;
       const popCornMovies = values[1];
-      console.log(_.concat(YTSMovies, popCornMovies));
       const mergedResult = _.uniqBy(
         _.concat(YTSMovies, popCornMovies, scroll ? searchResult : []),
         "imdb_code"

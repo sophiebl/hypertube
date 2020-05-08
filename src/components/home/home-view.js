@@ -163,7 +163,7 @@ const Home = ({ location }) => {
 
   const displayMoreMovies = () => {
     console.log("next page");
-    if (searchResult) fetchSearch(true);
+    if (searchResult) fetchSearch(true, "display more movies");
   };
 
   useEffect(() => {
