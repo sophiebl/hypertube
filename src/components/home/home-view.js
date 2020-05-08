@@ -59,15 +59,15 @@ const useStyles = makeStyles((theme) => ({
   progressBar: {
     position: "absolute",
     bottom: "0px",
-    width: "100%",
+    width: "80%",
     height: "8px",
-    display: "none",
+    // display: "none",
   },
   viewedIcon: {
     position: "absolute",
     top: "15px",
     right: "15px",
-    display: "none",
+    // display: "none",
   },
   fabAdd: {
     position: "absolute",
