@@ -3,6 +3,8 @@ import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import AddIcon from "@material-ui/icons/Add";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import ImageIcon from "@material-ui/icons/Image";
+import ReactImageFallback from "react-image-fallback";
 import _ from "lodash";
 
 const MoviesList = ({ classes, list, emptyResult }) => {
@@ -22,11 +24,18 @@ const MoviesList = ({ classes, list, emptyResult }) => {
           onMouseLeave={() => setIsHovered(null)}
         >
           <Box className={classes.card}>
-            <img
+            <ReactImageFallback
+              src={movie.medium_cover_image}
+              fallbackImage="https://placekitten.com/g/200/300"
+              initialImage="https://placekitten.com/g/200/400"
+              alt={movie.title}
+              className={classes.img}
+            />
+            {/* <img
               className={classes.img}
               src={movie.medium_cover_image}
               alt={movie.title}
-            />
+            /> */}
             <CheckCircleIcon className={classes.viewedIcon} color="primary" />
             <LinearProgress
               variant="determinate"

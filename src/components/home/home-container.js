@@ -15,7 +15,7 @@ const HomeContainer = () => {
     genre: "",
     sort: "",
   });
-  const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState([]);
   const [emptyResult, setEmptyResult] = useState(false);
   const {
     authContext: { userData },
@@ -187,11 +187,12 @@ const HomeContainer = () => {
       const result = values[0];
       const YTSMovies = values[0].data.movies;
       const popCornMovies = values[1];
+      console.log(_.concat(YTSMovies, popCornMovies));
       const mergedResult = _.uniqBy(
-        _.concat(YTSMovies, popCornMovies),
+        _.concat(YTSMovies, popCornMovies, scroll ? searchResult : []),
         "imdb_code"
       );
-      console.log({ result });
+      console.log({ mergedResult });
       if (result?.status === "ok") {
         if (result?.data.movie_count === 0) {
           console.log("pas de film deso");
@@ -207,10 +208,7 @@ const HomeContainer = () => {
             ? setMoreMovies(false)
             : setMoreMovies(true);
           const filteredResult = filterSearch(mergedResult);
-          if (scroll) {
-            const newSearchResult = _.concat(searchResult, filteredResult);
-            setSearchResult(newSearchResult);
-          } else setSearchResult(filteredResult);
+          setSearchResult(filteredResult);
           if (searchOptions.sort) handleSort(null, filteredResult);
         }
       } else {
