@@ -156,7 +156,7 @@ const SearchBox = ({
             onChange={(event, newValue) =>
               handleChangeInput("rating", newValue)
             }
-            onChangeCommitted={() => fetchSearch(false, "rating")}
+            onChangeCommitted={() => fetchSearch(false)}
             valueLabelDisplay="auto"
             aria-labelledby="track-inverted-slider"
             min={0}
@@ -175,7 +175,7 @@ const SearchBox = ({
             className={classes.slider}
             value={searchOptions.year}
             onChange={(event, newValue) => handleChangeInput("year", newValue)}
-            onChangeCommitted={() => fetchSearch(false, "year")}
+            onChangeCommitted={() => fetchSearch(false)}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             min={1930}

@@ -3,13 +3,10 @@ import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
 import Toaster from "../toaster/index";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import HomeContainer from "./home-container";
 import SearchBox from "./components/searchBox.js";
 import MoviesList from "./components/moviesList.js";
 import EmptyResult from "./components/emptyResult";
-// import InfiniteScroll from "react-infinite-scroll-component";
-import InfiniteScroll from "react-infinite-scroller";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -130,10 +127,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   progress: {
-    // display: "flex",
-    // flexDirection: "row",
-    // justifyContent: "center",
-    // alignItems: "center",
     margin: "auto",
   },
 }));
@@ -143,7 +136,6 @@ const Home = ({ location }) => {
   const getParams = queryString.parse(location.search);
   const {
     saveToken,
-    trendingMovies,
     searchOptions,
     handleSort,
     handleChangeInput,
@@ -157,13 +149,14 @@ const Home = ({ location }) => {
     setPage,
     moreMovies,
   } = HomeContainer();
+
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
 
   const displayMoreMovies = () => {
     console.log("next page");
-    if (searchResult) fetchSearch(true, "display more movies");
+    if (searchResult) fetchSearch(true);
   };
 
   useEffect(() => {
@@ -179,9 +172,6 @@ const Home = ({ location }) => {
   }, []);
 
   const handleScroll = () => {
-    // console.log(window.innerHeight);
-    // console.log(document.documentElement.scrollTop);
-    // console.log(document.documentElement.offsetHeight);
     if (
       document.documentElement.scrollTop === 0 ||
       window.innerHeight + document.documentElement.scrollTop <
@@ -210,7 +200,7 @@ const Home = ({ location }) => {
         <Grid className={classes.gridContainer} container>
           <MoviesList
             classes={classes}
-            list={searchResult ? searchResult : trendingMovies}
+            list={searchResult}
             setEmptyResult={setEmptyResult}
           />
         </Grid>

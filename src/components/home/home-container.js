@@ -7,7 +7,6 @@ import { AuthContext } from "../App/AuthContext";
 const HomeContainer = () => {
   const [loaded, setLoaded] = useState(false);
   const [userInfo, setUserInfo] = useState({});
-  const [trendingMovies, setTrendingMovies] = useState(null);
   const [searchOptions, setSearchOptions] = useState({
     name: "",
     rating: 0,
@@ -23,12 +22,11 @@ const HomeContainer = () => {
   const [page, setPage] = useState(1);
   const [moreMovies, setMoreMovies] = useState(true);
   const [debouncedCallback] = useDebouncedCallback(() => {
-    fetchSearch(false, "debounced");
+    fetchSearch(false);
   });
 
   useEffect(() => {
-    // fetchYTSApiTrending();
-    fetchSearch(false, "use effect");
+    fetchSearch(false, true);
     //   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,22 +55,6 @@ const HomeContainer = () => {
   const saveToken = (token) => {
     localStorage.setItem("token", token);
     window.location = "/?message=login_success";
-  };
-
-  const fetchYTSApiTrending = () => {
-    axios
-      .get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating`)
-      .then((result) => {
-        if (result.data && result.data.status === "ok") {
-          // console.log(result.data.data.movies);
-          setTrendingMovies(result.data.data.movies);
-          // console.log(trendingMovies);
-          return result.data.data.movies;
-        } else {
-          console.log("nope");
-          return false;
-        }
-      });
   };
 
   const handleSort = (event, filteredResult) => {
@@ -144,14 +126,13 @@ const HomeContainer = () => {
     return filteredResult;
   };
 
-  const fetchSearch = (scroll = false, who) => {
-    console.log({ who });
-    const popCornQueryString = `${page}?keywords=${searchOptions.name}&sort=name&order=1`;
-
+  const fetchSearch = (scroll = false, trending = false) => {
     const fetchPopCorn = axios
       .get(
         "https://cors-anywhere.herokuapp.com/movies-v2.api-fetch.sh/movies/" +
-          popCornQueryString
+          `${page}?keywords=${searchOptions.name}&sort=${
+            trending ? "rating" : "name"
+          }&order=${trending ? "-1" : "1"}`
       )
       .then((result) => {
         if (result.data) {
@@ -172,10 +153,15 @@ const HomeContainer = () => {
         }
       });
 
-    const YTSQueryString = `limit=50&page=${page}&minimum_rating=${searchOptions.rating}&query_term=${searchOptions.name}&sort_by=title&order_by=asc`;
-
     const fetchYTS = axios
-      .get(`https://yts.mx/api/v2/list_movies.json?${YTSQueryString}`)
+      .get(
+        `https://yts.mx/api/v2/list_movies.json?` +
+          `limit=50&page=${page}&minimum_rating=${
+            searchOptions.rating
+          }&query_term=${searchOptions.name}&sort_by=${
+            trending ? "rating" : "title"
+          }&order_by=${trending ? "des" : "asc"}`
+      )
       .then((result) => {
         if (result.data) {
           return result.data;
@@ -241,8 +227,6 @@ const HomeContainer = () => {
   return {
     userInfo,
     saveToken,
-    // fetchTMDPApi,
-    trendingMovies,
     searchOptions,
     handleSort,
     handleChangeInput,
