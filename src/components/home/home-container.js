@@ -225,16 +225,13 @@ const HomeContainer = () => {
   }
 
   return {
-    userInfo,
     saveToken,
     searchOptions,
     handleSort,
     handleChangeInput,
     fetchSearch,
-    debouncedCallback,
     searchResult,
     emptyResult,
-    setEmptyResult,
     clearFilters,
     page,
     setPage,

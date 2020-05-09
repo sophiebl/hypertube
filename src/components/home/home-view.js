@@ -7,6 +7,7 @@ import HomeContainer from "./home-container";
 import SearchBox from "./components/searchBox.js";
 import MoviesList from "./components/moviesList.js";
 import EmptyResult from "./components/emptyResult";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -141,10 +142,8 @@ const Home = ({ location }) => {
     handleSort,
     handleChangeInput,
     fetchSearch,
-    debouncedCallback,
     searchResult,
     emptyResult,
-    setEmptyResult,
     clearFilters,
     page,
     setPage,
@@ -189,21 +188,20 @@ const Home = ({ location }) => {
         classes={classes}
         searchOptions={searchOptions}
         handleChangeInput={handleChangeInput}
-        // currentUserProfile={currentUserProfile}
         handleSort={handleSort}
         fetchSearch={fetchSearch}
-        debouncedCallback={debouncedCallback}
       />
       <Divider light />
       {emptyResult ? (
         <EmptyResult classes={classes} clearFilters={clearFilters} />
       ) : (
         <Grid className={classes.gridContainer} container>
-          <MoviesList
-            classes={classes}
-            list={searchResult}
-            setEmptyResult={setEmptyResult}
-          />
+          <MoviesList classes={classes} list={searchResult} />
+          {moreMovies ? (
+            <CircularProgress />
+          ) : (
+            <h4>Yaaay, you've seen it all!</h4>
+          )}
         </Grid>
       )}
       <Toaster getParams={getParams} />

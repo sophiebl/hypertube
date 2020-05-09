@@ -5,12 +5,9 @@ import SearchIcon from "@material-ui/icons/Search";
 const SearchBox = ({
   classes,
   searchOptions,
-  setSearchOptions,
   handleChangeInput,
-  // currentUserProfile,
   handleSort,
   fetchSearch,
-  debouncedCallback,
 }) => {
   const genreOptions = [
     {

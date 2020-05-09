@@ -8,7 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactImageFallback from "react-image-fallback";
 import _ from "lodash";
 
-const MoviesList = ({ classes, list, emptyResult }) => {
+const MoviesList = ({ classes, list }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -53,7 +53,6 @@ const MoviesList = ({ classes, list, emptyResult }) => {
                 />
               </>
             ) : null}
-
             {isHovered === index ? (
               <>
                 <Fab
