@@ -54,7 +54,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     margin: theme.spacing(1),
     position: "relative",
-    // height: "300px",
+    height: "300px",
+    display: "flex",
   },
   progressBar: {
     position: "absolute",
@@ -129,10 +130,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   progress: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    // display: "flex",
+    // flexDirection: "row",
+    // justifyContent: "center",
+    // alignItems: "center",
+    margin: "auto",
   },
 }));
 

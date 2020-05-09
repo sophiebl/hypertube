@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
+import { Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import AddIcon from "@material-ui/icons/Add";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ImageIcon from "@material-ui/icons/Image";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactImageFallback from "react-image-fallback";
 import _ from "lodash";
 
@@ -26,8 +27,10 @@ const MoviesList = ({ classes, list, emptyResult }) => {
           <div className={classes.card}>
             <ReactImageFallback
               src={movie.medium_cover_image}
-              fallbackImage="https://placekitten.com/g/200/300"
-              initialImage="https://placekitten.com/g/200/400"
+              fallbackImage="https://media.giphy.com/media/26xBIygOcC3bAWg3S/giphy.gif"
+              initialImage={
+                <CircularProgress className={classes.progress} size={60} />
+              }
               alt={movie.title}
               className={classes.img}
             />
