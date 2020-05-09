@@ -18,7 +18,7 @@ const HomeContainer = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [emptyResult, setEmptyResult] = useState(false);
   const {
-    authContext: { userData },
+    authContext: { userData, token },
   } = useContext(AuthContext);
   const [page, setPage] = useState(1);
   const [moreMovies, setMoreMovies] = useState(true);
@@ -183,14 +183,32 @@ const HomeContainer = () => {
           return false;
         }
       });
-    Promise.all([fetchYTS, fetchPopCorn]).then((values) => {
+
+    const fetchWatchedMovies = axios
+      .get(`/api/movies/findwatched`, {
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: "JWT " + token,
+        },
+      })
+      .then((result) => {
+        if (result.data) {
+          return result.data;
+        } else {
+          return false;
+        }
+      });
+    Promise.all([fetchYTS, fetchPopCorn, fetchWatchedMovies]).then((values) => {
       const result = values[0];
       const YTSMovies = values[0].data.movies;
       const popCornMovies = values[1];
+      const watchedMovies = values[2];
       const mergedResult = _.uniqBy(
-        _.concat(YTSMovies, popCornMovies, scroll ? searchResult : []),
+        _.concat(scroll ? searchResult : [], YTSMovies, popCornMovies),
         "imdb_code"
-      );
+      ).map((movie) => {
+        return { ...movie, watched: watchedMovies.includes(movie?.imdb_code) };
+      });
       console.log({ mergedResult });
       if (result?.status === "ok") {
         if (result?.data.movie_count === 0) {

@@ -24,18 +24,12 @@ const MoviesList = ({ classes, list, emptyResult }) => {
           onMouseLeave={() => setIsHovered(false)}
         >
           <div className={classes.card}>
-            {/* <ReactImageFallback
-              // src={movie.medium_cover_image}
-              src="https://placekitten.com/g/200/200"
+            <ReactImageFallback
+              src={movie.medium_cover_image}
               fallbackImage="https://placekitten.com/g/200/300"
               initialImage="https://placekitten.com/g/200/400"
               alt={movie.title}
               className={classes.img}
-            /> */}
-            <img
-              className={classes.img}
-              src="/assets/hollywood.jpeg"
-              alt={movie.title}
             />
             <CheckCircleIcon className={classes.viewedIcon} color="primary" />
             <LinearProgress

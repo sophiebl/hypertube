@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
@@ -168,10 +168,30 @@ const Home = ({ location }) => {
   };
 
   useEffect(() => {
+    console.log({ moreMovies, page });
     if (page > 1 && moreMovies) {
       displayMoreMovies();
     }
   }, [page]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScroll = () => {
+    // console.log(window.innerHeight);
+    // console.log(document.documentElement.scrollTop);
+    // console.log(document.documentElement.offsetHeight);
+    if (
+      document.documentElement.scrollTop === 0 ||
+      window.innerHeight + document.documentElement.scrollTop <
+        document.documentElement.offsetHeight - 10
+    )
+      return;
+    console.log("Fetch more list items!");
+    setPage((page) => page + 1);
+  };
 
   return (
     <>
@@ -188,29 +208,6 @@ const Home = ({ location }) => {
       {emptyResult ? (
         <EmptyResult classes={classes} clearFilters={clearFilters} />
       ) : (
-        // dataLength={searchResult.length}
-        // next={() => setPage(page + 1)}
-        // hasMore={moreMovies}
-        // loader={
-        //   <div className={classes.progress}>
-        //     <CircularProgress color="secondary" />
-        //   </div>
-        // }
-        // endMessage={
-        //   <p style={{ textAlign: "center" }}>
-        //     <b>Yay! You have seen it all</b>
-        //   </p>
-        // }
-        // <InfiniteScroll
-        //   pageStart={page}
-        //   loadMore={() => setPage(page + 1)}
-        //   hasMore={moreMovies}
-        //   loader={
-        //     <div className={classes.progress}>
-        //       <CircularProgress color="secondary" />
-        //     </div>
-        //   }
-        // ></InfiniteScroll>
         <Grid className={classes.gridContainer} container>
           <MoviesList
             classes={classes}
