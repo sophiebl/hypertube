@@ -24,7 +24,12 @@ const MoviesList = ({ classes, list, emptyResult }) => {
           onMouseEnter={() => setIsHovered(index)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className={classes.card}>
+          <div
+            className={classes.card}
+            onClick={() => {
+              window.location = `/movie/${movie.imdb_code}`;
+            }}
+          >
             <ReactImageFallback
               src={movie.medium_cover_image}
               fallbackImage="https://media.giphy.com/media/26xBIygOcC3bAWg3S/giphy.gif"

@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     height: "300px",
     display: "flex",
+    cursor: "pointer",
   },
   progressBar: {
     position: "absolute",
