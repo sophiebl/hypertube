@@ -31,13 +31,21 @@ const MoviesList = ({ classes, list, emptyResult }) => {
               alt={movie.title}
               className={classes.img}
             />
-            <CheckCircleIcon className={classes.viewedIcon} color="primary" />
-            <LinearProgress
-              variant="determinate"
-              value={100}
-              color="secondary"
-              className={classes.progressBar}
-            />
+            {movie.watched ? (
+              <>
+                <CheckCircleIcon
+                  className={classes.viewedIcon}
+                  color="primary"
+                />
+                <LinearProgress
+                  variant="determinate"
+                  value={100}
+                  color="secondary"
+                  className={classes.progressBar}
+                />
+              </>
+            ) : null}
+
             {isHovered === index ? (
               <>
                 <Fab

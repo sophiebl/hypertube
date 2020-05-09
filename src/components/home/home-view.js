@@ -59,15 +59,13 @@ const useStyles = makeStyles((theme) => ({
   progressBar: {
     position: "absolute",
     bottom: "0px",
-    width: "80%",
+    width: "100%",
     height: "8px",
-    // display: "none",
   },
   viewedIcon: {
     position: "absolute",
     top: "15px",
     right: "15px",
-    // display: "none",
   },
   fabAdd: {
     position: "absolute",
@@ -106,7 +104,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "5px",
   },
   ratingText: {
-    // color: "white",
     fontSize: "14px",
   },
   img: {
