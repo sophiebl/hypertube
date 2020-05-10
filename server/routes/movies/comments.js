@@ -1,18 +1,29 @@
 const passport = require("passport");
-const dotenv = require("dotenv");
+const { sequelize } = require("../../models/index");
+const Comment = sequelize.import("../../models/comment");
 
-const userModel = require("../../models/user");
-const Comment = require("../../models/comment");
 
-const createComment = (userId, movieId, comment) => {
-  Comment.findOne({ where: { movie: movieId } }).then((obj) => {
+const createComment = async (req, res) => {
+  
+    const movieId = req.params.id;
+    const userId = req.user.id;
+    const comment = req.body.comment;
+    try {
       Comment.create({
         author: userId,
         content: comment,
         movie: movieId,
       });
-
-  });
+      res.send({
+        created: true,
+        message: "Your comment as been saved"
+      })
+    } catch(err) {
+      res.send({
+        created: false, 
+        message: "Sorry the comment can't be saved",
+      })
+    }
 };
 
 
@@ -29,10 +40,9 @@ const getComments = async (req, res) => {
 };
 
 module.exports = (app) => {
-    app.get(
+    app.post(
       "/:id/comments",
       passport.authenticate("jwt", { session: false }),
-      getComments,
       createComment
     );  
   };

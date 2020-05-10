@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../App/AuthContext";
+import { toast } from 'react-toastify';
 
 const MovieContainer = (imdbId) => {
   const { authContext } = useContext(AuthContext);
@@ -81,41 +82,34 @@ const MovieContainer = (imdbId) => {
     setShowModal(true)
   }
 
-  // const handleInputChange = event => {
-  //   event.persist();
-  //   const newInput = {
-  //     ...inputs,
-  //     [event.target.name]: event.target.value,
-  //   };
-  //   setInputs(newInput);
-  // };
-
   const handleComment = event => {
     console.log('handle comment')
     setComment(event.target.value);
   };
 
   const sendComment = event => {
-    console.log('comment')
+    console.log('send Comment')
         if (event) {
           event.preventDefault();
           axios
             .post(
-              `/api/movies/:id/comments`,
+              `/api/movies/${imdbId}/comments`,
               {
                 comment: comment,
               },
               {
                 headers: {
                   'Content-type': 'application/json; charset=UTF-8',
+                  Authorization: "JWT " + token,
                 },
               },
             )
             .then(({ data }) => {
               if (data.created === true) {
-                // callback(true);
+                toast.success(data.message);
+                setComment('');
               } else {
-                // data.errors.forEach(error => toast.error(error));
+                toast.error(data.message);
               }
             });
         }
@@ -134,7 +128,10 @@ const MovieContainer = (imdbId) => {
     setShowModal,
     movieRequest,
     setMovieRequest,
-    imdbId
+    imdbId,
+    comment,
+    handleComment,
+    sendComment
   };
 }
 
