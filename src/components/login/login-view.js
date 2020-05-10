@@ -1,33 +1,33 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
-import useLoginForm from './login-container';
+import React from "react";
+import Avatar from "@material-ui/core/Avatar";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
+import { makeStyles } from "@material-ui/core/styles";
+import useLoginForm from "./login-container";
 
-const useStyles = makeStyles(theme => ({
-  '@global': {
+const useStyles = makeStyles((theme) => ({
+  "@global": {
     body: {
       backgroundColor: theme.palette.common.white,
     },
   },
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   },
   submitFB: {
     margin: theme.spacing(3, 0, 2),
-    backgroundColor: '#039be5'
+    backgroundColor: "#039be5",
   },
   // submitFB: {
   //   "&:hover": {
@@ -45,9 +45,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Login = () => {
-  const login = success => {
+  const login = (success) => {
     if (success) {
-      window.location = '/?message=login_success';
+      window.location = "/?message=login_success";
     }
   };
   const { inputs, handleInputChange, handleSubmit } = useLoginForm(login);
@@ -102,7 +102,7 @@ const Login = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/forgotpassword" variant="body2">
+              <Link href="/resetPasswordEmail" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
@@ -117,25 +117,33 @@ const Login = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                href="http://localhost:8080/api/users/auth/facebook"
-                fullWidth
-                className={classes.submitFB}
-              >
-              <img width="30px" alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585581406/icons8-facebook_vlisgc.svg"/>
+              type="submit"
+              variant="contained"
+              color="primary"
+              href="http://localhost:8080/api/users/auth/facebook"
+              fullWidth
+              className={classes.submitFB}
+            >
+              <img
+                width="30px"
+                alt='42 "G" Logo'
+                src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585581406/icons8-facebook_vlisgc.svg"
+              />
             </Button>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Button
-                type="submit"
-                variant="contained"
-                href="http://localhost:8080/api/users/auth/fortytwo"
-                fullWidth
-                className={classes.submit}
-              >
-                <img width="30px" alt="42 &quot;G&quot; Logo" src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585580741/42_logo_black_kdm4iy.svg"/>
+              type="submit"
+              variant="contained"
+              href="http://localhost:8080/api/users/auth/fortytwo"
+              fullWidth
+              className={classes.submit}
+            >
+              <img
+                width="30px"
+                alt='42 "G" Logo'
+                src="https://res.cloudinary.com/dtfunbpou/image/upload/v1585580741/42_logo_black_kdm4iy.svg"
+              />
             </Button>
           </Grid>
         </Grid>

@@ -1,8 +1,7 @@
 const jwtSecret = require("./jwtConfig");
 const bcrypt = require("bcrypt");
-
 const BCRYPT_SALT_ROUNDS = 12;
-const TokenGenerator = require("uuid-token-generator");
+const jwt = require("jwt-simple");
 
 const passport = require("passport"),
   localStrategy = require("passport-local").Strategy,
@@ -14,7 +13,6 @@ const { sequelize } = require("../models/index");
 const User = sequelize.import("../models/user");
 const Comment = sequelize.import("../models/comment");
 const { sendRegisterEmail } = require("../controllers/user_controller");
-const tokgen = new TokenGenerator(256, TokenGenerator.BASE62);
 
 passport.serializeUser(function (user, done) {
   done(null, user.dataValues.id);
@@ -59,7 +57,6 @@ passport.use(
       try {
         var check = checkPwd(password);
         if (check) {
-          const token = tokgen.generate();
           bcrypt.hash(password, BCRYPT_SALT_ROUNDS).then((hashedPassword) => {
             User.create({
               userName: username,
@@ -67,10 +64,13 @@ passport.use(
               firstName: req.body.first_name,
               lastName: req.body.last_name,
               email: req.body.email,
-              validationToken: token,
             })
               .then((user) => {
-                console.log("user created");
+                const payload = {
+                  email: req.body.email,
+                };
+                const secret = process.env.JWT_SECRET;
+                const token = jwt.encode(payload, secret);
                 sendRegisterEmail(user.email, token);
                 // note the return needed with passport local - remove this return for passport JWT to work
                 return done(null, user, {
@@ -126,13 +126,14 @@ passport.use(
           },
         }).then((user) => {
           if (user === null) {
-            return done(null, false, { message: "We didn't recognize your username. Are you sure?" });
+            return done(null, false, {
+              message: "We didn't recognize your username. Are you sure?",
+            });
           } else if (user.dataValues.validated === false) {
             return done(null, false, { message: "Account not validated yet!" });
           } else {
             bcrypt.compare(password, user.password).then((response) => {
               if (response !== true) {
-                console.log("passwords do not match");
                 return done(null, false, { message: "Passwords do not match" });
               }
               console.log("user found & authenticated");
@@ -156,7 +157,6 @@ passport.use(
   "jwt",
   new JWTstrategy(opts, (jwt_payload, done) => {
     try {
-      console.log(jwt_payload);
       User.findOne({
         where: {
           id: jwt_payload.id,
@@ -237,3 +237,5 @@ passport.use(
     }
   )
 );
+
+module.exports = checkPwd;

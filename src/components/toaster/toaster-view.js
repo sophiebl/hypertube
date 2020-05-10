@@ -1,4 +1,4 @@
-import useDebouncedCallback from 'use-debounce/lib/useDebouncedCallback';
+import useDebouncedCallback from "use-debounce/lib/useDebouncedCallback";
 import {
   loginSuccess,
   logoutSuccess,
@@ -15,68 +15,71 @@ import {
   profileNotCompleted,
   userBlockedYou,
   accessDenied,
-} from './toaster-container';
+  passwordReset,
+} from "./toaster-container";
 
 const Toaster = ({ getParams }) => {
-  console.log(getParams);
-  const [toastDebounced] = useDebouncedCallback(getParams => {
+  const [toastDebounced] = useDebouncedCallback((getParams) => {
     switch (getParams.message) {
-      case 'login_success':
+      case "login_success":
         loginSuccess();
         break;
-      case 'logout_success':
+      case "logout_success":
         logoutSuccess();
         break;
-      case 'bad_username':
+      case "bad_username":
         badUsername();
         break;
-      case 'oauth_fail':
+      case "oauth_fail":
         oauthFail();
         break;
-      case 'delete_success':
+      case "delete_success":
         deleteSuccess();
         break;
-      case 'signup_success':
+      case "signup_success":
         signupSuccess();
         break;
-      case 'already_loggedin':
+      case "already_loggedin":
         alreadyLoggedin();
         break;
-      case 'user_validated':
+      case "user_validated":
         userValidated();
         break;
-      case 'user_not_validated':
+      case "user_not_validated":
         userNotValidated();
         break;
-      case 'forgotPassword_success':
+      case "forgotPassword_success":
         forgotPasswordSuccess();
         break;
-      case 'reset_password_success':
+      case "reset_password_success":
         resetPasswordSuccess();
         break;
-      case 'user_not_found':
+      case "user_not_found":
         userNotFound();
         break;
-      case 'profile_not_completed':
+      case "profile_not_completed":
         profileNotCompleted();
         break;
-      case 'user_blocked_you':
+      case "user_blocked_you":
         userBlockedYou();
         break;
-      case 'access_denied':
+      case "access_denied":
         accessDenied();
         break;
-      case 'cant_access_chat':
+      case "cant_access_chat":
         accessDenied();
+        break;
+      case "password_reset":
+        passwordReset();
         break;
       default:
         break;
     }
   }, 500);
 
-    if (getParams !== undefined && getParams.message !== undefined) {
-      toastDebounced(getParams);
-    }
+  if (getParams !== undefined && getParams.message !== undefined) {
+    toastDebounced(getParams);
+  }
   return null;
 };
 

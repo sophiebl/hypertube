@@ -33,10 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ResetPassword = ({ match }) => {
-  const { token } = match.params;
+const ResetPasswordEmailForm = () => {
   const classes = useStyles();
-  const { inputs, handleSubmit, handleInputChange } = useResetForm(token);
+  const { sendResetEmail, inputs, handleInputChange } = useResetForm();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -45,36 +44,22 @@ const ResetPassword = ({ match }) => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Change your password
+          Want to change your password?
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <div className={classes.form}>
           <TextField
             fullWidth
             margin="normal"
-            htmlFor="password1"
-            type="password"
-            name="password1"
+            htmlFor="email"
+            type="email"
+            name="email"
             onChange={handleInputChange}
-            value={inputs.password1}
-            id="password1"
+            value={inputs.email}
+            id="email"
             variant="outlined"
             required
             autoFocus
-            label="New password"
-          />
-
-          <TextField
-            fullWidth
-            margin="normal"
-            htmlFor="password2"
-            type="password"
-            name="password2"
-            onChange={handleInputChange}
-            value={inputs.password2}
-            variant="outlined"
-            id="password2"
-            required
-            label="New password again"
+            label="Your email"
           />
           <Button
             type="submit"
@@ -82,13 +67,14 @@ const ResetPassword = ({ match }) => {
             color="primary"
             fullWidth
             className={classes.submit}
+            onClick={() => sendResetEmail(inputs.email)}
           >
-            Log In
+            Send email
           </Button>
-        </form>
+        </div>
       </div>
     </Container>
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordEmailForm;

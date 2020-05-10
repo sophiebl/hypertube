@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -10,7 +10,9 @@ import InputTextShort from "./inputTextShort";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-// import useForgotPasswordForm from '../../forgotpassword/forgotpassword-container';
+import useResetForm from "../../resetPassword/resetPwd-container";
+import { toast } from "react-toastify";
+import { logout } from "../../auth";
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -37,12 +39,12 @@ const TabPanelProfileParameters = ({
   handleSubmitParameters,
   notificationMail,
   notificationPush,
-  deleteUser
+  deleteUser,
 }) => {
-  // const { sendForgotPassword } = useForgotPasswordForm(() =>
-  //   toast.success('You received a reset password link by Email'),
-  // );
-
+  const { sendResetEmail } = useResetForm(() =>
+    toast.success("You received a reset password link by Email")
+  );
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
     <TabPanel value={value} index={index}>
       <Box noValidate autoComplete="off">
@@ -136,7 +138,10 @@ const TabPanelProfileParameters = ({
                     color="primary"
                     className={classes.buttonAccount}
                     size="large"
-                    // onClick={() => sendForgotPassword(profile.email)}
+                    onClick={async (e) => {
+                      await sendResetEmail(profile.email);
+                      logout(e, setIsLoggedIn);
+                    }}
                   >
                     Change password (need to reactivate)
                   </Button>

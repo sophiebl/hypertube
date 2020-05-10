@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require("passport");
 // const userController = require("../controllers/user_controller");
 
 const userRouter = express.Router();
@@ -12,5 +11,8 @@ require("./checkToken")(userRouter); // /api/users/checkToken
 require("./updateUser")(userRouter); // PUT /api/users
 require("./deleteUser")(userRouter); // DELETE /api/users
 require("./validateUser")(userRouter); // GET /api/users/validate/:token
+require("./resetPasswordValidation")(userRouter); // GET /api/users/resetPasswordValidation/:token
+require("./sendResetEmail")(userRouter); // POST /api/users/resetPassword
+require("./resetPassword")(userRouter); // POST /api/users/resetPassword/:email
 
 module.exports = userRouter;
