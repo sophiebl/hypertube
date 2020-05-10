@@ -47,9 +47,11 @@ function App() {
               path="/userValidation/:token"
               component={UserValidation}
             />
+            <LoggedRoute path="/player/:movie" component={Player} />
+            <LoggedRoute path="/movie/:movie" component={MovieDetails} />
             <LoggedRoute path="/profile/:username" component={ProfileShow} />
             <LoggedRoute path="/profile" component={Profile} />
-            <Route path="/" component={Home} />
+            <LoggedRoute path="/" component={Home} />
           </Switch>
         </Router>
         <ToastContainer />

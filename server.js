@@ -9,23 +9,24 @@ const UserModel = sequelize.import("./server/models/user");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-require('./server/config/passport');
+require("./server/config/passport");
 app.use(passport.initialize());
 app.use(express.static(path.join(__dirname, "build")));
 app.use(passport.initialize());
 
 app.use("/api/users", require("./server/routes/user_router"));
 app.use("/api/images", require("./server/routes/images/images_router"));
+app.use("/api/home", require("./server/routes/home/home_router"));
 app.use("/api/player", require("./server/routes/player/player_router"));
 app.use("/api/movies", require("./server/routes/movies/movies_router"));
 
 // UserModel.findAll().then(users => {
-  // console.log("All users:", users);
+// console.log("All users:", users);
 // });
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 

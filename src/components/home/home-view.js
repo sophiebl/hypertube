@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useCallback } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
-import StarRateIcon from "@material-ui/icons/StarRate";
-import AddIcon from "@material-ui/icons/Add";
+import { Grid, Divider } from "@material-ui/core";
 import Toaster from "../toaster/index";
-// import Background from '../../assets/images/home-bg-1.jpg';
 import HomeContainer from "./home-container";
+import SearchBox from "./components/searchBox.js";
+import MoviesList from "./components/moviesList.js";
+import EmptyResult from "./components/emptyResult";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -25,6 +25,18 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+  filtersContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    padding: "20px 10px",
+    backgroundColor: "#f5f5f5",
+  },
+  whiteField: {
+    backgroundColor: "white",
+    borderRadius: "3px",
+  },
   form: {
     width: "100%",
     marginTop: theme.spacing(1),
@@ -40,7 +52,20 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     margin: theme.spacing(1),
     position: "relative",
-    // height: "300px",
+    height: "300px",
+    display: "flex",
+    cursor: "pointer",
+  },
+  progressBar: {
+    position: "absolute",
+    bottom: "0px",
+    width: "100%",
+    height: "8px",
+  },
+  viewedIcon: {
+    position: "absolute",
+    top: "15px",
+    right: "15px",
   },
   fabAdd: {
     position: "absolute",
@@ -56,6 +81,12 @@ const useStyles = makeStyles((theme) => ({
   },
   cardInfoText: {
     color: "white",
+  },
+  movieName: {
+    fontSize: "16px",
+  },
+  movieTypeYear: {
+    fontSize: "14px",
   },
   ratingBoxDiv: {
     display: "flex",
@@ -73,98 +104,106 @@ const useStyles = makeStyles((theme) => ({
     padding: "5px",
   },
   ratingText: {
-    // color: "white",
-    fontSize: "15px",
+    fontSize: "14px",
   },
   img: {
     objectFit: "cover",
     height: "300px",
     width: "100%",
+    "&:hover": {
+      filter: "grayscale(80%)",
+    },
+  },
+  noResultBox: {
+    marginTop: theme.spacing(5),
+    margin: "auto",
+    maxWidth: "600px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  noResultBoxImg: {
+    width: "200px",
+  },
+  clearIcon: {
+    marginTop: theme.spacing(3),
+  },
+  progress: {
+    margin: "auto",
   },
 }));
 
 const Home = ({ location }) => {
   const classes = useStyles();
   const getParams = queryString.parse(location.search);
-  const { saveToken } = HomeContainer();
+  const {
+    saveToken,
+    searchOptions,
+    handleSort,
+    handleChangeInput,
+    fetchSearch,
+    searchResult,
+    emptyResult,
+    clearFilters,
+    page,
+    setPage,
+    moreMovies,
+  } = HomeContainer();
+
   if (getParams.accessToken) {
     saveToken(getParams.accessToken);
   }
+
+  const displayMoreMovies = () => {
+    console.log("next page");
+    if (searchResult) fetchSearch(true);
+  };
+
+  useEffect(() => {
+    console.log({ moreMovies, page });
+    if (page > 1 && moreMovies) {
+      displayMoreMovies();
+    }
+  }, [page]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScroll = () => {
+    if (
+      document.documentElement.scrollTop === 0 ||
+      window.innerHeight + document.documentElement.scrollTop <
+        document.documentElement.offsetHeight - 10
+    )
+      return;
+    console.log("Fetch more list items!");
+    setPage((page) => page + 1);
+  };
+
   return (
     <>
-      <Grid className={classes.gridContainer} container>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/titanic.jpeg" alt="" />
-            <LinearProgress
-              variant="determinate"
-              value={90}
-              color="secondary"
-            />
-          </Box>
+      <SearchBox
+        classes={classes}
+        searchOptions={searchOptions}
+        handleChangeInput={handleChangeInput}
+        handleSort={handleSort}
+        fetchSearch={fetchSearch}
+      />
+      <Divider light />
+      {emptyResult ? (
+        <EmptyResult classes={classes} clearFilters={clearFilters} />
+      ) : (
+        <Grid className={classes.gridContainer} container>
+          <MoviesList classes={classes} list={searchResult} />
+          {moreMovies ? (
+            <CircularProgress />
+          ) : (
+            <h4>Yaaay, you've seen it all!</h4>
+          )}
         </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/joker.jpeg" alt="" />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/paradisio.jpeg" alt="" />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
-            <Fab color="primary" aria-label="add" className={classes.fabAdd}>
-              <AddIcon />
-            </Fab>
-            <Box className={classes.cardInfo}>
-              <Grid container>
-                <Grid item xs={8} sm={8} md={8} lg={8}>
-                  <Typography
-                    variant="h5"
-                    component="h3"
-                    className={classes.cardInfoText}
-                  >
-                    Hollywood
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    component="h4"
-                    className={classes.cardInfoText}
-                  >
-                    Drama | 2014
-                  </Typography>
-                </Grid>
-                <Grid
-                  item
-                  xs={4}
-                  sm={4}
-                  md={4}
-                  lg={4}
-                  className={classes.ratingBoxDiv}
-                >
-                  <Box className={classes.ratingBox}>
-                    <StarRateIcon />
-                    <Typography className={classes.ratingText}>8.0</Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} md={2} lg={2}>
-          <Box className={classes.card}>
-            <img className={classes.img} src="assets/hollywood.jpeg" alt="" />
-          </Box>
-        </Grid>
-      </Grid>
+      )}
       <Toaster getParams={getParams} />
     </>
   );
