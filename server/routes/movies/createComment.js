@@ -26,19 +26,6 @@ const createComment = async (req, res) => {
     }
 };
 
-
-const getComments = async (req, res) => {
-    const idIMDB = req.params.id;
-    console.log('comments')
-
-    try {
-        const comments = await Comment.find({ where: idIMDB });
-        console.log(' |||||| comments ||||| ');
-        console.log(comments);
-        res.status(200).json({ comments });
-    } catch(err) { console.log(err) }
-};
-
 module.exports = (app) => {
     app.post(
       "/:id/comments",

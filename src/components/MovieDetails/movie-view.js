@@ -47,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: theme.palette.secondary.main,
     margin: theme.spacing(1),
     position: "relative",
-    backgroundImage: 'url(public/assets/taxiDriver.jpg)',
     backgroundSize: 'cover',
     height: "450px",
   },
@@ -134,12 +133,9 @@ const MovieDetails = ({ computedMatch }) => {
     comment, 
     handleComment,
     sendComment,
+    commentsList
   } = MovieContainer(requestedMovie);
   const classes = useStyles();
-  console.log(movieDetails);
-
-// const { comment, handleComment, sendComment } = useCommentForm(requestedMovie);
-  // const { inputs, handleInputChange, handleSubmit } = useSignUpForm(signup);
 
   return (
     <>
@@ -164,7 +160,7 @@ const MovieDetails = ({ computedMatch }) => {
             <tr>
               <td className={classes.rowName}>Genres</td>
               <td>{_.map(movieDetails.genres, (genre) => (
-                  <span className={classes.genres}>{genre}</span>
+                  <span className={classes.genres} key={genre}>{genre}</span>
               ))}</td>
             </tr>
           </table>
@@ -197,15 +193,18 @@ const MovieDetails = ({ computedMatch }) => {
             </Grid>
           </Box>
           <Box className={classes.card}>
-            <strong>42 comments • </strong>
+            <strong>{commentsList.length} comments • </strong>
             <Link className={classes.link} href="#">
-              <strong>Show all </strong>
+              <strong>Show comments</strong>
               <ArrowDropDownIcon />
             </Link>
             <Box>
-              {comments.map((comment) => (
-                <p>{comment}</p>
+              <List>
+
+              {commentsList.map((comment, index) => (
+                <ListItem key={index}>{comment.content}</ListItem>
               ))}
+              </List>
             </Box>
           </Box>
         </Grid>

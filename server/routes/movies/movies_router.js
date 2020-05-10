@@ -1,7 +1,8 @@
 const express = require("express");
 
 const router = express.Router();
-require("./comments")(router);
+require("./createComment")(router);
+require("./getComments")(router);
 require("./find")(router); // /api/users/login
 
 

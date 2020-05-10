@@ -5,15 +5,14 @@ import { toast } from 'react-toastify';
 
 const MovieContainer = (imdbId) => {
   const { authContext } = useContext(AuthContext);
-    console.log('|||||||||authContext|||||||||');
-    console.log(authContext);
   const { token } = authContext;
   const [movieDetails, setMovieDetails] = useState({})
   const [showModal, setShowModal] = useState(false);
   const [movieRequest, setMovieRequest] = useState({torrentUrl: null, provider: null, quality: null, imdbId: null})
   const [comment, setComment] = useState('');
-  // const [handleComment, setHandleComment] = useState('');
-  // const [sendComment, setSendComment] = useState('');
+  const [commentsList, setCommentsList] = useState([]);
+
+
   const fetchYTS = axios
     .get("https://yts.mx/api/v2/list_movies.json?query_term=" + imdbId)
     .then((result) => {
@@ -54,19 +53,34 @@ const MovieContainer = (imdbId) => {
       }
     });
 
+  const fetchComments = axios
+    .get(
+      `/api/movies/${imdbId}/comments`,
+      {
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'JWT ' + token,
+        },
+      },
+    )
+    .then((result) => {
+      if (result.data) {
+        return result.data;
+      } else {
+        return false;
+      }
+  });
+
   useEffect(() => {
-    Promise.all([fetchYTS, fetchPopCorn, fetchTMDB]).then(values => {
-      console.log('||||||||values|||||||||')
-      console.log(values)
+    Promise.all([fetchYTS, fetchPopCorn, fetchTMDB, fetchComments]).then(values => {
       const YTSTorrents = values[0].torrents
-      console.log('YTSTorrents')
-      console.log(YTSTorrents)
       const popCornTorrents = values[1].torrents
+      setCommentsList(values[3]);
       setMovieDetails({
         ...values[2],
         ...values[0],
         popCornTorrents,
-        YTSTorrents,
+        YTSTorrents
       });
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,6 +120,7 @@ const MovieContainer = (imdbId) => {
             )
             .then(({ data }) => {
               if (data.created === true) {
+                setCommentsList([...commentsList, {content: comment}]);
                 toast.success(data.message);
                 setComment('');
               } else {
@@ -131,7 +146,8 @@ const MovieContainer = (imdbId) => {
     imdbId,
     comment,
     handleComment,
-    sendComment
+    sendComment,
+    commentsList
   };
 }
 
