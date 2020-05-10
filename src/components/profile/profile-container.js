@@ -13,7 +13,11 @@ const UseProfileForm = (userData, token) => {
   const [finalImage, setFinalImage] = useState(null);
 
   if (_.isEmpty(profile)) {
+    console.log('|||||||||userData|||||||||');
+    console.log(userData);
     userData.then(value => {
+      console.log('|||||||||value|||||||||');
+      console.log(value);
       setProfile(value);
       setLoaded(true);
     });

@@ -11,8 +11,6 @@ const DownloadedMovie = sequelize.import("../../models/downloadedmovie");
 const WatchedMovie = sequelize.import("../../models/watchedmovie");
 let numberOfDownloads = 0;
 
-
-
 const convertStreamTorrent = async (file, res, path) => {
   const stream = file.createReadStream();
   ffmpeg(stream)

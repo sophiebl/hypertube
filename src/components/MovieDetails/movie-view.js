@@ -12,6 +12,7 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AddIcon from "@material-ui/icons/Add";
 import StarRateIcon from '@material-ui/icons/StarRate';
+import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -50,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     height: "450px",
   },
+  poster: {
+    objectFit: 'cover',
+    height: "400px",
+  },
   h1: {
     display: 'inline',
     fontSize: '2em',
@@ -74,11 +79,18 @@ const useStyles = makeStyles((theme) => ({
   starRateIcon: {
     color: '#F5C53D',
   },
+  // fabAdd: {
+  //   borderRadius: "10px"
+  // }, 
   addIcon: {
     backgroundColor: '##009688',
   },
   rowName: {
     color: '#009688',
+    fontSize: '1.2em',
+  },
+  genres: {
+    margin: "0 5px",
   },
   messageInput: {
     flexDirection: 'row',
@@ -103,10 +115,12 @@ function createData(name, content) {
   return { name, content };
 }
 
-const rows = [
-  createData('Starring', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
-  createData('Created by', 'Lorem ipsum dolor sit amet'),
-];
+const comments = [
+  'CE film est génial',
+  'CE film est NUL',
+  'CE film est TOP',
+]
+
 
 const MovieDetails = ({ computedMatch }) => {
   const requestedMovie = computedMatch.params.movie;
@@ -117,50 +131,50 @@ const MovieDetails = ({ computedMatch }) => {
     setShowModal,
     movieRequest,
     setMovieRequest,
+    comment, 
+    handleComment,
+    sendComment,
   } = MovieContainer(requestedMovie);
   const classes = useStyles();
+  console.log(movieDetails);
 
-
-
+// const { comment, handleComment, sendComment } = useCommentForm(requestedMovie);
+  // const { inputs, handleInputChange, handleSubmit } = useSignUpForm(signup);
 
   return (
     <>
       <Grid className={classes.gridContainer} container direction={'row'} spacing={24}>
-        <Grid item xs={12} sm={3} md={3} lg={3} className={classes.gridCard}>
+        <Grid item xs={7} sm={4} md={3} lg={3} className={classes.gridCard}>
           <Box className={classes.img}>
+            <img className={classes.poster} src={movieDetails.medium_cover_image}/>
             <PlayCircleFilledIcon className={classes.playIcon} style={{ fontSize: 65 }} />
           </Box>
         </Grid>
-        <Grid item xs={12} sm={6} md={6} lg={6} className={classes.gridCard}>
+        <Grid item xs={12} sm={12} md={6} lg={6} className={classes.gridCard}>
           <Box>
-            <h1 className={classes.h1}>Taxi Driver</h1>
+            <h1 className={classes.h1}>{movieDetails.title}</h1>
             <span>8.0</span>
             <StarRateIcon className={classes.starRateIcon} />
           </Box>
-          <span>2014 | 2h23min | Drama</span>
+          <span>{movieDetails.release_date}</span>
           <br />
           <h2 className={classes.h2}>OVERVIEW</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget dignissim purus. Aenean posuere sagittis lobortis. Praesent vel sollicitudin purus. Praesent blandit, mauris at bibendum molestie, nibh odio semper metus, nec porttitor nisl ipsum efficitur mi. Quisque varius non mauris et malesuada. Pellentesque varius bibendum pellentesque. Morbi consequat accumsan leo, a auctor leo luctus quis. </p>
-          <TableContainer >
-            <Table className={classes.table} aria-label="simple table">
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.name}>
-                    <TableCell component="th" scope="row" className={classes.rowName}>
-                      {row.name}
-                    </TableCell>
-                    <TableCell>{row.content}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <p>{movieDetails.overview}</p>
+          <table className={classes.table}>
+            <tr>
+              <td className={classes.rowName}>Genres</td>
+              <td>{_.map(movieDetails.genres, (genre) => (
+                  <span className={classes.genres}>{genre}</span>
+              ))}</td>
+            </tr>
+          </table>
           <h2 className={classes.h2}>LEAVE A COMMENT</h2>
           <Box className={classes.messageInput}>
             <Grid container spacing={2}>
-              <Grid item sm={10} xs={12} md={10} lg={10}>
-                {/* <TextField required id="standard-required" label="Required" defaultValue="What did you think about this movie ?" /> */}
+              <Grid item sm={10} xs={9} md={10} lg={10}>
                 <TextField
+                  onChange={handleComment}
+                  value={comment}
                   id="standard-full-width"
                   style={{ margin: 8 }}
                   placeholder="What did you think about this movie ?"
@@ -170,19 +184,13 @@ const MovieDetails = ({ computedMatch }) => {
                     shrink: true,
                   }}
                 />
-                {/* <TextField
-                            // onChange={handleMessage}
-                            // value={message}
-                            fullWidth
-                            type="text"
-                            name="message"
-                            variant="outlined"
-                            className={classes.textField}
-                          /> */}
               </Grid>
-              <Grid item sm={2} xs={12} md={2} lg={2} >
-                <Fab color="primary" aria-label="add" className={classes.fabAdd}>
-                  {/* onClick={sendMessage}  */}
+              <Grid item sm={2} xs={2} md={2} lg={2} >
+                <Fab 
+                  type="submit"
+                  color="primary" 
+                  aria-label="add" 
+                  onClick={sendComment} >
                   <AddIcon className={classes.addIcon} />
                 </Fab>
               </Grid>
@@ -194,66 +202,69 @@ const MovieDetails = ({ computedMatch }) => {
               <strong>Show all </strong>
               <ArrowDropDownIcon />
             </Link>
-            {/* <h2 className={classes.h2}>RELATED MOVIE</h2> */}
+            <Box>
+              {comments.map((comment) => (
+                <p>{comment}</p>
+              ))}
+            </Box>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={3} md={3} lg={3} className={classes.gridCard}>
+        <Grid item xs={12} sm={12} md={3} lg={3} className={classes.gridCard}>
           <Box className={classes.card}>
-            <h2 className={classes.h2}>RELATED MOVIE</h2>
+            <h2 className={classes.h2}>play the movie {movieDetails.title}</h2>
+            {movieDetails.YTSTorrents ? (
+              <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                  <ListSubheader component="div" id="nested-list-subheader">
+                    YTS Movies
+                  </ListSubheader>
+                }
+                className={classes.root}
+              >
+                {movieDetails.YTSTorrents.map((torrent) => (
+                  <ListItem
+                    key={torrent.url}
+                    button
+                    onClick={() => openPlayer(torrent.url, "YTS", torrent.quality)}
+                  >
+                    <ListItemText primary={torrent.quality} />
+                  </ListItem>
+                ))}
+              </List>
+            ) : null}
+            {movieDetails.popCornTorrents ? (
+              <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                  <ListSubheader component="div" id="nested-list-subheader">
+                    PopCorn
+                  </ListSubheader>
+                }
+                className={classes.root}
+              >
+                {_.map(movieDetails.popCornTorrents.en, (torrent, quality) => (
+                  <ListItem
+                    key={torrent.url}
+                    button
+                    onClick={() => openPlayer(torrent.url, "popcorn", quality)}
+                  >
+                    <ListItemText primary={quality} />
+                  </ListItem>
+                ))}
+              </List>
+            ) : null}
+            <ModalPlayer
+              showModal={showModal}
+              setShowModal={setShowModal}
+              movieRequest={movieRequest}
+              setMovieRequest={setMovieRequest}
+            />
           </Box>
         </Grid>
       </Grid>
-      <p>play the movie {movieDetails.title}</p>
-      {movieDetails.YTSTorrents ? (
-        <List
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-          subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              YTS Movies
-            </ListSubheader>
-          }
-          className={classes.root}
-        >
-          {movieDetails.YTSTorrents.map((torrent) => (
-            <ListItem
-              key={torrent.url}
-              button
-              onClick={() => openPlayer(torrent.url, "YTS", torrent.quality)}
-            >
-              <ListItemText primary={torrent.quality} />
-            </ListItem>
-          ))}
-        </List>
-      ) : null}
-      {movieDetails.popCornTorrents ? (
-        <List
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-          subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              PopCorn
-            </ListSubheader>
-          }
-          className={classes.root}
-        >
-          {_.map(movieDetails.popCornTorrents.en, (torrent, quality) => (
-            <ListItem
-              key={torrent.url}
-              button
-              onClick={() => openPlayer(torrent.url, "popcorn", quality)}
-            >
-              <ListItemText primary={quality} />
-            </ListItem>
-          ))}
-        </List>
-      ) : null}
-      <ModalPlayer
-        showModal={showModal}
-        setShowModal={setShowModal}
-        movieRequest={movieRequest}
-        setMovieRequest={setMovieRequest}
-      />
     </>
   );
 };

@@ -12,6 +12,7 @@ const passport = require("passport"),
   FacebookStrategy = require("passport-facebook").Strategy;
 const { sequelize } = require("../models/index");
 const User = sequelize.import("../models/user");
+const Comment = sequelize.import("../models/comment");
 const { sendRegisterEmail } = require("../controllers/user_controller");
 const tokgen = new TokenGenerator(256, TokenGenerator.BASE62);
 

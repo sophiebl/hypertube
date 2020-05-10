@@ -4,10 +4,15 @@ import { AuthContext } from "../App/AuthContext";
 
 const MovieContainer = (imdbId) => {
   const { authContext } = useContext(AuthContext);
+    console.log('|||||||||authContext|||||||||');
+    console.log(authContext);
   const { token } = authContext;
   const [movieDetails, setMovieDetails] = useState({})
   const [showModal, setShowModal] = useState(false);
   const [movieRequest, setMovieRequest] = useState({torrentUrl: null, provider: null, quality: null, imdbId: null})
+  const [comment, setComment] = useState('');
+  // const [handleComment, setHandleComment] = useState('');
+  // const [sendComment, setSendComment] = useState('');
   const fetchYTS = axios
     .get("https://yts.mx/api/v2/list_movies.json?query_term=" + imdbId)
     .then((result) => {
@@ -50,11 +55,15 @@ const MovieContainer = (imdbId) => {
 
   useEffect(() => {
     Promise.all([fetchYTS, fetchPopCorn, fetchTMDB]).then(values => {
+      console.log('||||||||values|||||||||')
       console.log(values)
       const YTSTorrents = values[0].torrents
+      console.log('YTSTorrents')
+      console.log(YTSTorrents)
       const popCornTorrents = values[1].torrents
       setMovieDetails({
         ...values[2],
+        ...values[0],
         popCornTorrents,
         YTSTorrents,
       });
@@ -72,6 +81,52 @@ const MovieContainer = (imdbId) => {
     setShowModal(true)
   }
 
+  // const handleInputChange = event => {
+  //   event.persist();
+  //   const newInput = {
+  //     ...inputs,
+  //     [event.target.name]: event.target.value,
+  //   };
+  //   setInputs(newInput);
+  // };
+
+  const handleComment = event => {
+    console.log('handle comment')
+    setComment(event.target.value);
+  };
+
+  const sendComment = event => {
+    console.log('comment')
+        if (event) {
+          event.preventDefault();
+          axios
+            .post(
+              `/api/movies/:id/comments`,
+              {
+                comment: comment,
+              },
+              {
+                headers: {
+                  'Content-type': 'application/json; charset=UTF-8',
+                },
+              },
+            )
+            .then(({ data }) => {
+              if (data.created === true) {
+                // callback(true);
+              } else {
+                // data.errors.forEach(error => toast.error(error));
+              }
+            });
+        }
+  };
+
+  // const sendComment = () => {
+  //   if (comment !== '') {
+  //     setComment('');
+  //   }
+  // };
+
   return {
     movieDetails,
     openPlayer,
@@ -79,6 +134,7 @@ const MovieContainer = (imdbId) => {
     setShowModal,
     movieRequest,
     setMovieRequest,
+    imdbId
   };
 }
 
