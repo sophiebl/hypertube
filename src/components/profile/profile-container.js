@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { useState } from 'react';
-import _ from 'lodash';
-import { toast } from 'react-toastify';
+import axios from "axios";
+import { useState } from "react";
+import _ from "lodash";
+import { toast } from "react-toastify";
 
 const UseProfileForm = (userData, token) => {
   const [profile, setProfile] = useState({});
@@ -13,30 +13,26 @@ const UseProfileForm = (userData, token) => {
   const [finalImage, setFinalImage] = useState(null);
 
   if (_.isEmpty(profile)) {
-    console.log('|||||||||userData|||||||||');
-    console.log(userData);
-    userData.then(value => {
-      console.log('|||||||||value|||||||||');
-      console.log(value);
+    userData.then((value) => {
       setProfile(value);
       setLoaded(true);
     });
   }
 
-  const handleTextParametersChange = event => {
+  const handleTextParametersChange = (event) => {
     const newProfile = {
       ...profile,
       [event.target.name]: event.target.value,
     };
-      const newChangedFields = {
-        ...changedFields,
-        [event.target.name]: event.target.value
-      };
+    const newChangedFields = {
+      ...changedFields,
+      [event.target.name]: event.target.value,
+    };
     setChangedFields(newChangedFields);
     setProfile(newProfile);
   };
 
-  const handleSubmitParameters = event => {
+  const handleSubmitParameters = (event) => {
     event.persist();
     if (_.isEmpty(changedFields)) {
       toast.error("You didn't make any changes!");
@@ -47,14 +43,14 @@ const UseProfileForm = (userData, token) => {
           headers: {
             "Content-type": "application/json; charset=UTF-8",
             Authorization: "JWT " + token,
-          }
+          },
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.success === true) {
             toast.success(response.data.message);
             setChangedFields({});
           } else {
-            response.data.errors.forEach(error => {
+            response.data.errors.forEach((error) => {
               toast.error(error);
             });
           }
@@ -62,10 +58,10 @@ const UseProfileForm = (userData, token) => {
     }
   };
 
-  const readFile = file => {
-    return new Promise(resolve => {
+  const readFile = (file) => {
+    return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.addEventListener('load', () => resolve(reader.result), false);
+      reader.addEventListener("load", () => resolve(reader.result), false);
       reader.readAsDataURL(file);
     });
   };
@@ -76,38 +72,38 @@ const UseProfileForm = (userData, token) => {
     return theBlob;
   };
 
-  const sendCroppedImageServer = formData => {
+  const sendCroppedImageServer = (formData) => {
     axios
       .post(`/api/images/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: "JWT " + token,
-        }
+        },
       })
-      .then(response => {
+      .then((response) => {
         if (response.data.success) {
           const newInput = {
             ...profile,
-            picture: response.data.Location
+            picture: response.data.Location,
           };
           setProfile(newInput);
           toast.success(response.data.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (process.env.REACT_APP_VERBOSE === "true") console.log(error);
       });
     setShowModal(false);
   };
 
-  const upload = imageBlob => {
-    const image = blobToFile(imageBlob, 'coucou.png');
+  const upload = (imageBlob) => {
+    const image = blobToFile(imageBlob, "coucou.png");
     const formData = new FormData();
-    formData.append('file', image);
+    formData.append("file", image);
     setFinalImage(formData);
   };
 
-  const handleFileUpload = async event => {
+  const handleFileUpload = async (event) => {
     if (event.target.files[0]) {
       const imageDataUrl = await readFile(event.target.files[0]);
       setShowModal(true);
@@ -115,19 +111,19 @@ const UseProfileForm = (userData, token) => {
     }
   };
 
-  const handleDeleteImage = url => {
+  const handleDeleteImage = (url) => {
     axios
       .post(
         `/api/images/delete`,
         { url },
         {
           headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-access-token': token,
+            "Content-Type": "application/json; charset=UTF-8",
+            "x-access-token": token,
           },
-        },
+        }
       )
-      .then(response => {
+      .then((response) => {
         if (response.data.success === true) {
           if (url === profile.picture) {
             const newInput = {
@@ -135,7 +131,7 @@ const UseProfileForm = (userData, token) => {
               images: _.without(profile.images, url),
               picture:
                 _.without(profile.images, url)[0] ||
-                'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png',
+                "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png",
             };
             setProfile(newInput);
           } else {
@@ -147,12 +143,12 @@ const UseProfileForm = (userData, token) => {
           }
         }
       })
-      .catch(error => {
-        if (process.env.REACT_APP_VERBOSE === 'true') console.log(error);
+      .catch((error) => {
+        if (process.env.REACT_APP_VERBOSE === "true") console.log(error);
       });
   };
 
-  const handleChangeProfileImage = pictureUrl => {
+  const handleChangeProfileImage = (pictureUrl) => {
     const newInput = {
       ...profile,
       picture: pictureUrl,
@@ -167,17 +163,17 @@ const UseProfileForm = (userData, token) => {
 
   const deleteUser = () => {
     const confirmation = window.confirm(
-      'Are you sure you want to delete your account ?',
+      "Are you sure you want to delete your account ?"
     );
     if (confirmation) {
       axios
         .delete(`/api/users/`, {
           headers: {
             "Content-Type": "application/json; charset=UTF-8",
-            "Authorization": "JWT " + token,
-          }
+            Authorization: "JWT " + token,
+          },
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.deleted === true) {
             localStorage.removeItem("token");
             window.location = "/?message=delete_success";

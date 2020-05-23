@@ -3,7 +3,6 @@ import { Typography, Fab, Grid, LinearProgress } from "@material-ui/core";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import AddIcon from "@material-ui/icons/Add";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ImageIcon from "@material-ui/icons/Image";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ReactImageFallback from "react-image-fallback";
 import _ from "lodash";

@@ -5,33 +5,26 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ModalPlayer from "./ModalPlayer";
-import _ from "lodash"
+import _ from "lodash";
 import { Box, Fab, Grid } from "@material-ui/core";
-import TextField from '@material-ui/core/TextField';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import TextField from "@material-ui/core/TextField";
+import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AddIcon from "@material-ui/icons/Add";
-import StarRateIcon from '@material-ui/icons/StarRate';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Link from '@material-ui/core/Link';
+import StarRateIcon from "@material-ui/icons/StarRate";
+import Link from "@material-ui/core/Link";
 
-
-import MovieContainer from './movie-container'
+import MovieContainer from "./movie-container";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
     body: {
-      fontSize: '12px'
+      fontSize: "12px",
       //   backgroundColor: theme.palette.common.white,
     },
   },
   root: {
-    '& .MuiTextField-root': {
+    "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: 400,
     },
@@ -47,59 +40,59 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: theme.palette.secondary.main,
     margin: theme.spacing(1),
     position: "relative",
-    backgroundSize: 'cover',
+    backgroundSize: "cover",
     height: "450px",
   },
   poster: {
-    objectFit: 'cover',
+    objectFit: "cover",
     height: "400px",
   },
   h1: {
-    display: 'inline',
-    fontSize: '2em',
-    color: '#009688',
-    marginRight: '10px'
+    display: "inline",
+    fontSize: "2em",
+    color: "#009688",
+    marginRight: "10px",
   },
   link: {
-    color: '#009688',
+    color: "#009688",
   },
   h2: {
-    display: 'inline-block',
-    margin: '20px 0',
-    fontSize: '1.5em',
-    borderBottom: '5px solid #F5C53D'
+    display: "inline-block",
+    margin: "20px 0",
+    fontSize: "1.5em",
+    borderBottom: "5px solid #F5C53D",
   },
   playIcon: {
     position: "absolute",
-    color: '#F5C53D',
+    color: "#F5C53D",
     top: "50%",
     left: "calc(50% - 55.99px/2)",
   },
   starRateIcon: {
-    color: '#F5C53D',
+    color: "#F5C53D",
   },
   // fabAdd: {
   //   borderRadius: "10px"
-  // }, 
+  // },
   addIcon: {
-    backgroundColor: '##009688',
+    backgroundColor: "##009688",
   },
   rowName: {
-    color: '#009688',
-    fontSize: '1.2em',
+    color: "#009688",
+    fontSize: "1.2em",
   },
   genres: {
     margin: "0 5px",
   },
   messageInput: {
-    flexDirection: 'row',
-    bottom: '0',
-    width: '100%',
+    flexDirection: "row",
+    bottom: "0",
+    width: "100%",
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
   textField: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   modal: {
     width: "100%",
@@ -110,16 +103,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(name, content) {
-  return { name, content };
-}
+// function createData(name, content) {
+//   return { name, content };
+// }
 
-const comments = [
-  'CE film est génial',
-  'CE film est NUL',
-  'CE film est TOP',
-]
-
+// const comments = ["CE film est génial", "CE film est NUL", "CE film est TOP"];
 
 const MovieDetails = ({ computedMatch }) => {
   const requestedMovie = computedMatch.params.movie;
@@ -130,20 +118,27 @@ const MovieDetails = ({ computedMatch }) => {
     setShowModal,
     movieRequest,
     setMovieRequest,
-    comment, 
+    comment,
     handleComment,
     sendComment,
-    commentsList
+    commentsList,
   } = MovieContainer(requestedMovie);
   const classes = useStyles();
 
   return (
     <>
-      <Grid className={classes.gridContainer} container direction={'row'} spacing={24}>
+      <Grid className={classes.gridContainer} container direction={"row"}>
         <Grid item xs={7} sm={4} md={3} lg={3} className={classes.gridCard}>
           <Box className={classes.img}>
-            <img className={classes.poster} src={movieDetails.medium_cover_image}/>
-            <PlayCircleFilledIcon className={classes.playIcon} style={{ fontSize: 65 }} />
+            <img
+              className={classes.poster}
+              src={movieDetails.medium_cover_image}
+              alt={movieDetails.title}
+            />
+            <PlayCircleFilledIcon
+              className={classes.playIcon}
+              style={{ fontSize: 65 }}
+            />
           </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className={classes.gridCard}>
@@ -157,12 +152,16 @@ const MovieDetails = ({ computedMatch }) => {
           <h2 className={classes.h2}>OVERVIEW</h2>
           <p>{movieDetails.overview}</p>
           <table className={classes.table}>
-            <tr>
-              <td className={classes.rowName}>Genres</td>
-              <td>{_.map(movieDetails.genres, (genre) => (
-                  <span className={classes.genres} key={genre}>{genre}</span>
-              ))}</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td className={classes.rowName}>Genres</td>
+                {_.map(movieDetails.genres, (genre) => (
+                  <td key={genre}>
+                    <span className={classes.genres}>{genre}</span>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
           </table>
           <h2 className={classes.h2}>LEAVE A COMMENT</h2>
           <Box className={classes.messageInput}>
@@ -181,12 +180,13 @@ const MovieDetails = ({ computedMatch }) => {
                   }}
                 />
               </Grid>
-              <Grid item sm={2} xs={2} md={2} lg={2} >
-                <Fab 
+              <Grid item sm={2} xs={2} md={2} lg={2}>
+                <Fab
                   type="submit"
-                  color="primary" 
-                  aria-label="add" 
-                  onClick={sendComment} >
+                  color="primary"
+                  aria-label="add"
+                  onClick={sendComment}
+                >
                   <AddIcon className={classes.addIcon} />
                 </Fab>
               </Grid>
@@ -200,10 +200,9 @@ const MovieDetails = ({ computedMatch }) => {
             </Link>
             <Box>
               <List>
-
-              {commentsList.map((comment, index) => (
-                <ListItem key={index}>{comment.content}</ListItem>
-              ))}
+                {commentsList.map((comment, index) => (
+                  <ListItem key={index}>{comment.content}</ListItem>
+                ))}
               </List>
             </Box>
           </Box>
@@ -226,7 +225,9 @@ const MovieDetails = ({ computedMatch }) => {
                   <ListItem
                     key={torrent.url}
                     button
-                    onClick={() => openPlayer(torrent.url, "YTS", torrent.quality)}
+                    onClick={() =>
+                      openPlayer(torrent.url, "YTS", torrent.quality)
+                    }
                   >
                     <ListItemText primary={torrent.quality} />
                   </ListItem>

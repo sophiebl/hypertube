@@ -6,52 +6,52 @@ import {
   Typography,
   Button,
   makeStyles,
-  Link
+  Link,
 } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { AuthContext } from "../App/AuthContext";
 import { logout } from "../auth";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#000'
+    backgroundColor: "#000",
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   hypertubeLogo: {
-    fontFamily: 'Monoton, cursive',
-    fontSize: '2rem',
-    color: '#f44336',
-    textAlign: 'left',
-    flexGrow: 1
+    fontFamily: "Monoton, cursive",
+    fontSize: "2rem",
+    color: "#f44336",
+    textAlign: "left",
+    flexGrow: 1,
   },
   navIcon: {
     "&:focus": {
-      textDecoration: "none"
+      textDecoration: "none",
     },
     "&:hover": {
       textDecoration: "none",
-      color: theme.palette.secondary.main
+      color: theme.palette.secondary.main,
     },
     "&:visited": {
-      textDecoration: "none"
+      textDecoration: "none",
     },
     "&:link": {
-      textDecoration: "none"
+      textDecoration: "none",
     },
     "&:active": {
-      textDecoration: "none"
-    }
+      textDecoration: "none",
+    },
   },
   notReadNotif: {
-    backgroundColor: "#edf2fa"
+    backgroundColor: "#edf2fa",
   },
   noNotificationsDrawer: {
-    margin: theme.spacing(1)
-  }
+    margin: theme.spacing(1),
+  },
 }));
 
 const Nav = () => {
@@ -59,7 +59,7 @@ const Nav = () => {
   const { authContext } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  authContext.userData.then(data => {
+  authContext.userData.then((data) => {
     if (data) {
       setIsLoggedIn(data.success);
     }
@@ -76,18 +76,15 @@ const Nav = () => {
           >
             Hypertube
           </Link>
-          <Button color="inherit" href="/movieInfo">
-            Movie Infos
-          </Button>
         </Typography>
         {isLoggedIn ? (
           <>
-            <IconButton color="inherit" href="profile">
+            <IconButton color="inherit" href="/profile">
               <AccountCircleIcon className={classes.navIcon} />
             </IconButton>
             <IconButton
               color="inherit"
-              onClick={e => {
+              onClick={(e) => {
                 logout(e, setIsLoggedIn);
               }}
             >

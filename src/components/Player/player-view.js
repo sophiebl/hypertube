@@ -1,18 +1,9 @@
-import React from 'react';
-import PlayerContainer from './player-container'
-import { makeStyles } from "@material-ui/core/styles";
-
-
-const useStyles = makeStyles((theme) => ({
-  videoPlayer: {
-    maxWidth: "100vw"
-  },
-}));
+import React from "react";
+import PlayerContainer from "./player-container";
 
 const Player = ({ movieRequest }) => {
   const { subs, player, token } = PlayerContainer(movieRequest);
-  const classes = useStyles();
-    const { torrentUrl, provider, quality, imdbId } = movieRequest;
+  const { torrentUrl, provider, quality, imdbId } = movieRequest;
 
   return (
     <>

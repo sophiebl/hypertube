@@ -27,7 +27,7 @@ const HomeContainer = () => {
 
   useEffect(() => {
     fetchSearch(false, true);
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const clearFilters = () => {

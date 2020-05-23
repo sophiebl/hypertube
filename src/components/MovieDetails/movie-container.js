@@ -1,17 +1,21 @@
-import axios from 'axios'
-import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../App/AuthContext";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const MovieContainer = (imdbId) => {
   const { authContext } = useContext(AuthContext);
   const { token } = authContext;
-  const [movieDetails, setMovieDetails] = useState({})
+  const [movieDetails, setMovieDetails] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [movieRequest, setMovieRequest] = useState({torrentUrl: null, provider: null, quality: null, imdbId: null})
-  const [comment, setComment] = useState('');
+  const [movieRequest, setMovieRequest] = useState({
+    torrentUrl: null,
+    provider: null,
+    quality: null,
+    imdbId: null,
+  });
+  const [comment, setComment] = useState("");
   const [commentsList, setCommentsList] = useState([]);
-
 
   const fetchYTS = axios
     .get("https://yts.mx/api/v2/list_movies.json?query_term=" + imdbId)
@@ -26,7 +30,7 @@ const MovieContainer = (imdbId) => {
         return false;
       }
     });
-    
+
   const fetchPopCorn = axios
     .get(
       "https://cors-anywhere.herokuapp.com/movies-v2.api-fetch.sh/movie/" +
@@ -40,11 +44,21 @@ const MovieContainer = (imdbId) => {
       }
     });
 
-  const fetchTMDB = axios
-    .get(
-      "/api/movies/find/" +
-      imdbId
-    )
+  const fetchTMDB = axios.get("/api/movies/find/" + imdbId).then((result) => {
+    if (result.data) {
+      return result.data;
+    } else {
+      return false;
+    }
+  });
+
+  const fetchComments = axios
+    .get(`/api/movies/${imdbId}/comments`, {
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        Authorization: "JWT " + token,
+      },
+    })
     .then((result) => {
       if (result.data) {
         return result.data;
@@ -53,38 +67,22 @@ const MovieContainer = (imdbId) => {
       }
     });
 
-  const fetchComments = axios
-    .get(
-      `/api/movies/${imdbId}/comments`,
-      {
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'JWT ' + token,
-        },
-      },
-    )
-    .then((result) => {
-      if (result.data) {
-        return result.data;
-      } else {
-        return false;
-      }
-  });
-
   useEffect(() => {
-    Promise.all([fetchYTS, fetchPopCorn, fetchTMDB, fetchComments]).then(values => {
-      const YTSTorrents = values[0].torrents
-      const popCornTorrents = values[1].torrents
-      setCommentsList(values[3]);
-      setMovieDetails({
-        ...values[2],
-        ...values[0],
-        popCornTorrents,
-        YTSTorrents
-      });
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    Promise.all([fetchYTS, fetchPopCorn, fetchTMDB, fetchComments]).then(
+      (values) => {
+        const YTSTorrents = values[0].torrents;
+        const popCornTorrents = values[1].torrents;
+        setCommentsList(values[3]);
+        setMovieDetails({
+          ...values[2],
+          ...values[0],
+          popCornTorrents,
+          YTSTorrents,
+        });
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const openPlayer = (torrentUrl, provider, quality) => {
     setMovieRequest({
@@ -93,41 +91,39 @@ const MovieContainer = (imdbId) => {
       quality,
       imdbId,
     });
-    setShowModal(true)
-  }
+    setShowModal(true);
+  };
 
-  const handleComment = event => {
-    console.log('handle comment')
+  const handleComment = (event) => {
     setComment(event.target.value);
   };
 
-  const sendComment = event => {
-    console.log('send Comment')
-        if (event) {
-          event.preventDefault();
-          axios
-            .post(
-              `/api/movies/${imdbId}/comments`,
-              {
-                comment: comment,
-              },
-              {
-                headers: {
-                  'Content-type': 'application/json; charset=UTF-8',
-                  Authorization: "JWT " + token,
-                },
-              },
-            )
-            .then(({ data }) => {
-              if (data.created === true) {
-                setCommentsList([...commentsList, {content: comment}]);
-                toast.success(data.message);
-                setComment('');
-              } else {
-                toast.error(data.message);
-              }
-            });
-        }
+  const sendComment = (event) => {
+    if (event) {
+      event.preventDefault();
+      axios
+        .post(
+          `/api/movies/${imdbId}/comments`,
+          {
+            comment: comment,
+          },
+          {
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              Authorization: "JWT " + token,
+            },
+          }
+        )
+        .then(({ data }) => {
+          if (data.created === true) {
+            setCommentsList([...commentsList, { content: comment }]);
+            toast.success(data.message);
+            setComment("");
+          } else {
+            toast.error(data.message);
+          }
+        });
+    }
   };
 
   // const sendComment = () => {
@@ -147,8 +143,8 @@ const MovieContainer = (imdbId) => {
     comment,
     handleComment,
     sendComment,
-    commentsList
+    commentsList,
   };
-}
+};
 
-export default MovieContainer
+export default MovieContainer;

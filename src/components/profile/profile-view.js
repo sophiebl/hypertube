@@ -1,39 +1,35 @@
 import React, { useContext, useEffect } from "react";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core/styles";
-import { Tabs, Tab } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import SettingsIcon from "@material-ui/icons/Settings";
-import InfoIcon from "@material-ui/icons/Info";
 import queryString from "query-string";
 import { toast } from "react-toastify";
 import useDebouncedCallback from "use-debounce/lib/useDebouncedCallback";
 import { AuthContext } from "../App/AuthContext";
 import UseProfileForm from "./profile-container";
 import UpperBoxProfile from "./components/upperBoxProfile";
-import TabPanelProfileAbout from "./components/tabPanelProfileAbout";
-import TabPanelProfileParameters from "./components/tabPanelProfileParameters";
+import ProfileParameters from "./components/profileParameters";
 import ModalCrop from "./components/modal";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   "@global": {
     body: {
-      backgroundColor: theme.palette.common.white
-    }
+      backgroundColor: theme.palette.common.white,
+    },
   },
   progress: {
     height: "100vh",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   wrapperProfile: {
     display: "flex",
     flexDirection: "column",
     marginLeft: "auto",
     marginRight: "auto",
-    maxWidth: "1500px"
+    maxWidth: "1500px",
   },
   paper: {
     position: "absolute",
@@ -41,95 +37,95 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3)
+    padding: theme.spacing(2, 4, 3),
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
     fontSize: "1em",
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   boxUpProfile: {
     margin: theme.spacing(1),
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   containerUpProfile: {
-    maxWidth: "1500px"
+    maxWidth: "1500px",
   },
   containerUpProfileLeft: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
   },
   containerUpProfileLeftInfo: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   containerUpProfileRight: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   containerUpProfileRightFabs: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   gridColumnProfile: {
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
   },
   gridPicturesWrapper: {
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   pictureContainer: {
     padding: theme.spacing(1),
     position: "relative",
     width: "100%",
-    height: "fit-content"
+    height: "fit-content",
   },
   pictureButtonContainer: {
     overflow: "hidden",
     position: "relative",
     height: "fit-content",
-    width: "100%"
+    width: "100%",
   },
   deleteButtonPicture: {
     position: "absolute",
     top: "10px",
     right: "10px",
-    padding: "0px"
+    padding: "0px",
   },
   picture: {
     border: "3px solid",
     borderColor: theme.palette.secondary.main,
     boxSizing: "border-box",
-    objectFit: "cover"
+    objectFit: "cover",
   },
   tabs: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   tab: {
     opacity: "1",
     "&:focus": {
-      outline: "none"
-    }
+      outline: "none",
+    },
   },
   activeTab: {
     opacity: "1",
     borderBottom: "3px solid",
     borderBottomColor: theme.palette.secondary.main,
     "&:focus": {
-      outline: "none"
-    }
+      outline: "none",
+    },
   },
   divider: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   modifyPictureButton: {
     display: "flex",
@@ -140,7 +136,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     // color: 'white',
     padding: theme.spacing(1),
-    textAlign: "center"
+    textAlign: "center",
     // fontSize: '1em',
   },
   uploadInput: {
@@ -149,25 +145,25 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     left: "0",
     top: "0",
-    opacity: "0"
+    opacity: "0",
   },
   summaryField: {
-    width: "90%"
+    width: "90%",
   },
   formControl: {
-    marginBottom: theme.spacing(3)
+    marginBottom: theme.spacing(3),
   },
   textField: {
     maxWidth: "400px",
-    width: "100%"
+    width: "100%",
   },
   interestChips: {
     display: "flex",
     justifyContent: "flex-start",
     flexWrap: "wrap",
     "& > *": {
-      margin: theme.spacing(0.5)
-    }
+      margin: theme.spacing(0.5),
+    },
   },
   paperAccount: {
     marginTop: theme.spacing(3),
@@ -176,35 +172,27 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: theme.palette.secondary.A300
+    backgroundColor: theme.palette.secondary.A300,
   },
   divAccount: {
     width: "100%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   buttonAccount: {
-    width: "100%"
-  }
+    width: "100%",
+  },
 }));
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`
-  };
-}
-
-const Profile = params => {
+const Profile = (params) => {
   const classes = useStyles();
   const { authContext } = useContext(AuthContext);
   const locationParams = params.location;
   const getParams = queryString.parse(locationParams.search);
 
   const {
-    handleDeleteImage,
     profile,
     loaded,
     handleFileUpload,
@@ -213,7 +201,6 @@ const Profile = params => {
     handleChangeLocation,
     handleChangeCity,
     handleSubmitParameters,
-    isChecked,
     getAge,
     deleteUser,
     showModal,
@@ -223,14 +210,8 @@ const Profile = params => {
     setCroppedImage,
     upload,
     finalImage,
-    sendCroppedImageServer
+    sendCroppedImageServer,
   } = UseProfileForm(authContext.userData, authContext.token);
-
-  // change tabs
-  const [valueTab, setValueTab] = React.useState(0);
-  const handleChange = (event, newValueTab) => {
-    setValueTab(newValueTab);
-  };
 
   const [toastDebounced] = useDebouncedCallback(() => {
     if (getParams.message === "profile_not_completed") {
@@ -265,56 +246,9 @@ const Profile = params => {
       <Divider className={classes.divider} />
       <div className={classes.wrapperProfile}>
         <form>
-          <Tabs
-            width="100%"
-            value={valueTab}
-            onChange={handleChange}
-            aria-label="simple tabs example"
-            className={classes.tabs}
-          >
-            <Tab
-              icon={
-                valueTab === 0 ? (
-                  <InfoIcon color="secondary" />
-                ) : (
-                  <InfoIcon color="primary" />
-                )
-              }
-              className={valueTab === 0 ? classes.activeTab : classes.tab}
-              label="Movie History"
-              {...a11yProps(0)}
-            />
-            <Tab
-              icon={
-                valueTab === 1 ? (
-                  <SettingsIcon color="secondary" />
-                ) : (
-                  <SettingsIcon color="primary" />
-                )
-              }
-              className={valueTab === 1 ? classes.activeTab : classes.tab}
-              label="Parameters"
-              {...a11yProps(1)}
-            />
-          </Tabs>
-          <TabPanelProfileAbout
-            value={valueTab}
-            index={0}
+          <ProfileParameters
             classes={classes}
             profile={profile}
-            isChecked={isChecked}
-            handleProfileChange={handleTextParametersChange}
-            handleSubmitParameters={handleSubmitParameters}
-            handleFileUpload={handleFileUpload}
-            handleChangeProfileImage={handleChangeProfileImage}
-            handleDeleteImage={handleDeleteImage}
-          />
-          <TabPanelProfileParameters
-            value={valueTab}
-            index={1}
-            classes={classes}
-            profile={profile}
-            isChecked={isChecked}
             handleProfileChange={handleTextParametersChange}
             handleSubmitParameters={handleSubmitParameters}
             handleChangeLocation={handleChangeLocation}

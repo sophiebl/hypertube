@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Login from "../login";
 import Register from "../register";
@@ -18,7 +18,6 @@ import LoggedRoute from "./LoggedRoute";
 import NotLoggedRoute from "./NotLoggedRoute";
 import "react-toastify/dist/ReactToastify.css";
 import Nav from "../nav";
-// import Toaster from '../toaster';
 
 function App() {
   return (

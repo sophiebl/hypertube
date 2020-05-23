@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import queryString from "query-string";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Divider } from "@material-ui/core";
@@ -164,11 +164,13 @@ const Home = ({ location }) => {
     if (page > 1 && moreMovies) {
       displayMoreMovies();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleScroll = () => {

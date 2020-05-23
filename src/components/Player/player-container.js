@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../App/AuthContext";
 
@@ -7,12 +7,7 @@ const PlayerContainer = (movieRequest) => {
   const { token } = authContext;
   const [subs, setSubs] = useState([]);
   const [player, setPlayer] = useState(false);
-  const {
-    torrentUrl,
-    provider,
-    quality,
-    imdbId,
-  } = movieRequest;
+  const { imdbId } = movieRequest;
   useEffect(() => {
     if (token) {
       axios
@@ -23,7 +18,6 @@ const PlayerContainer = (movieRequest) => {
           },
         })
         .then((res) => {
-          console.log(res)
           setSubs(
             res.data.map((e, index) => (
               <track
@@ -40,6 +34,6 @@ const PlayerContainer = (movieRequest) => {
     }
   }, [token, imdbId]);
   return { subs, player, token };
-}
+};
 
-export default PlayerContainer
+export default PlayerContainer;
