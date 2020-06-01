@@ -37,11 +37,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     backgroundColor: "#039be5",
   },
-  // submitFB: {
-  //   "&:hover": {
-  //     backgroundColor: '#039be5',
-  //   },
-  // },
 }));
 
 const Login = () => {
@@ -76,6 +71,7 @@ const Login = () => {
             required
             autoFocus
             label="Username"
+            autoComplete="on"
           />
 
           <TextField
@@ -90,6 +86,7 @@ const Login = () => {
             id="password"
             required
             label="Password"
+            autoComplete="on"
           />
           <Button
             type="submit"

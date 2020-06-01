@@ -155,12 +155,10 @@ const Home = ({ location }) => {
   }
 
   const displayMoreMovies = () => {
-    console.log("next page");
     if (searchResult) fetchSearch(true);
   };
 
   useEffect(() => {
-    console.log({ moreMovies, page });
     if (page > 1 && moreMovies) {
       displayMoreMovies();
     }
@@ -180,7 +178,6 @@ const Home = ({ location }) => {
         document.documentElement.offsetHeight - 10
     )
       return;
-    console.log("Fetch more list items!");
     setPage((page) => page + 1);
   };
 

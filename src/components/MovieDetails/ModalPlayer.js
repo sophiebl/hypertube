@@ -31,7 +31,7 @@ const ModalPlayer = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Player movieRequest={movieRequest} />
+          {showModal && <Player movieRequest={movieRequest} />}
         </Modal.Body>
       </Modal>
     </>

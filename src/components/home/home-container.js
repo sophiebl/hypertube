@@ -120,7 +120,8 @@ const HomeContainer = () => {
         (searchOptions.genre === "" ||
           movie.genres.includes(searchOptions.genre)) &&
         movie.year >= searchOptions.year[0] &&
-        movie.year <= searchOptions.year[1]
+        movie.year <= searchOptions.year[1] &&
+        movie.rating >= searchOptions.rating
       );
     });
     return filteredResult;
@@ -195,15 +196,12 @@ const HomeContainer = () => {
       ).map((movie) => {
         return { ...movie, watched: watchedMovies.includes(movie?.imdb_code) };
       });
-      console.log({ mergedResult });
       if (result?.status === "ok") {
         if (result?.data.movie_count === 0) {
-          console.log("pas de film deso");
           setEmptyResult(true);
           return;
         }
         if (!result.data.movies) {
-          console.log("plus de film a display");
           setMoreMovies(false);
         } else {
           setEmptyResult(false);

@@ -28,6 +28,7 @@ const ProfileParameters = ({
   const { sendResetEmail } = useResetForm(() =>
     toast.success("You received a reset password link by Email")
   );
+  // eslint-disable-next-line no-unused-vars
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
     <Box noValidate autoComplete="off">

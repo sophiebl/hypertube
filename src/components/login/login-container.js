@@ -1,43 +1,39 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const useLoginForm = callback => {
+const useLoginForm = (callback) => {
   const [inputs, setInputs] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
   const { username, password } = inputs;
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     if (event) {
       event.preventDefault();
       axios
-        .get(
-          `/api/users/login`,
-          {
-            headers: {
-              'Content-type': 'application/json; charset=UTF-8',
-            },
-            params: {
-                username,
-                password,
-            },
+        .get(`/api/users/login`, {
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
           },
-        )
+          params: {
+            username,
+            password,
+          },
+        })
         .then(({ data }) => {
           if (data.auth === true) {
-            localStorage.setItem('token', data.token);
+            localStorage.setItem("token", data.token);
             callback(true);
           } else {
-            console.log(data);
             toast.error(data.message);
           }
         });
     }
   };
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     event.persist();
     const newInput = {
       ...inputs,

@@ -196,7 +196,6 @@ const Profile = (params) => {
     profile,
     loaded,
     handleFileUpload,
-    handleChangeProfileImage,
     handleTextParametersChange,
     handleChangeLocation,
     handleChangeCity,
