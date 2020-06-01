@@ -1,23 +1,23 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import CloudUpload from "@material-ui/icons/CloudUpload";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   fabUpBox: {
-    margin: "0px 5px"
+    margin: "0px 5px",
   },
   container: {
     position: "relative",
     "&:hover": {
       "& $profileImg": {
-        opacity: "0.3"
+        opacity: "0.3",
       },
       "& $middle": {
-        opacity: "1"
-      }
-    }
+        opacity: "1",
+      },
+    },
   },
   middle: {
     transition: ".5s ease",
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     msTransform: "translate(-50%, -50%)",
-    textAlign: "center"
+    textAlign: "center",
   },
   profileImg: {
     opacity: "1",
@@ -35,28 +35,23 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     height: "auto",
     transition: ".5s ease",
-    backfaceVisibility: "hidden"
+    backfaceVisibility: "hidden",
   },
   textImage: {
-    backgroundColor: "#f50057",
+    backgroundColor: theme.palette.primary.main,
     color: "white",
     fontSize: "16px",
-    padding: "16px 32px"
+    padding: "16px 32px",
   },
   names: {
-    marginLeft: '1em',
+    marginLeft: "1em",
   },
   blockedIcon: {
-    position: "absolute"
-  }
+    position: "absolute",
+  },
 }));
 
-const UpperBoxProfile = ({
-  classes,
-  profile,
-  handleFileUpload,
-  type,
-}) => {
+const UpperBoxProfile = ({ classes, profile, handleFileUpload, type }) => {
   const upBoxClasses = useStyles();
 
   return (

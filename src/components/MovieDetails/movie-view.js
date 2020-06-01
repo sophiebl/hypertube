@@ -8,19 +8,14 @@ import ModalPlayer from "./ModalPlayer";
 import _ from "lodash";
 import { Box, Fab, Grid } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
-import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AddIcon from "@material-ui/icons/Add";
 import StarRateIcon from "@material-ui/icons/StarRate";
-import Link from "@material-ui/core/Link";
-
 import MovieContainer from "./movie-container";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
     body: {
       fontSize: "12px",
-      //   backgroundColor: theme.palette.common.white,
     },
   },
   root: {
@@ -34,10 +29,8 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(2),
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(1),
-    // padding: '20px 10px'
   },
   img: {
-    // backgroundColor: theme.palette.secondary.main,
     margin: theme.spacing(1),
     position: "relative",
     backgroundSize: "cover",
@@ -50,11 +43,11 @@ const useStyles = makeStyles((theme) => ({
   h1: {
     display: "inline",
     fontSize: "2em",
-    color: "#009688",
+    color: theme.palette.primary.main,
     marginRight: "10px",
   },
   link: {
-    color: "#009688",
+    color: theme.palette.primary.main,
   },
   h2: {
     display: "inline-block",
@@ -62,23 +55,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.5em",
     borderBottom: "5px solid #F5C53D",
   },
-  playIcon: {
-    position: "absolute",
-    color: "#F5C53D",
-    top: "50%",
-    left: "calc(50% - 55.99px/2)",
-  },
   starRateIcon: {
-    color: "#F5C53D",
-  },
-  // fabAdd: {
-  //   borderRadius: "10px"
-  // },
-  addIcon: {
-    backgroundColor: "##009688",
+    color: theme.palette.secondary.main,
   },
   rowName: {
-    color: "#009688",
+    color: theme.palette.primary.main,
     fontSize: "1.2em",
   },
   genres: {
@@ -102,12 +83,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
   },
 }));
-
-// function createData(name, content) {
-//   return { name, content };
-// }
-
-// const comments = ["CE film est génial", "CE film est NUL", "CE film est TOP"];
 
 const MovieDetails = ({ computedMatch }) => {
   const requestedMovie = computedMatch.params.movie;
@@ -135,19 +110,17 @@ const MovieDetails = ({ computedMatch }) => {
               src={movieDetails.medium_cover_image}
               alt={movieDetails.title}
             />
-            <PlayCircleFilledIcon
-              className={classes.playIcon}
-              style={{ fontSize: 65 }}
-            />
           </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className={classes.gridCard}>
           <Box>
             <h1 className={classes.h1}>{movieDetails.title}</h1>
-            <span>8.0</span>
+            <span>{movieDetails.rating}</span>
             <StarRateIcon className={classes.starRateIcon} />
           </Box>
-          <span>{movieDetails.release_date}</span>
+          <span>
+            {movieDetails.release_date} | {movieDetails.runtime} min{" "}
+          </span>
           <br />
           <h2 className={classes.h2}>OVERVIEW</h2>
           <p>{movieDetails.overview}</p>
@@ -183,21 +156,18 @@ const MovieDetails = ({ computedMatch }) => {
               <Grid item sm={2} xs={2} md={2} lg={2}>
                 <Fab
                   type="submit"
-                  color="primary"
+                  color="secondary"
                   aria-label="add"
                   onClick={sendComment}
+                  disabled={comment?.length === 0}
                 >
-                  <AddIcon className={classes.addIcon} />
+                  <AddIcon />
                 </Fab>
               </Grid>
             </Grid>
           </Box>
           <Box className={classes.card}>
-            <strong>{commentsList.length} comments • </strong>
-            <Link className={classes.link} href="#">
-              <strong>Show comments</strong>
-              <ArrowDropDownIcon />
-            </Link>
+            <strong>{commentsList.length} comments</strong>
             <Box>
               <List>
                 {commentsList.map((comment, index) => (
@@ -209,7 +179,7 @@ const MovieDetails = ({ computedMatch }) => {
         </Grid>
         <Grid item xs={12} sm={12} md={3} lg={3} className={classes.gridCard}>
           <Box className={classes.card}>
-            <h2 className={classes.h2}>play the movie {movieDetails.title}</h2>
+            <h2 className={classes.h2}>Play the movie {movieDetails.title}</h2>
             {movieDetails.YTSTorrents ? (
               <List
                 component="nav"

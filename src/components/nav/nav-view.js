@@ -16,7 +16,9 @@ import { logout } from "../auth";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#000",
+  },
+  appBar: {
+    backgroundColor: theme.palette.primary.dark,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   hypertubeLogo: {
     fontFamily: "Monoton, cursive",
     fontSize: "2rem",
-    color: "#f44336",
+    color: theme.palette.secondary.main,
     textAlign: "left",
     flexGrow: 1,
   },
@@ -66,7 +68,7 @@ const Nav = () => {
   });
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" className={classes.appBar}>
       <Toolbar>
         <Typography variant="h6" className={classes.hypertubeLogo}>
           <Link
