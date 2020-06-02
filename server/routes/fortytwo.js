@@ -15,7 +15,7 @@ module.exports = app => {
     async (req, res) => {
       const id = req.user.dataValues.id;
       const token = jwt.sign({ id }, jwtSecret.secret);
-      res.redirect("http://localhost:3000?accessToken=" + token);
+      res.redirect("http://localhost:3000/login?accessToken=" + token);
     }
   );
 }

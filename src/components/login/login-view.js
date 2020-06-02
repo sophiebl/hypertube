@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import useLoginForm from "./login-container";
+import queryString from "query-string";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const Login = ( {location} ) => {
   const login = (success) => {
     if (success) {
       window.location = "/?message=login_success";
@@ -47,6 +48,17 @@ const Login = () => {
   };
   const { inputs, handleInputChange, handleSubmit } = useLoginForm(login);
   const classes = useStyles();
+
+  const getParams = queryString.parse(location.search);
+
+  const saveToken = (token) => {
+    localStorage.setItem("token", token);
+    window.location = "/?message=login_success";
+  };
+
+  if (getParams.accessToken) {
+    saveToken(getParams.accessToken);
+  }
 
   return (
     <Container component="main" maxWidth="xs">
