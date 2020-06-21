@@ -38,7 +38,7 @@ const MoviesList = ({ classes, list }) => {
               alt={movie.title}
               className={classes.img}
             />
-            {movie.watched === 1 ? (
+            {movie.watched && (
 
               <>
                 <CheckCircleIcon
@@ -52,7 +52,7 @@ const MoviesList = ({ classes, list }) => {
                   className={classes.progressBar}
                 />
               </>
-            ) : null}
+            )}
             {isHovered === index ? (
               <>
                 <Fab
