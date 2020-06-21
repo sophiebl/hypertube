@@ -96,18 +96,20 @@ const saveMovieToDB = (path, movieId) => {
 }
 
 const saveWatchedMovieToDb = (userId, movieId) => {
-  WatchedMovie.findOne({ where: { movie: movieId } }).then((obj) => {
-    console.log({obj})
-    if (obj) {
-      obj.update({ alreadyWatched: 1 });
-    } else {
-      WatchedMovie.create({
-        user: userId,
-        movie: movieId,
-        alreadyWatched: 1,
-      });
+  WatchedMovie.findOne({ where: { movie: movieId, user: userId } }).then(
+    (obj) => {
+      if (obj) {
+        obj.changed("updatedAt", true)
+        obj.save()
+      } else {
+        WatchedMovie.create({
+          user: userId,
+          movie: movieId,
+          alreadyWatched: 1,
+        });
+      }
     }
-  });
+  );
 }
 
 const stream = async (req, res) => {
