@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "@material-ui/core";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -82,6 +83,11 @@ const useStyles = makeStyles((theme) => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
+  author: {
+    marginRight: '5px',
+    color: theme.palette.primary.main,
+    cursor: 'pointer'
+  }
 }));
 
 const MovieDetails = ({ computedMatch }) => {
@@ -99,6 +105,8 @@ const MovieDetails = ({ computedMatch }) => {
     commentsList,
   } = MovieContainer(requestedMovie);
   const classes = useStyles();
+
+  console.log({commentsList});
 
   return (
     <>
@@ -171,7 +179,13 @@ const MovieDetails = ({ computedMatch }) => {
             <Box>
               <List>
                 {commentsList.map((comment, index) => (
-                  <ListItem key={index}>{comment.content}</ListItem>
+                  <ListItem key={index}>
+                  <span className={classes.author}
+                    onClick={() => {
+                      window.location = `/profile/${comment.author}`;
+                    }}
+                  >{comment.author}</span>
+                  {comment.content}</ListItem>
                 ))}
               </List>
             </Box>

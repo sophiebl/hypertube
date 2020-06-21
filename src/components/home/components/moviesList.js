@@ -38,7 +38,8 @@ const MoviesList = ({ classes, list }) => {
               alt={movie.title}
               className={classes.img}
             />
-            {movie.watched ? (
+            {movie.watched === 1 ? (
+
               <>
                 <CheckCircleIcon
                   className={classes.viewedIcon}

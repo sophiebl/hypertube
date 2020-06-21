@@ -144,11 +144,11 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileShow = ({ computedMatch }) => {
   const classes = useStyles();
-  const visitedUsername = computedMatch.params.username;
+  const visitedUser = computedMatch.params.id;
   const {
     visitedProfile,
     loaded,
-  } = ProfileShowContainer(visitedUsername);
+  } = ProfileShowContainer(visitedUser);
 
   if (loaded === false) {
     return (

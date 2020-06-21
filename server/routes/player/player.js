@@ -97,6 +97,7 @@ const saveMovieToDB = (path, movieId) => {
 
 const saveWatchedMovieToDb = (userId, movieId) => {
   WatchedMovie.findOne({ where: { movie: movieId } }).then((obj) => {
+    console.log({obj})
     if (obj) {
       obj.update({ alreadyWatched: 1 });
     } else {

@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import _ from 'lodash';
 import { AuthContext } from '../App/AuthContext';
 
-const ProfileShowContainer = visitedUsername => {
+const ProfileShowContainer = visitedUser => {
   const [visitedProfile, setVisitedProfile] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const ProfileShowContainer = visitedUsername => {
 
   const fetchVisitedProfile = () =>
     axios
-      .get(`/api/users/profile/${visitedUsername}`, {
+      .get(`/api/users/profile/${visitedUser}`, {
         headers: {
           "Content-type": "application/json; charset=UTF-8",
           Authorization: "JWT " + token,

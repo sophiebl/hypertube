@@ -48,7 +48,7 @@ function App() {
             />
             <LoggedRoute path="/player/:movie" component={Player} />
             <LoggedRoute path="/movie/:movie" component={MovieDetails} />
-            <LoggedRoute path="/profile/:username" component={ProfileShow} />
+            <LoggedRoute path="/profile/:id" component={ProfileShow} />
             <LoggedRoute path="/profile" component={Profile} />
             <LoggedRoute path="/" component={Home} />
           </Switch>

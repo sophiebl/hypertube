@@ -3,9 +3,9 @@ const User = sequelize.import("../models/user");
 const passport = require("passport");
 
 const findUser = async (req, res) => {
-  const userName = req.params.username
+  const id = req.params.id
   
-  const foundUser = await User.findOne({ where: { userName } });
+  const foundUser = await User.findOne({ where: { id } });
   if (foundUser) {
     res.status(200).send({
       founded: true,
@@ -26,5 +26,5 @@ const findUser = async (req, res) => {
 };
 
 module.exports = app => {
-  app.get("/profile/:username", passport.authenticate("jwt", { session: false }), findUser);
+  app.get("/profile/:id", passport.authenticate("jwt", { session: false }), findUser);
 };
