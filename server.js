@@ -3,9 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const passport = require("passport");
-const userRouter = require("./server/routes/user_router");
-const { sequelize } = require("./server/models/index");
-const UserModel = sequelize.import("./server/models/user");
+const deleteOldMovies = require('./deleteOldMovies')
 
 const app = express();
 
@@ -21,6 +19,8 @@ app.use("/api/images", require("./server/routes/images/images_router"));
 app.use("/api/home", require("./server/routes/home/home_router"));
 app.use("/api/player", require("./server/routes/player/player_router"));
 app.use("/api/movies", require("./server/routes/movies/movies_router"));
+
+deleteOldMovies()
 
 // UserModel.findAll().then(users => {
 // console.log("All users:", users);
