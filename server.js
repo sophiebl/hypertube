@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const passport = require("passport");
 const deleteOldMovies = require('./deleteOldMovies')
+var CronJob = require("cron").CronJob;
 
 const app = express();
 
@@ -21,10 +22,8 @@ app.use("/api/player", require("./server/routes/player/player_router"));
 app.use("/api/movies", require("./server/routes/movies/movies_router"));
 
 deleteOldMovies()
+new CronJob("0 0 * * *", deleteOldMovies).start();
 
-// UserModel.findAll().then(users => {
-// console.log("All users:", users);
-// });
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
