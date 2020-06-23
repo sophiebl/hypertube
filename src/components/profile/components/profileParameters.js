@@ -116,20 +116,23 @@ const ProfileParameters = ({
               <Box fontWeight="fontWeightBold">Account security</Box>
             </Typography>
             <div>
-              <Box className={classes.divAccount}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.buttonAccount}
-                  size="large"
-                  onClick={async (e) => {
-                    await sendResetEmail(profile.email);
-                    logout(e, setIsLoggedIn);
-                  }}
-                >
-                  Change password (need to reactivate)
-                </Button>
-              </Box>
+              {profile.email && (
+                <Box className={classes.divAccount}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.buttonAccount}
+                    size="large"
+                    onClick={async (e) => {
+                      await sendResetEmail(profile.email);
+                      logout(e, setIsLoggedIn);
+                    }}
+                  >
+                    Change password (need to reactivate)
+                  </Button>
+                </Box>
+              )}
+
               <Box className={classes.divAccount}>
                 <Button
                   className={classes.buttonAccount}
