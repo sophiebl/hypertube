@@ -106,8 +106,6 @@ const MovieDetails = ({ computedMatch }) => {
   } = MovieContainer(requestedMovie);
   const classes = useStyles();
 
-  console.log({commentsList});
-
   return (
     <>
       <Grid className={classes.gridContainer} container direction={"row"}>

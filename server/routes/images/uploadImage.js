@@ -43,7 +43,6 @@ const id = req.user.id;
       );
     } catch (error) {
       console.log(error);
-      // if (process.env.VERBOSE === "true") console.log(error);
       return res.status(400).send(error);
     }
   });

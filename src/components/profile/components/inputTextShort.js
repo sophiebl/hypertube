@@ -26,7 +26,6 @@ const InputTextShort = ({
           name={name}
           value={value}
           onChange={handleProfileChange}
-          onBlur={console.log('voila')}
           type={type}
           InputProps={{
             inputProps: {

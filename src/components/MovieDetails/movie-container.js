@@ -61,8 +61,6 @@ const MovieContainer = (imdbId) => {
     })
     .then((result) => {
       if (result.data) {
-        console.log("result.data ::::::::::::::::::::::::::::::::::::");
-        console.log(result.data);
         return result.data;
       } else {
         return false;

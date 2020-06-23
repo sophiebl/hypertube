@@ -9,8 +9,6 @@ const getComments = async (req, res) => {
 
     try {
         const comments = await Comment.find({ where: idIMDB });
-        console.log(' |||||| comments ||||| ');
-        console.log(comments);
         res.status(200).json({ comments });
     } catch(err) { console.log(err) }
 };

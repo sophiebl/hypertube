@@ -19,7 +19,6 @@ const convertStreamTorrent = async (file, res, path) => {
       `${path}/${file.path.substr(0, file.path.lastIndexOf(".")) + ".webm"}`
     )
     .on("end", () => {
-      console.log("Finished processing");
       fs.unlinkSync(`${path}/${file.path}`);
     });
   const head = {
@@ -71,18 +70,7 @@ const downloadTorrent = async (movieFile, magnet, options, req, res) => {
       }
     });
   });
-  engine.on("download", () => {
-    console.log("[ DL TRACKER ]");
-    console.log(
-      `Filename : ${movieFile.file.name} ${movieFile.numberOfDownloads}`
-    );
-    console.log(
-      `Progress : ${(
-        (100 * engine.swarm.downloaded) /
-        movieFile.file.length
-      ).toPrecision(4)}%`
-    );
-  });
+  engine.on("download", () => {});
 };
 
 const saveMovieToDB = (path, movieId) => {
@@ -126,7 +114,6 @@ const stream = async (req, res) => {
     path: `/tmp/movies/${id}`,
   };
   if (provider === "YTS") {
-    console.log({magnet})
     torrentToMagnet(magnet, (err, uri) => {
       if (err) return res.status(400).json({ message: "Torrent not found" });
       downloadTorrent(movieFile, uri, options, req, res);

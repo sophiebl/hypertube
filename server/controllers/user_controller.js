@@ -29,12 +29,6 @@ const sendRegisterEmail = (email, token) => {
         },
       ],
     })
-    .then((result) => {
-      console.log(result.body);
-    })
-    .catch((err) => {
-      console.log(err.statusCode);
-    });
 };
 
 const sendResetEmail = (email, token) => {
@@ -63,12 +57,6 @@ const sendResetEmail = (email, token) => {
         },
       ],
     })
-    .then((result) => {
-      console.log(result.body);
-    })
-    .catch((err) => {
-      console.log(err.statusCode);
-    });
 };
 
 module.exports.sendRegisterEmail = sendRegisterEmail;

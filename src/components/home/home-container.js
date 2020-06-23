@@ -212,9 +212,7 @@ const HomeContainer = () => {
           setSearchResult(filteredResult);
           if (searchOptions.sort) handleSort(null, filteredResult);
         }
-      } else {
-        console.log("nope");
-      }
+      } 
     });
   };
 
