@@ -6,7 +6,6 @@ const readSubtitles = async (req, res) => {
   const idIMDB = req.params.id;
   const language = req.params.language;
   const file = `/tmp/subs/${idIMDB}/${language}.vtt`;
-  console.log(file)
   if (fs.existsSync(file)) {
     res.download(file)
   } else {

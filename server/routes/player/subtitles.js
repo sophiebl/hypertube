@@ -18,12 +18,13 @@ const subtitles = async (req, res) => {
       await Promise.all(
         data.map(async (e) => {
           return await (async () => {
-            let newPath = `http://localhost:3000/api/player/getsubtitles/${idIMDB}/${e.langShort}`;
+            let newPath = `/tmp/subs/${idIMDB}/${e.langShort}.vtt`;
+            console.log({path: e.path, newPath});
             if (fs.existsSync(e.path)) {
-              fs.rename(e.path, newPath, () => {});
+              fs.rename(e.path, newPath);
               arr.push({
                 lang: e.langShort,
-                path: newPath,
+                path: `/api/player/getsubtitles/${idIMDB}/${e.langShort}`,
               });
               return Promise.resolve();
             }

@@ -3,7 +3,6 @@ const axios = require('axios')
 const fetchTMDB = (idIMDB) => axios
   .get(`https://api.themoviedb.org/3/find/${idIMDB}?api_key=${process.env.TMDB_KEY}&language=en-US&external_source=imdb_id`)
   .then((result) => {
-    console.log(result.data)
     if (
       result.data &&
       result.data.movie_results.length >= 1
