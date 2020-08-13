@@ -24,7 +24,7 @@ Hypertube is a streaming platform.
 
 ## What it looks like
 
-[![Home](https://iili.io/dXFN9e.png)](https://freeimage.host/i/dXFN9e)
+[![Home](https://iili.io/dXFOAu.png)](https://freeimage.host/i/dXFOAu)
 [![Login](https://iili.io/dXFN9e.png)](https://freeimage.host/i/dXFN9e)
 
 ## How we've been working
