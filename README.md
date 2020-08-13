@@ -34,4 +34,4 @@ Hypertube is a streaming platform.
 
 👨🏻‍💻👩🏻‍💻
 Built and designed by 
-[@yann120](https://github.com/yann120), [@Segolene-Alquier](https://github.com/Segolene-Alquier/) & [@sophiebl](https://github.com/Segolene-Alquier/)
+[@yann120](https://github.com/yann120), [@Segolene-Alquier](https://github.com/Segolene-Alquier/) & [@sophiebl](https://github.com/sophiebl/)
